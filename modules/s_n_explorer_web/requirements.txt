@@ -1,0 +1,3 @@
+# Runtime: Python standard library only.
+# Optional development dependency:
+# pytest>=8

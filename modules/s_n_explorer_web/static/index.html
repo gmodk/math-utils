@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sₙ Explorer — Permutation Groups</title>
+  <meta name="description" content="Interactive explorer for symmetric groups, permutations, Cayley tables, dihedral groups, subgroups, quotient groups, and conjugacy classes." />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-title"><span class="math-italic">S</span><sub>n</sub> Explorer</div>
+        <div class="brand-subtitle">Explore the Symmetric Group</div>
+      </div>
+
+      <nav class="nav" aria-label="Explorer views">
+        <button class="nav-item active" data-view="overview"><span class="nav-icon">⌂</span><span>Overview</span></button>
+        <button class="nav-item" data-view="elements"><span class="nav-icon">☷</span><span>Elements</span></button>
+        <button class="nav-item" data-view="compose"><span class="nav-icon">⇄</span><span>Composition</span></button>
+        <button class="nav-item" data-view="cayley"><span class="nav-icon">▦</span><span>Cayley Table</span></button>
+        <button class="nav-item" data-view="dihedral"><span class="nav-icon">⬡</span><span>Dihedral Explorer</span></button>
+        <button class="nav-item" data-view="subgroups"><span class="nav-icon">♧</span><span>Subgroups &amp; Quotients</span></button>
+        <button class="nav-item" data-view="conjugacy"><span class="nav-icon">♧</span><span>Conjugacy Classes</span></button>
+      </nav>
+
+      <div class="sidebar-divider"></div>
+      <details class="reference">
+        <summary><span class="nav-icon">ⓘ</span><span>About</span></summary>
+        <div class="reference-body">
+          <p>A browser laboratory for finite permutation groups built on the original Python engine.</p>
+        </div>
+      </details>
+      <details class="reference">
+        <summary><span class="nav-icon">?</span><span>Help</span></summary>
+        <div class="reference-body">
+          <p><strong>Composition.</strong> σ ∘ τ applies τ first.</p>
+          <p><strong>Order.</strong> LCM of disjoint-cycle lengths.</p>
+          <p><strong>Normality.</strong> H ◁ G iff gHg⁻¹ = H for every g ∈ G.</p>
+        </div>
+      </details>
+
+      <blockquote class="sidebar-quote">
+        “Symmetry is the idea by which we think order, structure, and beauty together.”
+        <cite>— Hermann Weyl</cite>
+      </blockquote>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="heading-block">
+          <h1 id="page-title"><span class="math-italic">S</span><sub id="title-n">3</sub> Explorer</h1>
+          <p id="page-subtitle">Explore the structure, elements, and subgroups of the symmetric group</p>
+        </div>
+        <blockquote class="top-quote">“In mathematics, symmetry is understanding.”<cite>— John Conway</cite></blockquote>
+      </header>
+
+      <section class="group-strip">
+        <label for="n-input">Choose n:</label>
+        <select id="n-input" aria-label="Choose n">
+          <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option>
+          <option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
+        </select>
+        <button id="apply-n" class="button primary">Load</button>
+        <div class="order-formula">|<span class="math-italic">S</span><sub id="formula-n">3</sub>| = <span id="formula-factorial">3!</span> = <strong id="side-order">6</strong></div>
+        <div id="status" class="status">ready</div>
+      </section>
+
+      <section class="view active" id="view-overview">
+        <div class="stats-grid overview-stats">
+          <article class="metric-card blue"><div class="metric-icon">♧</div><div><span>Group Order</span><strong id="hero-order">6</strong><small>|S<sub>n</sub>| = n!</small></div></article>
+          <article class="metric-card green"><div class="metric-icon">⟳</div><div><span>Even Elements</span><strong id="count-even">3</strong><small>(sign = +1)</small></div></article>
+          <article class="metric-card red"><div class="metric-icon">◯</div><div><span>Odd Elements</span><strong id="count-odd">3</strong><small>(sign = −1)</small></div></article>
+          <article class="metric-card violet"><div class="metric-icon">⇄</div><div><span>Self-Inverse Elements</span><strong id="count-involutions">4</strong><small>(order = 1 or 2)</small></div></article>
+          <article class="metric-card indigo"><div class="metric-icon">◇</div><div><span>Conjugacy Classes</span><strong id="count-classes">3</strong><small>(cycle types)</small></div></article>
+        </div>
+
+        <div class="overview-grid">
+          <article class="panel overview-elements-panel">
+            <h2>Elements of <span class="math-italic">S</span><sub class="dynamic-n">3</sub></h2>
+            <div class="overview-search-row">
+              <label>Search:</label>
+              <input id="overview-search" type="search" placeholder="Search by index, cycle, or one-line…" />
+            </div>
+            <div class="table-wrap overview-table-wrap">
+              <table class="overview-table">
+                <thead><tr><th>#</th><th>One-line Notation</th><th>Cycle Notation</th><th>Order</th><th>Sign</th></tr></thead>
+                <tbody id="overview-elements-body"></tbody>
+              </table>
+            </div>
+            <div class="overview-pagination">
+              <button id="overview-prev" class="button ghost">Previous</button>
+              <span id="overview-page-label">1</span>
+              <button id="overview-next" class="button ghost">Next</button>
+            </div>
+          </article>
+
+          <article class="panel overview-detail-panel">
+            <h2>Permutation Details</h2>
+            <div class="detail-loader"><label>Index:</label><input id="overview-index" type="number" min="1" value="1" /><button id="overview-load" class="button primary">Load</button></div>
+            <div id="overview-inspector"></div>
+          </article>
+
+          <article class="panel cycle-panel">
+            <h2>Cycle Visualization</h2>
+            <p class="panel-subtitle">Mapping <span class="math-italic">i</span> ↦ σ(<span class="math-italic">i</span>)</p>
+            <svg id="cycle-svg" viewBox="0 0 360 300" role="img" aria-label="Cycle visualization"></svg>
+            <p id="cycle-caption" class="cycle-caption"></p>
+          </article>
+        </div>
+
+        <article class="panel about-panel">
+          <h2>About <span class="math-italic">S</span><sub class="dynamic-n">3</sub></h2>
+          <div class="about-grid">
+            <div>
+              <p id="hero-description">The symmetric group S₃ is the group of all permutations of {1, 2, 3}.</p>
+              <ul id="about-list"></ul>
+            </div>
+            <aside class="insight-box">
+              <div class="insight-title"><span>♧</span> Key Insight</div>
+              <p id="key-insight"></p>
+            </aside>
+          </div>
+        </article>
+      </section>
+
+      <section class="view" id="view-elements">
+        <div class="toolbar panel">
+          <input id="element-search" type="search" placeholder="Search index, cycles, parity, order…" />
+          <select id="element-filter">
+            <option value="all">all elements</option><option value="even">even only</option><option value="odd">odd only</option><option value="involutions">self-inverse</option><option value="identity">identity</option>
+          </select>
+          <select id="page-size"><option>10</option><option selected>25</option><option>50</option><option>100</option></select>
+        </div>
+        <div class="split-panel">
+          <div class="panel table-card"><div class="table-wrap"><table id="elements-table"><thead><tr><th>#</th><th>One-line</th><th>Cycles</th><th>Order</th><th>Parity</th><th>Self-inverse</th></tr></thead><tbody></tbody></table></div><div class="pagination"><button id="prev-page" class="button">Previous</button><span id="page-label"></span><button id="next-page" class="button">Next</button></div></div>
+          <aside class="panel inspector" id="inspector"><p class="muted">Select an element to inspect it.</p></aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-compose">
+        <div class="panel compose-lab"><div class="compose-inputs"><label>σ index<input id="sigma-index" type="number" min="1" value="2" /></label><div class="operator">∘</div><label>τ index<input id="tau-index" type="number" min="1" value="3" /></label><button id="compose-button" class="button primary">Compose</button></div><p class="note">Convention: σ ∘ τ applies τ first, then σ.</p></div>
+        <div id="compose-result" class="compose-result"></div>
+      </section>
+
+      <section class="view" id="view-cayley">
+        <div class="panel section-intro"><div><h2>Cayley Multiplication Table</h2><p>Rows are σ, columns are τ, and each cell stores the index of σ ∘ τ.</p></div><button id="load-cayley" class="button primary">Build Table</button></div><div id="cayley-output"></div>
+      </section>
+
+      <section class="view" id="view-dihedral">
+        <div class="panel section-intro"><div><h2>Dihedral Group D<sub>m</sub></h2><p>Symmetries of a regular m-gon, realized as permutations of its vertices.</p></div><div class="inline-control"><label>m <input id="dihedral-m" type="number" min="3" max="24" value="5" /></label><button id="load-dihedral" class="button primary">Construct</button></div></div>
+        <div class="two-col dihedral-layout"><article class="panel polygon-card"><svg id="polygon-svg" viewBox="0 0 500 500" aria-label="Regular polygon"></svg><div id="dihedral-relations" class="relations"></div></article><article class="panel table-card"><div id="dihedral-summary"></div><div class="table-wrap"><table id="dihedral-table"><thead><tr><th>Name</th><th>Type</th><th>Cycles</th><th>Order</th></tr></thead><tbody></tbody></table></div></article></div>
+      </section>
+
+      <section class="view" id="view-subgroups">
+        <div class="two-col"><article class="panel padded"><h2>Generated Subgroup</h2><p class="muted">Give permutation indices. This computes ⟨g₁, …, gₖ⟩ without enumerating every subgroup first.</p><label class="stack-label">generator indices<input id="generator-indices" type="text" value="2, 3" placeholder="e.g. 2, 3" /></label><button id="generate-subgroup" class="button primary">Generate Closure</button><div id="generated-subgroup-output"></div></article><article class="panel padded"><h2>All Subgroups of S<sub>n</sub></h2><p class="muted">Exhaustive enumeration is available only for n ≤ 4.</p><button id="load-subgroups" class="button primary">Enumerate Subgroups</button><div id="subgroup-summary"></div></article></div><div id="subgroups-output" class="subgroups-grid"></div><div id="quotient-output"></div>
+      </section>
+
+      <section class="view" id="view-conjugacy">
+        <div class="panel section-intro"><div><h2>Conjugacy Classes of S<sub>n</sub></h2><p>In a symmetric group, two permutations are conjugate exactly when they have the same cycle type.</p></div><button id="load-conjugacy" class="button primary">Classify</button></div><div id="conjugacy-output"></div>
+      </section>
+    </main>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

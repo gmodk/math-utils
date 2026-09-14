@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Distributed Memory Architecture Atlas</title><link rel="stylesheet" href="/static/styles.css"></head>
+<body>
+<header class="topbar"><button id="homeBtn" class="brand"><span class="mark">DMA</span><span><b>Distributed Memory Architecture Atlas</b><small>one memory object · five mathematical lenses · shared research laboratories</small></span></button><div class="exp-pill"><span id="expName">experiment</span><span id="expMeta">n · field · mode</span></div><button class="ghost" id="docsBtn">Guide</button></header>
+<div class="shell">
+<aside class="sidebar">
+  <div class="side-title">Experiment</div>
+  <label>Name<input id="nameInput" value="Atlas starter experiment"></label>
+  <div class="grid2"><label>Dimension<input id="dimensionInput" type="number" min="2" max="30" value="6"></label><label>Field p<input id="pInput" type="number" min="2" value="101"></label></div>
+  <div class="grid2"><label>Mode<select id="modeInput"><option>M</option><option>Q</option><option>R</option></select></label><label>Spectral policy<select id="policyInput"><option value="rank-basis">rank-basis</option><option value="full">full</option></select></label></div>
+  <label>Token type<select id="typeInput"></select></label>
+  <div class="grid2"><label>Seed<input id="seedInput" type="number" value="1"></label><label id="objectDimensionLabel">Object dimension<input id="objectDimensionInput" type="number" min="1" value="4"></label></div>
+  <div class="actions"><button id="generateBtn" class="primary">Generate token</button><button id="applyBtn">Apply settings</button></div>
+  <div class="file-row"><label class="file-btn">Import JSON<input id="fileInput" type="file" accept="application/json,.json"></label><button id="exportBtn">Export</button></div>
+  <div class="token-box"><div class="token-head"><span>Semantic token</span><span id="projectionLabel">projection</span></div><pre id="tokenPreview">[]</pre><div class="projection" id="projectionPreview"></div></div>
+  <div class="side-title">Navigate</div><nav id="nav"></nav>
+</aside>
+<main id="main">
+  <section id="landing" class="view active">
+    <div class="hero"><div class="eyebrow">MATHEMATICAL RESEARCH PLATFORM</div><h1>One architecture.<br><span>Five ways to explore it.</span></h1><p>Create a memory once, then move through geometry, graphs, topology, algebra, probability, sheaves, information and cryptographic access experiments without losing state.</p><div class="hero-actions"><button class="primary" id="startBtn">Explore approaches</button><button id="compareBtn">Open comparison lab</button></div></div>
+    <div id="approachCards" class="cards"></div>
+    <div class="flow"><h2>Shared experiment state</h2><div class="flow-grid"><div><b>1</b><span>Token</span><small>semantic object + finite-field projection</small></div><div><b>2</b><span>Geometry</span><small>M / Q / R region universe</small></div><div><b>3</b><span>Lens</span><small>five mathematical interpretations</small></div><div><b>4</b><span>Labs</span><small>graph · TDA · constraints · cryptography</small></div></div></div>
+  </section>
+
+  <section id="workspace" class="view">
+    <div class="workspace-head"><div><div id="workspaceEyebrow" class="eyebrow"></div><h1 id="workspaceTitle"></h1><p id="workspaceDesc"></p></div><div class="run-controls" id="runControls"><label>Survival q<input id="qInput" type="number" min="0" max="1" step="0.05" value="0.9"></label><label>Trials<input id="trialsInput" type="number" min="50" max="10000" value="1000"></label><button id="runBtn" class="primary">Refresh lens</button></div></div>
+
+    <nav id="labTabs" class="lab-tabs">
+      <button class="lab-tab active" data-lab="geometry">Geometry</button>
+      <button class="lab-tab" data-lab="graph">Graph / TDA lab</button>
+      <button class="lab-tab" data-lab="core">Core lab</button>
+      <button class="lab-tab" data-lab="diagnostics">Constraints / diagnostics</button>
+      <button class="lab-tab" data-lab="crypto">Cryptography lab</button>
+    </nav>
+
+    <section class="lab-panel active" id="lab-geometry">
+      <div class="hero-grid research-grid">
+        <div class="visual-card research-card">
+          <div class="card-head"><div><h2 id="geometryTitle">Local region geometry</h2><p id="geometrySubtitle">Loading geometry…</p></div><div class="legend"><span><i class="dot token-dot"></i>coordinate</span><span><i class="dot active-dot"></i>selected support</span></div></div>
+          <div class="svg-wrap"><svg id="circleSvg" viewBox="0 0 760 620"></svg></div>
+          <div class="propagation-strip" id="geometryNote">Select a region to inspect its support and local meaning.</div>
+        </div>
+        <div class="region-card research-card">
+          <div class="card-head"><div><h2>Region universe</h2><p id="regionCountLabel">—</p></div><div class="pager"><button id="prevPage">←</button><span id="pageLabel">—</span><button id="nextPage">→</button></div></div>
+          <div class="table-head atlas-region-row"><span>Region</span><span>Role</span><span>State</span><span>Subset</span><span>Metric</span></div>
+          <div class="region-list" id="regionList"></div>
+        </div>
+      </div>
+      <div class="lower-grid research-lower-grid">
+        <div class="tool-card research-card"><div class="card-head compact"><div><h2>Region inspector</h2><p>Approach-specific meaning of the selected local object.</p></div></div><pre class="output" id="regionInspector">Select a region.</pre></div>
+        <div class="tool-card research-card"><div class="card-head compact"><div><h2>Incidence overview</h2><p>Compact coordinate-region view of the current page.</p></div></div><div class="svg-wrap compact-graph"><svg id="miniGraphSvg" viewBox="0 0 760 360"></svg></div></div>
+      </div>
+    </section>
+
+    <section class="lab-panel" id="lab-graph">
+      <div class="graph-lab-header"><div><div class="eyebrow">SHARED GRAPH + TOPOLOGICAL EXPLORATION LAYER</div><h2>Graph / TDA laboratory</h2><p id="graphLabDescription">The current approach is rendered as a coordinate-region incidence graph. TDA is an exploratory simplicial overlay and does not alter the underlying memory.</p><div class="small-note" id="graphTruncation"></div></div><div class="graph-quick-metrics"><span><b id="graphNodeCount">—</b><small>nodes</small></span><span><b id="graphEdgeCount">—</b><small>incidences</small></span><span><b id="graphCrtCount">—</b><small>coordinates</small></span><span><b id="graphRegionCount">—</b><small>regions</small></span></div></div>
+      <div class="graph-lab-toolbar"><label>dimension<select id="dimensionSelect"><option value="2d">2D</option><option value="3d">3D</option></select></label><label>layout<select id="layoutSelect"><option value="force">normal · force</option><option value="hierarchical">hierarchical</option><option value="radial">radial</option><option value="circular">circular</option><option value="concentric">concentric</option><option value="grid">grid</option></select></label><label>scope<select id="graphScope"><option value="active">physical only</option><option value="all">all virtual + physical</option></select></label><label class="inline-check"><input id="graphLabels" type="checkbox" checked> labels</label><label class="inline-check"><input id="physicsToggle" type="checkbox" checked> physics</label><button id="pausePhysics">Pause</button><button id="fitGraph">Fit</button><button id="resetLayout">Reset layout</button><button id="resetCamera">Reset camera</button><button id="zoomOutGraph">−</button><span class="zoom-readout" id="graphZoomReadout">1×</span><button id="zoomInGraph">+</button><button id="graphRefresh">Refresh</button></div>
+      <div class="graph-lab-grid"><div class="graph-stage-card"><canvas id="knowledgeCanvas"></canvas><div class="graph-help-strip">Wheel = continuous deep zoom · drag background = pan · drag node = reposition · double click = fit · in 3D use right/shift-drag = orbit camera</div></div><aside class="graph-control-stack">
+        <details open><summary>Visual controls</summary><div class="control-body"><label class="slider-row"><span>node size <b id="nodeSizeSliderValue">8</b></span><input id="nodeSizeSlider" type="range" min="2" max="24" step="1" value="8"></label><label class="slider-row"><span>edge opacity <b id="edgeOpacitySliderValue">0.34</b></span><input id="edgeOpacitySlider" type="range" min="0.02" max="1" step="0.01" value="0.34"></label><label class="slider-row"><span>label scale <b id="labelScaleSliderValue">1</b></span><input id="labelScaleSlider" type="range" min="0.6" max="2.4" step="0.05" value="1"></label><pre class="output graph-node-info" id="graphNodeInfo">Select a graph node.</pre></div></details>
+        <details open><summary>Gravity / force controls</summary><div class="control-body"><label class="slider-row"><span>center gravity <b id="gravitySliderValue">0.045</b></span><input id="gravitySlider" type="range" min="0" max="0.25" step="0.005" value="0.045"></label><label class="slider-row"><span>repulsion <b id="repulsionSliderValue">1800</b></span><input id="repulsionSlider" type="range" min="0" max="8000" step="50" value="1800"></label><label class="slider-row"><span>link strength <b id="linkStrengthSliderValue">0.035</b></span><input id="linkStrengthSlider" type="range" min="0" max="0.15" step="0.005" value="0.035"></label><label class="slider-row"><span>link distance <b id="linkDistanceSliderValue">100</b></span><input id="linkDistanceSlider" type="range" min="20" max="300" step="5" value="100"></label><label class="slider-row"><span>damping <b id="dampingSliderValue">0.88</b></span><input id="dampingSlider" type="range" min="0.5" max="0.99" step="0.01" value="0.88"></label><label class="slider-row"><span>collision radius <b id="collisionSliderValue">19</b></span><input id="collisionSlider" type="range" min="2" max="60" step="1" value="19"></label><label class="slider-row"><span>3D depth gravity <b id="depthSliderValue">0.045</b></span><input id="depthSlider" type="range" min="0" max="0.2" step="0.005" value="0.045"></label></div></details>
+        <details open><summary>TDA controls</summary><div class="control-body"><label class="inline-check"><input id="tdaToggle" type="checkbox"> enable TDA overlay</label><label>filtration metric<select id="tdaMetric"><option value="approach">approach-specific metric</option><option value="cardinality">subset cardinality</option><option value="region-order">region order</option><option value="physical-first">physical-first</option></select></label><label class="slider-row"><span>filtration threshold <b id="tdaThresholdValue">1.00</b></span><input id="tdaThreshold" type="range" min="0" max="1" step="0.01" value="1"></label><label>max homology dimension<select id="tdaMaxDim"><option value="1">H₀–H₁</option><option value="2">H₀–H₂</option><option value="3" selected>H₀–H₃</option></select></label><div class="checkbox-stack"><label class="inline-check"><input id="tdaFilteredOnly" type="checkbox"> hide regions after threshold</label><label class="inline-check"><input id="tdaColorComponents" type="checkbox"> color coordinate components</label><label class="inline-check"><input id="tdaProjected" type="checkbox"> projected coordinate 1-skeleton</label><label class="inline-check"><input id="tdaSimplices" type="checkbox"> fill 2-simplices</label><label class="inline-check"><input id="tdaCycles" type="checkbox"> emphasize cycle edges</label></div><div class="tda-metrics"><span><small>β₀</small><b id="tdaBeta0">—</b></span><span><small>β₁</small><b id="tdaBeta1">—</b></span><span><small>β₂</small><b id="tdaBeta2">—</b></span><span><small>β₃</small><b id="tdaBeta3">—</b></span></div><div class="tda-counts"><span>included regions <b id="tdaIncluded">—</b></span><span>edges <b id="tdaEdges">—</b></span><span>triangles <b id="tdaTriangles">—</b></span><span>tetrahedra <b id="tdaTetras">—</b></span></div><div class="persistence-card"><span>persistent Betti curves</span><svg id="persistenceSvg" viewBox="0 0 520 150"></svg><div class="persistence-legend"><i class="b0"></i>β₀ <i class="b1"></i>β₁ <i class="b2"></i>β₂ <i class="b3"></i>β₃</div></div><p class="small-note">The ordinary TDA overlay is computed over F₂ on the simplicial lift of region supports. In the sheaf lens this is deliberately distinct from sheaf cohomology.</p></div></details>
+      </aside></div>
+    </section>
+
+    <section class="lab-panel" id="lab-core"><div id="coreResults" class="results"><div class="empty">Run the current lens to populate its native mathematical laboratory.</div></div></section>
+    <section class="lab-panel" id="lab-diagnostics"><div class="diagnostic-header"><div><h2>Constraints / diagnostics</h2><p id="diagnosticDescription">Detailed numerical and structural diagnostics for the current lens.</p></div><button id="refreshDiagnostics">Refresh diagnostics</button></div><div id="diagnosticResults" class="results"></div></section>
+    <section class="lab-panel" id="lab-crypto">
+      <div class="crypto-hero"><div><div class="eyebrow">CRYPTOGRAPHIC ACCESS-STRUCTURE LAB</div><h2>AEAD + randomized linear secret sharing</h2><p id="cryptoDescription">Encrypt the current semantic token with AES-256-GCM, distribute the random encryption key across memory regions with an LSSS / monotone span program, authenticate shares with Ed25519, and measure leakage, availability and compromise risk.</p></div></div>
+      <div class="crypto-controls crypto-controls-v2">
+        <label>Access policy<select id="cryptoPolicy"><option value="threshold">threshold LSSS</option><option value="atlas-derived">Atlas-derived minimal sets</option><option value="custom-dnf">custom DNF / MSP</option></select></label>
+        <label id="thresholdLabel">Threshold t<input id="cryptoThreshold" type="number" min="1" value="3"></label>
+        <label>Coalition regions<input id="coalitionRegions" type="text" placeholder="e.g. 1,2,5 (blank = sampled)"></label>
+        <label>Sampled coalition fraction<input id="coalitionFraction" type="number" min="0" max="1" step="0.05" value="0.5"></label>
+        <label>Region survival q<input id="cryptoSurvival" type="number" min="0" max="1" step="0.05" value="0.9"></label>
+        <label>Region compromise c<input id="cryptoCompromise" type="number" min="0" max="1" step="0.01" value="0.1"></label>
+        <label>Risk trials<input id="cryptoTrials" type="number" min="100" max="10000" value="2000"></label>
+        <label class="inline-check crypto-check"><input id="tamperShare" type="checkbox"> tamper one selected share</label>
+        <button class="primary" id="runCrypto">Encrypt + distribute + analyze</button>
+      </div>
+      <div id="customPolicyWrap" class="custom-policy-wrap" style="display:none"><label>Custom minimal authorized sets (JSON)<textarea id="customMinimalSets" rows="4" placeholder="[[1,2,3],[2,4,5]]"></textarea></label><p class="small-note">The JSON is interpreted as an OR of AND clauses. Each listed set is a minimal authorized coalition and is compiled into a randomized monotone-span LSSS.</p></div>
+      <div class="security-model-strip"><b>Security model:</b> confidentiality/integrity of the token comes from AES-256-GCM; access control comes from fresh-randomness LSSS shares; Ed25519 detects modified dealer-issued shares. The legacy invertible rank-preserving transform is retained only as a comparison and is not the cryptosystem.</div>
+      <div id="cryptoResults" class="results"><div class="empty">Run the cryptography lab to create an encrypted envelope and distribute its key across the current region architecture.</div></div>
+    </section>
+  </section>
+
+  <section id="docsView" class="view"><div class="workspace-head"><div><div class="eyebrow">DOCUMENTATION</div><h1>Atlas Guide</h1><p>The complete platform documentation is shipped as Markdown files.</p></div></div><div class="doc-cards"><a href="/docs/user-guide/ATLAS_USER_GUIDE.md" target="_blank">User Guide</a><a href="/docs/foundations/FOUNDATIONAL_MATHEMATICS.md" target="_blank">Mathematical Foundations</a><a href="/docs/ARCHITECTURE.md" target="_blank">Software Architecture</a><a href="/docs/SECURITY_MODEL.md" target="_blank">Security Model</a><a href="/docs/MIGRATION_MAP.md" target="_blank">Five-project Migration Map</a></div></section>
+</main></div>
+<div id="toast"></div>
+<script src="/static/tda_core.js"></script><script src="/static/app.js"></script><script src="/static/graph_lab.js"></script>
+</body></html>

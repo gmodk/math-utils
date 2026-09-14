@@ -1,0 +1,6 @@
+fastapi>=0.115,<1
+networkx>=3.3,<4
+numpy>=2,<3
+pydantic>=2.8,<3
+scipy>=1.14,<2
+uvicorn[standard]>=0.30,<1

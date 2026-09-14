@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>3D Correlation Vectors Explorer</title>
+
+<style>
+  body { font-family: Arial, Helvetica, sans-serif; margin: 20px; line-height: 1.35; }
+  h1, h2 { margin: 0 0 8px 0; }
+  .subtitle { color: #333; margin-top: 4px; margin-bottom: 16px; }
+  .layout { display: grid; grid-template-columns: 340px 1fr; gap: 18px; align-items: start; }
+  .panel { border: 1px solid #ccc; border-radius: 10px; padding: 14px; background: #fff; }
+  .controls { display: grid; gap: 10px; }
+  .row { display: grid; grid-template-columns: 120px 1fr 60px; gap: 10px; align-items: center; }
+  .row.wide { grid-template-columns: 120px 1fr 80px; }
+  input[type=range] { width: 100%; }
+  button { padding: 8px 10px; }
+  canvas { width: 100%; height: auto; border: 1px solid #ddd; border-radius: 8px; background: white; }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-top: 12px; }
+  .metric { border: 1px solid #ccc; border-radius: 8px; padding: 10px; }
+  .metric .label { font-size: 13px; color: #555; margin-bottom: 4px; }
+  .metric .value { font-size: 20px; font-weight: bold; }
+  .mono { font-family: "Courier New", monospace; }
+  .note { font-size: 14px; color: #333; }
+</style>
+
+</head><body>
+<h1>3D Correlation Vectors Explorer</h1>
+<p class="subtitle">Three standardized random variables can be represented as unit vectors whose pairwise inner products are the correlations.</p>
+<div class="layout">
+  <div class="panel">
+    <h2>Controls</h2>
+    <div class="controls">
+      <div class="row"><label>ρ(X,Y)</label><input id="rxy" type="range" min="-0.95" max="0.95" step="0.01" value="0.65"/><div id="rxyv">0.65</div></div>
+      <div class="row"><label>ρ(X,Z)</label><input id="rxz" type="range" min="-0.95" max="0.95" step="0.01" value="0.15"/><div id="rxzv">0.15</div></div>
+      <div class="row"><label>ρ(Y,Z)</label><input id="ryz" type="range" min="-0.95" max="0.95" step="0.01" value="-0.20"/><div id="ryzv">-0.20</div></div>
+      <div class="row"><label>yaw</label><input id="yaw" type="range" min="-180" max="180" step="1" value="35"/><div id="yawv">35°</div></div>
+      <div class="row"><label>pitch</label><input id="pitch" type="range" min="-85" max="85" step="1" value="20"/><div id="pitchv">20°</div></div>
+    </div>
+    <div class="metrics">
+      <div class="metric"><div class="label">PSD determinant condition</div><div class="value" id="psdval">0.00</div></div>
+      <div class="metric"><div class="label">Validity</div><div class="value" id="validity">valid</div></div>
+      <div class="metric"><div class="label">Angle XY</div><div class="value" id="axy">0°</div></div>
+      <div class="metric"><div class="label">Angle XZ</div><div class="value" id="axz">0°</div></div>
+      <div class="metric"><div class="label">Angle YZ</div><div class="value" id="ayz">0°</div></div>
+    </div>
+  </div>
+  <div class="panel">
+    <h2>3D view</h2>
+    <canvas id="cv" width="900" height="620"></canvas>
+    <p class="note mono">A feasible correlation triple gives a real 3D vector configuration.</p>
+  </div>
+</div>
+
+<script>
+function $(id) { return document.getElementById(id); }
+function fmt(x, d=2) { return Number(x).toFixed(d); }
+function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
+function dot(a,b){ return a[0]*b[0]+a[1]*b[1]+a[2]*b[2]; }
+function norm(a){ return Math.sqrt(Math.max(0,dot(a,a))); }
+function normalize(a){ const n=norm(a); return n<1e-12?[0,0,0]:[a[0]/n,a[1]/n,a[2]/n]; }
+function vecScale(a,s){ return [a[0]*s,a[1]*s,a[2]*s]; }
+function matVec(M,v){
+  return [
+    M[0][0]*v[0]+M[0][1]*v[1]+M[0][2]*v[2],
+    M[1][0]*v[0]+M[1][1]*v[1]+M[1][2]*v[2],
+    M[2][0]*v[0]+M[2][1]*v[1]+M[2][2]*v[2]
+  ];
+}
+function correlationPSD(r12,r13,r23){
+  return 1 + 2*r12*r13*r23 - r12*r12 - r13*r13 - r23*r23;
+}
+function cholesky3(S){
+  const L=[[0,0,0],[0,0,0],[0,0,0]];
+  for(let i=0;i<3;i++){
+    for(let j=0;j<=i;j++){
+      let sum=S[i][j];
+      for(let k=0;k<j;k++) sum -= L[i][k]*L[j][k];
+      if(i===j){
+        if(sum<=1e-12) return null;
+        L[i][j]=Math.sqrt(sum);
+      } else {
+        L[i][j]=sum/L[j][j];
+      }
+    }
+  }
+  return L;
+}
+function randn(){
+  let u=0,v=0;
+  while(u===0) u=Math.random();
+  while(v===0) v=Math.random();
+  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+}
+function jacobiEigenSymmetric(Ain){
+  let A = [[Ain[0][0],Ain[0][1],Ain[0][2]],[Ain[1][0],Ain[1][1],Ain[1][2]],[Ain[2][0],Ain[2][1],Ain[2][2]]];
+  let V = [[1,0,0],[0,1,0],[0,0,1]];
+  for(let iter=0; iter<60; iter++){
+    let p=0,q=1,max=Math.abs(A[0][1]);
+    if(Math.abs(A[0][2])>max){p=0;q=2;max=Math.abs(A[0][2]);}
+    if(Math.abs(A[1][2])>max){p=1;q=2;max=Math.abs(A[1][2]);}
+    if(max<1e-10) break;
+    let app=A[p][p], aqq=A[q][q], apq=A[p][q];
+    let phi=0.5*Math.atan2(2*apq, aqq-app);
+    let c=Math.cos(phi), s=Math.sin(phi);
+    for(let k=0;k<3;k++){
+      let aik=A[k][p], aiq=A[k][q];
+      A[k][p]=c*aik - s*aiq;
+      A[k][q]=s*aik + c*aiq;
+    }
+    for(let k=0;k<3;k++){
+      let akp=A[p][k], akq=A[q][k];
+      A[p][k]=c*akp - s*akq;
+      A[q][k]=s*akp + c*akq;
+    }
+    for(let k=0;k<3;k++){
+      let vkp=V[k][p], vkq=V[k][q];
+      V[k][p]=c*vkp - s*vkq;
+      V[k][q]=s*vkp + c*vkq;
+    }
+  }
+  let eig = [
+    {value:A[0][0], vector:[V[0][0],V[1][0],V[2][0]]},
+    {value:A[1][1], vector:[V[0][1],V[1][1],V[2][1]]},
+    {value:A[2][2], vector:[V[0][2],V[1][2],V[2][2]]}
+  ];
+  eig.sort((a,b)=>b.value-a.value);
+  eig.forEach(e => e.vector = normalize(e.vector));
+  return eig;
+}
+function projectionFactory(yawDeg, pitchDeg, scale=110, dist=4.5){
+  const yaw = yawDeg*Math.PI/180, pitch = pitchDeg*Math.PI/180;
+  const cy=Math.cos(yaw), sy=Math.sin(yaw), cp=Math.cos(pitch), sp=Math.sin(pitch);
+  return function(pt, cx, cy0){
+    let x=pt[0], y=pt[1], z=pt[2];
+    let x1 = cy*x + sy*z;
+    let z1 = -sy*x + cy*z;
+    let y2 = cp*y - sp*z1;
+    let z2 = sp*y + cp*z1;
+    let persp = dist/(dist + z2);
+    return [cx + scale*x1*persp, cy0 - scale*y2*persp, z2];
+  }
+}
+function drawArrow(ctx, p1, p2, label){
+  ctx.beginPath(); ctx.moveTo(p1[0], p1[1]); ctx.lineTo(p2[0], p2[1]); ctx.stroke();
+  const ang = Math.atan2(p2[1]-p1[1], p2[0]-p1[0]);
+  ctx.beginPath();
+  ctx.moveTo(p2[0], p2[1]);
+  ctx.lineTo(p2[0]-10*Math.cos(ang-Math.PI/7), p2[1]-10*Math.sin(ang-Math.PI/7));
+  ctx.lineTo(p2[0]-10*Math.cos(ang+Math.PI/7), p2[1]-10*Math.sin(ang+Math.PI/7));
+  ctx.closePath(); ctx.fill();
+  ctx.fillText(label, p2[0]+6, p2[1]-4);
+}
+function draw3DAxes(ctx, proj, cx, cy, len=1.25){
+  ctx.save(); ctx.strokeStyle="black"; ctx.fillStyle="black"; ctx.lineWidth=1.2; ctx.font="14px Arial";
+  const O = proj([0,0,0], cx, cy), X=proj([len,0,0], cx, cy), Y=proj([0,len,0], cx, cy), Z=proj([0,0,len], cx, cy);
+  drawArrow(ctx, O, X, "x"); drawArrow(ctx, O, Y, "y"); drawArrow(ctx, O, Z, "z");
+  ctx.restore();
+}
+</script>
+
+<script>
+function update(){
+  const rxy = parseFloat($("rxy").value), rxz = parseFloat($("rxz").value), ryz = parseFloat($("ryz").value);
+  const yaw = parseFloat($("yaw").value), pitch = parseFloat($("pitch").value);
+  $("rxyv").textContent = fmt(rxy,2); $("rxzv").textContent = fmt(rxz,2); $("ryzv").textContent = fmt(ryz,2);
+  $("yawv").textContent = yaw + "°"; $("pitchv").textContent = pitch + "°";
+  $("axy").textContent = fmt(Math.acos(clamp(rxy,-1,1))*180/Math.PI,1) + "°";
+  $("axz").textContent = fmt(Math.acos(clamp(rxz,-1,1))*180/Math.PI,1) + "°";
+  $("ayz").textContent = fmt(Math.acos(clamp(ryz,-1,1))*180/Math.PI,1) + "°";
+  const det = correlationPSD(rxy,rxz,ryz);
+  $("psdval").textContent = fmt(det,4);
+  const valid = det >= -1e-9;
+  $("validity").textContent = valid ? "valid" : "invalid";
+  const ctx = $("cv").getContext("2d"); ctx.clearRect(0,0,900,620);
+  ctx.font = "15px Arial"; ctx.fillStyle = "black"; ctx.strokeStyle = "black"; ctx.lineWidth = 1.4;
+  const proj = projectionFactory(yaw, pitch, 165, 5.3);
+  const center = [470, 330];
+  draw3DAxes(ctx, proj, center[0], center[1], 1.35);
+  if(!valid){
+    ctx.fillText("This correlation triple is not positive semidefinite, so no real 3D vector configuration exists.", 35, 35);
+    return;
+  }
+  const X=[1,0,0];
+  const y2 = Math.sqrt(Math.max(0, 1-rxy*rxy));
+  const Y=[rxy, y2, 0];
+  let z2 = y2 > 1e-10 ? (ryz - rxy*rxz)/y2 : 0;
+  const z3sq = 1 - rxz*rxz - z2*z2;
+  const z3 = Math.sqrt(Math.max(0, z3sq));
+  const Z=[rxz, z2, z3];
+  const O = proj([0,0,0], center[0], center[1]);
+  const PX = proj(X, center[0], center[1]), PY=proj(Y, center[0], center[1]), PZ=proj(Z, center[0], center[1]);
+  function drawVector(P, label){
+    ctx.beginPath(); ctx.moveTo(O[0], O[1]); ctx.lineTo(P[0], P[1]); ctx.stroke();
+    const ang=Math.atan2(P[1]-O[1], P[0]-O[0]);
+    ctx.beginPath(); ctx.moveTo(P[0],P[1]);
+    ctx.lineTo(P[0]-12*Math.cos(ang-Math.PI/8), P[1]-12*Math.sin(ang-Math.PI/8));
+    ctx.lineTo(P[0]-12*Math.cos(ang+Math.PI/8), P[1]-12*Math.sin(ang+Math.PI/8));
+    ctx.closePath(); ctx.fill();
+    ctx.fillText(label, P[0]+7, P[1]-5);
+  }
+  drawVector(PX,"X"); drawVector(PY,"Y"); drawVector(PZ,"Z");
+  ctx.fillText("X·Y = ρ_xy,  X·Z = ρ_xz,  Y·Z = ρ_yz", 35, 35);
+}
+["rxy","rxz","ryz","yaw","pitch"].forEach(id => $(id).addEventListener("input", update));
+update();
+</script>
+
+<style>
+.quick-reference {
+  margin: 24px 0 8px;
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  padding: 16px;
+  background: #fafafa;
+}
+.quick-reference h2 { margin-top: 0; }
+.quick-reference h3 { margin-bottom: 6px; }
+.quick-reference table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0 16px;
+  font-size: 14px;
+}
+.quick-reference th, .quick-reference td {
+  border: 1px solid #ccc;
+  padding: 7px 8px;
+  vertical-align: top;
+  text-align: left;
+}
+.quick-reference code { white-space: nowrap; }
+.quick-reference .formula {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+}
+</style>
+
+<section class="quick-reference">
+  <h2>Quick reference guide</h2>
+  <p><strong>Purpose.</strong> Use this explorer to see a 3×3 correlation matrix as a Gram matrix of three unit vectors. Pairwise correlations become pairwise cosines/angles.</p>
+  <h3>Controls / options</h3>
+  <table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>ρ(X,Y), ρ(X,Z), ρ(Y,Z)</td><td>Pairwise correlations among the three standardized variables.</td><td>Values near +1 align vectors; near 0 make them close to orthogonal; near −1 point them in opposing directions.</td></tr><tr><td>yaw / pitch</td><td>Virtual camera orientation.</td><td>Changes only the view, not the mathematics.</td></tr></tbody></table>
+  <h3>Charts</h3>
+  <table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>3D vector view</td><td>Constructs unit vectors X, Y, Z with the selected inner products.</td><td>The angle between vectors i and j is θᵢⱼ = arccos(ρᵢⱼ).</td></tr><tr><td>Coordinate axes</td><td>Reference frame for the constructed vectors.</td><td>They are display coordinates only; correlations are invariant under rotating the whole configuration.</td></tr></tbody></table>
+  <h3>Metrics</h3>
+  <table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>PSD determinant condition</td><td>For R=[[1,r12,r13],[r12,1,r23],[r13,r23,1]], det(R)=1+2r12r13r23−r12²−r13²−r23².</td><td>Must be ≥0 for a feasible correlation triple.</td></tr><tr><td>Validity</td><td>Whether the selected correlation matrix is positive semidefinite.</td><td>Invalid means no real set of variables/vectors can have that exact correlation triple.</td></tr><tr><td>Angles XY/XZ/YZ</td><td>arccos of each correlation.</td><td>90° means uncorrelated/orthogonal; acute means positive correlation; obtuse means negative.</td></tr></tbody></table>
+  <h3>Core mathematical identity</h3>
+  <p class="formula">R is a Gram matrix: Rᵢⱼ = ⟨uᵢ,uⱼ⟩, with ‖uᵢ‖=1.</p>
+</section>
+
+</body></html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>3D Trivariate Scatter & PCA Explorer</title>
+
+<style>
+  body { font-family: Arial, Helvetica, sans-serif; margin: 20px; line-height: 1.35; }
+  h1, h2 { margin: 0 0 8px 0; }
+  .subtitle { color: #333; margin-top: 4px; margin-bottom: 16px; }
+  .layout { display: grid; grid-template-columns: 340px 1fr; gap: 18px; align-items: start; }
+  .panel { border: 1px solid #ccc; border-radius: 10px; padding: 14px; background: #fff; }
+  .controls { display: grid; gap: 10px; }
+  .row { display: grid; grid-template-columns: 120px 1fr 60px; gap: 10px; align-items: center; }
+  .row.wide { grid-template-columns: 120px 1fr 80px; }
+  input[type=range] { width: 100%; }
+  button { padding: 8px 10px; }
+  canvas { width: 100%; height: auto; border: 1px solid #ddd; border-radius: 8px; background: white; }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-top: 12px; }
+  .metric { border: 1px solid #ccc; border-radius: 8px; padding: 10px; }
+  .metric .label { font-size: 13px; color: #555; margin-bottom: 4px; }
+  .metric .value { font-size: 20px; font-weight: bold; }
+  .mono { font-family: "Courier New", monospace; }
+  .note { font-size: 14px; color: #333; }
+</style>
+
+</head><body>
+<h1>3D Trivariate Scatter & PCA Explorer</h1>
+<p class="subtitle">Each observation (R₁,R₂,R₃) is a point in 3D. The cloud and its PCA directions visualize the covariance structure.</p>
+<div class="layout">
+  <div class="panel">
+    <h2>Controls</h2>
+    <div class="controls">
+      <div class="row"><label>ρ₁₂</label><input id="r12" type="range" min="-0.95" max="0.95" step="0.01" value="0.70"/><div id="r12v">0.70</div></div>
+      <div class="row"><label>ρ₁₃</label><input id="r13" type="range" min="-0.95" max="0.95" step="0.01" value="0.20"/><div id="r13v">0.20</div></div>
+      <div class="row"><label>ρ₂₃</label><input id="r23" type="range" min="-0.95" max="0.95" step="0.01" value="-0.10"/><div id="r23v">-0.10</div></div>
+      <div class="row"><label>samples</label><input id="n" type="range" min="100" max="1200" step="50" value="500"/><div id="nv">500</div></div>
+      <div class="row"><label>yaw</label><input id="yaw" type="range" min="-180" max="180" step="1" value="42"/><div id="yawv">42°</div></div>
+      <div class="row"><label>pitch</label><input id="pitch" type="range" min="-85" max="85" step="1" value="14"/><div id="pitchv">14°</div></div>
+      <div class="row wide"><label>resample</label><button id="resample">generate new cloud</button><div></div></div>
+    </div>
+    <div class="metrics">
+      <div class="metric"><div class="label">PSD determinant condition</div><div class="value" id="psdval">0.00</div></div>
+      <div class="metric"><div class="label">λ₁</div><div class="value" id="l1">0.00</div></div>
+      <div class="metric"><div class="label">λ₂</div><div class="value" id="l2">0.00</div></div>
+      <div class="metric"><div class="label">λ₃</div><div class="value" id="l3">0.00</div></div>
+      <div class="metric"><div class="label">first 2 PCs share</div><div class="value" id="pc12">0%</div></div>
+    </div>
+  </div>
+  <div class="panel">
+    <h2>Scatter cloud with PCA directions</h2>
+    <canvas id="cv" width="900" height="620"></canvas>
+    <p class="note mono" id="corrtext"></p>
+  </div>
+</div>
+
+<script>
+function $(id) { return document.getElementById(id); }
+function fmt(x, d=2) { return Number(x).toFixed(d); }
+function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
+function dot(a,b){ return a[0]*b[0]+a[1]*b[1]+a[2]*b[2]; }
+function norm(a){ return Math.sqrt(Math.max(0,dot(a,a))); }
+function normalize(a){ const n=norm(a); return n<1e-12?[0,0,0]:[a[0]/n,a[1]/n,a[2]/n]; }
+function vecScale(a,s){ return [a[0]*s,a[1]*s,a[2]*s]; }
+function matVec(M,v){
+  return [
+    M[0][0]*v[0]+M[0][1]*v[1]+M[0][2]*v[2],
+    M[1][0]*v[0]+M[1][1]*v[1]+M[1][2]*v[2],
+    M[2][0]*v[0]+M[2][1]*v[1]+M[2][2]*v[2]
+  ];
+}
+function correlationPSD(r12,r13,r23){
+  return 1 + 2*r12*r13*r23 - r12*r12 - r13*r13 - r23*r23;
+}
+function cholesky3(S){
+  const L=[[0,0,0],[0,0,0],[0,0,0]];
+  for(let i=0;i<3;i++){
+    for(let j=0;j<=i;j++){
+      let sum=S[i][j];
+      for(let k=0;k<j;k++) sum -= L[i][k]*L[j][k];
+      if(i===j){
+        if(sum<=1e-12) return null;
+        L[i][j]=Math.sqrt(sum);
+      } else {
+        L[i][j]=sum/L[j][j];
+      }
+    }
+  }
+  return L;
+}
+function randn(){
+  let u=0,v=0;
+  while(u===0) u=Math.random();
+  while(v===0) v=Math.random();
+  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+}
+function jacobiEigenSymmetric(Ain){
+  let A = [[Ain[0][0],Ain[0][1],Ain[0][2]],[Ain[1][0],Ain[1][1],Ain[1][2]],[Ain[2][0],Ain[2][1],Ain[2][2]]];
+  let V = [[1,0,0],[0,1,0],[0,0,1]];
+  for(let iter=0; iter<60; iter++){
+    let p=0,q=1,max=Math.abs(A[0][1]);
+    if(Math.abs(A[0][2])>max){p=0;q=2;max=Math.abs(A[0][2]);}
+    if(Math.abs(A[1][2])>max){p=1;q=2;max=Math.abs(A[1][2]);}
+    if(max<1e-10) break;
+    let app=A[p][p], aqq=A[q][q], apq=A[p][q];
+    let phi=0.5*Math.atan2(2*apq, aqq-app);
+    let c=Math.cos(phi), s=Math.sin(phi);
+    for(let k=0;k<3;k++){
+      let aik=A[k][p], aiq=A[k][q];
+      A[k][p]=c*aik - s*aiq;
+      A[k][q]=s*aik + c*aiq;
+    }
+    for(let k=0;k<3;k++){
+      let akp=A[p][k], akq=A[q][k];
+      A[p][k]=c*akp - s*akq;
+      A[q][k]=s*akp + c*akq;
+    }
+    for(let k=0;k<3;k++){
+      let vkp=V[k][p], vkq=V[k][q];
+      V[k][p]=c*vkp - s*vkq;
+      V[k][q]=s*vkp + c*vkq;
+    }
+  }
+  let eig = [
+    {value:A[0][0], vector:[V[0][0],V[1][0],V[2][0]]},
+    {value:A[1][1], vector:[V[0][1],V[1][1],V[2][1]]},
+    {value:A[2][2], vector:[V[0][2],V[1][2],V[2][2]]}
+  ];
+  eig.sort((a,b)=>b.value-a.value);
+  eig.forEach(e => e.vector = normalize(e.vector));
+  return eig;
+}
+function projectionFactory(yawDeg, pitchDeg, scale=110, dist=4.5){
+  const yaw = yawDeg*Math.PI/180, pitch = pitchDeg*Math.PI/180;
+  const cy=Math.cos(yaw), sy=Math.sin(yaw), cp=Math.cos(pitch), sp=Math.sin(pitch);
+  return function(pt, cx, cy0){
+    let x=pt[0], y=pt[1], z=pt[2];
+    let x1 = cy*x + sy*z;
+    let z1 = -sy*x + cy*z;
+    let y2 = cp*y - sp*z1;
+    let z2 = sp*y + cp*z1;
+    let persp = dist/(dist + z2);
+    return [cx + scale*x1*persp, cy0 - scale*y2*persp, z2];
+  }
+}
+function drawArrow(ctx, p1, p2, label){
+  ctx.beginPath(); ctx.moveTo(p1[0], p1[1]); ctx.lineTo(p2[0], p2[1]); ctx.stroke();
+  const ang = Math.atan2(p2[1]-p1[1], p2[0]-p1[0]);
+  ctx.beginPath();
+  ctx.moveTo(p2[0], p2[1]);
+  ctx.lineTo(p2[0]-10*Math.cos(ang-Math.PI/7), p2[1]-10*Math.sin(ang-Math.PI/7));
+  ctx.lineTo(p2[0]-10*Math.cos(ang+Math.PI/7), p2[1]-10*Math.sin(ang+Math.PI/7));
+  ctx.closePath(); ctx.fill();
+  ctx.fillText(label, p2[0]+6, p2[1]-4);
+}
+function draw3DAxes(ctx, proj, cx, cy, len=1.25){
+  ctx.save(); ctx.strokeStyle="black"; ctx.fillStyle="black"; ctx.lineWidth=1.2; ctx.font="14px Arial";
+  const O = proj([0,0,0], cx, cy), X=proj([len,0,0], cx, cy), Y=proj([0,len,0], cx, cy), Z=proj([0,0,len], cx, cy);
+  drawArrow(ctx, O, X, "x"); drawArrow(ctx, O, Y, "y"); drawArrow(ctx, O, Z, "z");
+  ctx.restore();
+}
+</script>
+
+<script>
+let sampleCache = [];
+function generateSamples(S, n){
+  const L = cholesky3(S);
+  if(!L) return null;
+  const pts = [];
+  for(let i=0;i<n;i++){
+    const z=[randn(), randn(), randn()];
+    const x = [
+      L[0][0]*z[0],
+      L[1][0]*z[0] + L[1][1]*z[1],
+      L[2][0]*z[0] + L[2][1]*z[1] + L[2][2]*z[2]
+    ];
+    pts.push(x);
+  }
+  return pts;
+}
+function update(forceResample=false){
+  const r12=parseFloat($("r12").value), r13=parseFloat($("r13").value), r23=parseFloat($("r23").value);
+  const n=parseInt($("n").value);
+  const yaw=parseFloat($("yaw").value), pitch=parseFloat($("pitch").value);
+  [["r12",r12],["r13",r13],["r23",r23]].forEach(([k,v])=>$(k+"v").textContent=fmt(v,2));
+  $("nv").textContent=n; $("yawv").textContent=yaw+"°"; $("pitchv").textContent=pitch+"°";
+  const det = correlationPSD(r12,r13,r23);
+  $("psdval").textContent = fmt(det,4);
+  $("corrtext").textContent = "R = [[1, " + fmt(r12,2) + ", " + fmt(r13,2) + "], [" + fmt(r12,2) + ", 1, " + fmt(r23,2) + "], [" + fmt(r13,2) + ", " + fmt(r23,2) + ", 1]]";
+  const R = [[1,r12,r13],[r12,1,r23],[r13,r23,1]];
+  const eig = jacobiEigenSymmetric(R);
+  $("l1").textContent = fmt(eig[0].value,3); $("l2").textContent=fmt(eig[1].value,3); $("l3").textContent=fmt(eig[2].value,3);
+  $("pc12").textContent = fmt(100*(eig[0].value+eig[1].value)/3,1) + "%";
+  const ctx = $("cv").getContext("2d"); ctx.clearRect(0,0,900,620); ctx.font="15px Arial"; ctx.fillStyle="black";
+  if(det < -1e-9){
+    ctx.fillText("This correlation matrix is not positive semidefinite, so no valid Gaussian cloud exists.", 25, 30);
+    return;
+  }
+  if(forceResample || !sampleCache.length || sampleCache.length !== n) sampleCache = generateSamples(R, n) || [];
+  const proj = projectionFactory(yaw,pitch,120,5.5);
+  const cx=470, cy=330;
+  draw3DAxes(ctx, proj, cx, cy, 2.0);
+  const projected = sampleCache.map(p => ({q:proj(p, cx, cy)})).sort((a,b)=>a.q[2]-b.q[2]);
+  ctx.fillStyle="rgba(0,0,0,0.35)";
+  for(const t of projected){ ctx.beginPath(); ctx.arc(t.q[0], t.q[1], 2.2, 0, 2*Math.PI); ctx.fill(); }
+  ctx.strokeStyle="black"; ctx.fillStyle="black"; ctx.lineWidth=2;
+  const O = proj([0,0,0], cx, cy);
+  ["PC1","PC2","PC3"].forEach((label, idx) => {
+    const end = vecScale(eig[idx].vector, 2.2*Math.sqrt(Math.max(eig[idx].value,0)));
+    drawArrow(ctx, O, proj(end,cx,cy), label);
+    const back = proj(vecScale(end,-1),cx,cy);
+    ctx.beginPath(); ctx.moveTo(O[0],O[1]); ctx.lineTo(back[0],back[1]); ctx.stroke();
+  });
+}
+["r12","r13","r23","n","yaw","pitch"].forEach(id => $(id).addEventListener("input", () => update(id==="n")));
+$("resample").addEventListener("click", () => update(true));
+update(true);
+</script>
+
+<style>
+.quick-reference {
+  margin: 24px 0 8px;
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  padding: 16px;
+  background: #fafafa;
+}
+.quick-reference h2 { margin-top: 0; }
+.quick-reference h3 { margin-bottom: 6px; }
+.quick-reference table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0 16px;
+  font-size: 14px;
+}
+.quick-reference th, .quick-reference td {
+  border: 1px solid #ccc;
+  padding: 7px 8px;
+  vertical-align: top;
+  text-align: left;
+}
+.quick-reference code { white-space: nowrap; }
+.quick-reference .formula {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+}
+</style>
+
+<section class="quick-reference">
+  <h2>Quick reference guide</h2>
+  <p><strong>Purpose.</strong> Use this explorer to connect raw joint observations, a correlation matrix, and PCA.</p>
+  <h3>Controls / options</h3>
+  <table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>ρ₁₂, ρ₁₃, ρ₂₃</td><td>Target correlations for the simulated trivariate Gaussian.</td><td>They control the orientation and elongation of the cloud.</td></tr><tr><td>samples</td><td>Number of simulated observations.</td><td>Larger samples make empirical geometry smoother.</td></tr><tr><td>yaw / pitch</td><td>Camera orientation.</td><td>Changes display only.</td></tr><tr><td>generate new cloud</td><td>Draws a fresh random sample from the same selected distribution.</td><td>Useful for distinguishing sampling noise from structural geometry.</td></tr></tbody></table>
+  <h3>Charts</h3>
+  <table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>3D point cloud</td><td>Simulated observations (X₁,X₂,X₃).</td><td>Elongation indicates correlated directions.</td></tr><tr><td>PC1–PC3 arrows</td><td>Eigenvectors of the selected correlation matrix.</td><td>They summarize the dominant directions of the cloud.</td></tr></tbody></table>
+  <h3>Metrics</h3>
+  <table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>PSD determinant condition</td><td>Positive-semidefinite feasibility condition.</td><td>If negative, the correlation matrix is impossible.</td></tr><tr><td>λ₁, λ₂, λ₃</td><td>Variance along PCs for standardized variables.</td><td>They sum to 3.</td></tr><tr><td>First 2 PCs share</td><td>(λ₁+λ₂)/3.</td><td>High values mean the cloud is close to a plane.</td></tr></tbody></table>
+  <h3>Core mathematical identity</h3>
+  <p class="formula">For standardized variables, trace(R)=3 and explained-variance ratio of PC k is λₖ/3.</p>
+</section>
+
+</body></html>

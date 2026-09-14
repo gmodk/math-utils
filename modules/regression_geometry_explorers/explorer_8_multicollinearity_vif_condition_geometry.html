@@ -1,0 +1,134 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Explorer 8 — Multicollinearity</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;margin:24px;line-height:1.35}
+h1,h2,h3{margin-top:0}
+.subtitle{color:#333}
+.layout{display:grid;grid-template-columns:350px 1fr;gap:18px;align-items:start}
+.panel,.card,.quick-reference{border:1px solid #ccc;border-radius:10px;padding:14px;background:white}
+.controls{display:grid;gap:10px}
+.row{display:grid;grid-template-columns:125px 1fr 72px;gap:10px;align-items:center}
+.row.buttonrow{grid-template-columns:125px 1fr}
+input[type=range]{width:100%}
+button,select{padding:7px 9px}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:12px}
+.metric{border:1px solid #ccc;border-radius:8px;padding:10px}
+.metric .label{font-size:13px;color:#555}.metric .value{font-size:19px;font-weight:bold}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:18px}
+canvas{width:100%;height:auto;border:1px solid #ddd;border-radius:8px;background:#fff}
+.note{font-size:14px;color:#333}.mono{font-family:"Courier New",monospace;white-space:pre-wrap}
+.quick-reference{margin-top:22px;background:#fafafa}
+.quick-reference table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:14px}
+.quick-reference th,.quick-reference td{border:1px solid #ccc;padding:7px;text-align:left;vertical-align:top}
+.formula{font-family:"Times New Roman",Times,serif;font-size:18px}
+</style>
+</head><body>
+<h1>Explorer 8 — Multicollinearity, VIF & Condition Geometry</h1><p class="subtitle">Near-linear dependence does not necessarily destroy prediction, but it can make individual regression coefficients extremely unstable.</p>
+<div class="layout"><div class="panel"><h2>Controls</h2><div class="controls">
+<div class="row"><label>corr(x₁,x₂)</label><input id="rho" type="range" min="-.98" max=".98" step=".01" value=".85"><div id="rhov"></div></div>
+<div class="row"><label>noise σ</label><input id="sigma" type="range" min=".1" max="2.5" step=".05" value="1"><div id="sigmav"></div></div>
+<div class="row"><label>sample size</label><input id="n" type="range" min="30" max="300" step="1" value="80"><div id="nv"></div></div>
+<div class="row"><label>MC reps</label><input id="reps" type="range" min="30" max="300" step="10" value="150"><div id="repsv"></div></div>
+</div><div class="metrics">
+<div class="metric"><div class="label">VIF</div><div class="value" id="vif"></div></div>
+<div class="metric"><div class="label">condition number</div><div class="value" id="kappa"></div></div>
+<div class="metric"><div class="label">det(R)</div><div class="value" id="det"></div></div>
+<div class="metric"><div class="label">SD β̂₁</div><div class="value" id="sd1"></div></div>
+<div class="metric"><div class="label">SD β̂₂</div><div class="value" id="sd2"></div></div>
+</div></div>
+<div class="cards"><div class="card"><h2>1) Predictor geometry</h2><canvas id="pred" width="540" height="400"></canvas></div>
+<div class="card"><h2>2) Sampling distribution of coefficients</h2><canvas id="coef" width="540" height="400"></canvas></div></div></div>
+
+<script>
+function $(id){return document.getElementById(id);}
+function fmt(x,d=3){return Number(x).toFixed(d);}
+function clamp(x,a,b){return Math.max(a,Math.min(b,x));}
+function randn(){let u=0,v=0;while(u===0)u=Math.random();while(v===0)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+function mean(a){return a.reduce((s,x)=>s+x,0)/a.length;}
+function dot(a,b){let s=0;for(let i=0;i<a.length;i++)s+=a[i]*b[i];return s;}
+function norm(a){return Math.sqrt(Math.max(0,dot(a,a)));}
+function center(a){const m=mean(a);return a.map(x=>x-m);}
+function variance(a){const m=mean(a);return a.reduce((s,x)=>s+(x-m)*(x-m),0)/(a.length-1);}
+function minv(a){return Math.min.apply(null,a);}
+function maxv(a){return Math.max.apply(null,a);}
+function solve2(a,b,c,d,e,f){
+  const det=a*d-b*c;
+  if(Math.abs(det)<1e-12)return [0,0];
+  return [(e*d-b*f)/det,(a*f-e*c)/det];
+}
+function invert2(a,b,c,d){
+  const det=a*d-b*c;
+  if(Math.abs(det)<1e-12)return null;
+  return [[d/det,-b/det],[-c/det,a/det]];
+}
+function matVec2(M,v){return [M[0][0]*v[0]+M[0][1]*v[1],M[1][0]*v[0]+M[1][1]*v[1]];}
+function eigen2(a,b,d){
+  const tr=a+d, disc=Math.sqrt(Math.max(0,(a-d)*(a-d)+4*b*b));
+  const l1=(tr+disc)/2,l2=(tr-disc)/2;
+  let v1=Math.abs(b)>1e-10?[b,l1-a]:(a>=d?[1,0]:[0,1]);
+  let n=Math.hypot(v1[0],v1[1]);v1=[v1[0]/n,v1[1]/n];
+  let v2=[-v1[1],v1[0]];
+  return [{value:l1,vector:v1},{value:l2,vector:v2}];
+}
+function jacobi3(Ain){
+  let A=Ain.map(r=>r.slice()),V=[[1,0,0],[0,1,0],[0,0,1]];
+  for(let it=0;it<70;it++){
+    let p=0,q=1,m=Math.abs(A[0][1]);
+    if(Math.abs(A[0][2])>m){p=0;q=2;m=Math.abs(A[0][2]);}
+    if(Math.abs(A[1][2])>m){p=1;q=2;m=Math.abs(A[1][2]);}
+    if(m<1e-10)break;
+    let phi=.5*Math.atan2(2*A[p][q],A[q][q]-A[p][p]),c=Math.cos(phi),s=Math.sin(phi);
+    let R=[[1,0,0],[0,1,0],[0,0,1]];R[p][p]=c;R[q][q]=c;R[p][q]=s;R[q][p]=-s;
+    let B=[[0,0,0],[0,0,0],[0,0,0]];
+    for(let i=0;i<3;i++)for(let j=0;j<3;j++)for(let k=0;k<3;k++)B[i][j]+=A[i][k]*R[k][j];
+    let C=[[0,0,0],[0,0,0],[0,0,0]];
+    for(let i=0;i<3;i++)for(let j=0;j<3;j++)for(let k=0;k<3;k++)C[i][j]+=R[k][i]*B[k][j];
+    A=C;
+    let NV=[[0,0,0],[0,0,0],[0,0,0]];
+    for(let i=0;i<3;i++)for(let j=0;j<3;j++)for(let k=0;k<3;k++)NV[i][j]+=V[i][k]*R[k][j];
+    V=NV;
+  }
+  let e=[0,1,2].map(i=>({value:A[i][i],vector:[V[0][i],V[1][i],V[2][i]]}));
+  e.sort((x,y)=>y.value-x.value);
+  return e;
+}
+function solveLinear(A,b){
+  const n=A.length,M=A.map((r,i)=>r.slice().concat([b[i]]));
+  for(let k=0;k<n;k++){
+    let piv=k;for(let i=k+1;i<n;i++)if(Math.abs(M[i][k])>Math.abs(M[piv][k]))piv=i;
+    [M[k],M[piv]]=[M[piv],M[k]];
+    if(Math.abs(M[k][k])<1e-12)M[k][k]=1e-12;
+    const p=M[k][k];for(let j=k;j<=n;j++)M[k][j]/=p;
+    for(let i=0;i<n;i++)if(i!==k){const f=M[i][k];for(let j=k;j<=n;j++)M[i][j]-=f*M[k][j];}
+  }
+  return M.map(r=>r[n]);
+}
+function polyFeatures(x,d){let r=[1],p=1;for(let k=1;k<=d;k++){p*=x;r.push(p);}return r;}
+function polyFit(xs,ys,d,lambda=1e-9){
+  const p=d+1,A=Array.from({length:p},()=>Array(p).fill(0)),b=Array(p).fill(0);
+  for(let i=0;i<xs.length;i++){const f=polyFeatures(xs[i],d);for(let j=0;j<p;j++){b[j]+=f[j]*ys[i];for(let k=0;k<p;k++)A[j][k]+=f[j]*f[k];}}
+  for(let j=0;j<p;j++)A[j][j]+=lambda;
+  return solveLinear(A,b);
+}
+function polyPredict(coef,x){let s=0,p=1;for(let k=0;k<coef.length;k++){s+=coef[k]*p;p*=x;}return s;}
+function drawAxes(ctx,W,H,left=45,right=20,top=20,bottom=35){
+  ctx.strokeStyle="black";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(left,H-bottom);ctx.lineTo(W-right,H-bottom);ctx.moveTo(left,H-bottom);ctx.lineTo(left,top);ctx.stroke();
+}
+</script>
+
+<script>
+function oneSample(n,r,s){let x1=[],x2=[],y=[],q=Math.sqrt(1-r*r);for(let i=0;i<n;i++){let z1=randn(),z2=randn(),a=z1,b=r*z1+q*z2;x1.push(a);x2.push(b);y.push(a+b+s*randn());}return{x1,x2,y};}
+function fit(d){let x1=center(d.x1),x2=center(d.x2),y=center(d.y),g11=dot(x1,x1),g22=dot(x2,x2),g12=dot(x1,x2),c1=dot(x1,y),c2=dot(x2,y);return solve2(g11,g12,g12,g22,c1,c2);}
+function drawPred(d){const c=$("pred"),ctx=c.getContext("2d"),W=c.width,H=c.height;ctx.clearRect(0,0,W,H);drawAxes(ctx,W,H);let lo=Math.min(minv(d.x1),minv(d.x2)),hi=Math.max(maxv(d.x1),maxv(d.x2)),pad=.15*(hi-lo);lo-=pad;hi+=pad;let X=v=>45+(W-65)*(v-lo)/(hi-lo),Y=v=>H-35-(H-55)*(v-lo)/(hi-lo);ctx.fillStyle="rgba(0,0,0,.45)";for(let i=0;i<d.x1.length;i++){ctx.beginPath();ctx.arc(X(d.x1[i]),Y(d.x2[i]),3,0,2*Math.PI);ctx.fill();}ctx.font="14px Arial";ctx.fillStyle="black";ctx.fillText("x₁",W-40,H-45);ctx.fillText("x₂",55,25);}
+function drawCoef(bs){const c=$("coef"),ctx=c.getContext("2d"),W=c.width,H=c.height;ctx.clearRect(0,0,W,H);drawAxes(ctx,W,H);let all=bs.flat(),lo=Math.min(-.5,minv(all)),hi=Math.max(2.5,maxv(all)),pad=.1*(hi-lo);lo-=pad;hi+=pad;let X=v=>45+(W-65)*(v-lo)/(hi-lo),Y=v=>H-35-(H-55)*(v-lo)/(hi-lo);ctx.fillStyle="rgba(0,0,0,.35)";for(const b of bs){ctx.beginPath();ctx.arc(X(b[0]),Y(b[1]),2.7,0,2*Math.PI);ctx.fill();}ctx.strokeStyle="black";ctx.strokeRect(X(1)-4,Y(1)-4,8,8);ctx.font="14px Arial";ctx.fillStyle="black";ctx.fillText("true β=(1,1)",X(1)+8,Y(1)-8);ctx.fillText("β̂₁",W-40,H-45);ctx.fillText("β̂₂",55,25);}
+function update(){let r=+$("rho").value,s=+$("sigma").value,n=+$("n").value,R=+$("reps").value;$("rhov").textContent=fmt(r,2);$("sigmav").textContent=fmt(s,2);$("nv").textContent=n;$("repsv").textContent=R;$("vif").textContent=fmt(1/(1-r*r),2);$("kappa").textContent=fmt(Math.sqrt((1+Math.abs(r))/(1-Math.abs(r))),2);$("det").textContent=fmt(1-r*r,3);let d=oneSample(n,r,s);drawPred(d);let bs=[];for(let j=0;j<R;j++)bs.push(fit(oneSample(n,r,s)));drawCoef(bs);let b1=bs.map(x=>x[0]),b2=bs.map(x=>x[1]);$("sd1").textContent=fmt(Math.sqrt(variance(b1)),3);$("sd2").textContent=fmt(Math.sqrt(variance(b2)),3);}
+["rho","sigma","n","reps"].forEach(id=>$(id).addEventListener("input",update));update();
+</script>
+<section class="quick-reference">
+<h2>Quick reference guide</h2>
+<p><strong>Purpose.</strong> Use this explorer to study multicollinearity as near-linear dependence in the predictor space and as coefficient-estimation instability.</p>
+<h3>Controls / options</h3><table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>corr(x₁,x₂)</td><td>Population predictor correlation.</td><td>As |ρ|→1, predictors become nearly redundant.</td></tr><tr><td>noise σ</td><td>Outcome noise.</td><td>Higher noise magnifies coefficient uncertainty.</td></tr><tr><td>sample size</td><td>Observations per regression.</td><td>Larger n generally reduces coefficient variance.</td></tr><tr><td>Monte Carlo reps</td><td>Number of repeated synthetic regressions.</td><td>More reps make the coefficient cloud smoother.</td></tr></tbody></table>
+<h3>Charts</h3><table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>Predictor scatter</td><td>One synthetic predictor sample.</td><td>Elongation indicates collinearity.</td></tr><tr><td>Coefficient sampling cloud</td><td>β̂₁ vs β̂₂ across repeated datasets.</td><td>A long diagonal cloud shows unstable individual coefficients even when fitted predictions can remain stable.</td></tr></tbody></table>
+<h3>Metrics</h3><table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>VIF</td><td>1/(1−r²) for two standardized predictors.</td><td>Large VIF means slope variance inflation from collinearity.</td></tr><tr><td>Condition number</td><td>sqrt((1+|r|)/(1−|r|)) for the standardized two-predictor design geometry.</td><td>Large values indicate ill-conditioning.</td></tr><tr><td>det(R)</td><td>1−r².</td><td>Approaches zero as the predictor correlation matrix becomes singular.</td></tr><tr><td>SD β̂₁, SD β̂₂</td><td>Monte Carlo coefficient standard deviations.</td><td>Direct empirical measure of estimation instability.</td></tr></tbody></table>
+<h3>Core mathematical identity</h3><p class="formula">With standardized predictors, VIF=1/(1−ρ²); as |ρ|→1, XᵀX becomes ill-conditioned and Var(β̂) grows.</p>
+</section>
+</body></html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A unified launcher for mathematical explorers.">
+  <title>Math Utils</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">MATHEMATICAL EXPLORATION PLATFORM</p>
+        <h1>Math Utils</h1>
+      </div>
+      <div class="system-state" aria-live="polite">
+        <span class="pulse" aria-hidden="true"></span>
+        <span id="system-label">Starting modules</span>
+      </div>
+    </header>
+
+    <section class="intro" aria-labelledby="intro-title">
+      <h2 id="intro-title">Choose a mathematical laboratory</h2>
+      <p>Each explorer runs in its original environment with its complete interface and methods preserved.</p>
+    </section>
+
+    <section id="module-grid" class="module-grid" aria-live="polite" aria-busy="true">
+      <article class="module-card skeleton" aria-hidden="true"></article>
+      <article class="module-card skeleton" aria-hidden="true"></article>
+      <article class="module-card skeleton" aria-hidden="true"></article>
+      <article class="module-card skeleton" aria-hidden="true"></article>
+    </section>
+
+    <footer>
+      <span>Four applications</span>
+      <span>Eighteen explorer surfaces</span>
+      <span>One local launcher</span>
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

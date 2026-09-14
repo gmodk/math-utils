@@ -1,0 +1,14 @@
+{
+  "name": "Finite-field M experiment",
+  "token_type": "natural_numbers",
+  "token": [3, 1, 4, 1, 5, 9],
+  "field_projection": [3, 1, 4, 1, 5, 9],
+  "projection_method": "integer residue modulo p",
+  "seed": 1,
+  "p": 101,
+  "mode": "M",
+  "aggregation": "mixed",
+  "spectral_policy": "rank-basis",
+  "region_limit": 18,
+  "max_dim": 2
+}
