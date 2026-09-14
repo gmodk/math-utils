@@ -305,29 +305,14 @@ async function loadCayley() {
   }
 }
 
-function renderPolygon(m) {
-  const svg = $("#polygon-svg");
-  const cx = 250, cy = 250, r = 185;
-  const points = [];
-  for (let i = 0; i < m; i += 1) {
-    const theta = -Math.PI / 2 + 2 * Math.PI * i / m;
-    points.push([cx + r * Math.cos(theta), cy + r * Math.sin(theta)]);
-  }
-  const polyPoints = points.map(([x,y]) => `${x},${y}`).join(" ");
-  svg.innerHTML = `<polygon class="polygon-edge" points="${polyPoints}" /><circle class="center-mark" cx="${cx}" cy="${cy}" r="4" />` +
-    points.map(([x,y], i) => `<circle class="vertex" cx="${x}" cy="${y}" r="17"/><text class="vertex-label" x="${x}" y="${y}">${i}</text>`).join("");
-}
-
+let dihedralLabPromise;
 async function loadDihedral() {
-  const m = Number($("#dihedral-m").value);
   try {
-    const data = await api(`/api/dihedral?m=${m}`);
-    renderPolygon(m);
-    $("#dihedral-relations").innerHTML = data.relations.map(r => `<code>${escapeHtml(r)}</code>`).join("");
-    $("#dihedral-summary").innerHTML = `<strong>D${subscriptNumber(m)}</strong> has ${data.order} elements: ${m} rotations and ${m} reflections.`;
-    $("#dihedral-table tbody").innerHTML = data.elements.map(e => `<tr><td class="code-line">${escapeHtml(e.name)}</td><td>${e.type}</td><td class="code-line">${escapeHtml(e.cycles)}</td><td>${e.order}</td></tr>`).join("");
+    dihedralLabPromise ||= import("/static/dihedral.js").then(module => module.createDihedralLab(api, escapeHtml, subscriptNumber));
+    await (await dihedralLabPromise).load(Number($("#dihedral-m").value));
   } catch (error) {
-    $("#dihedral-summary").innerHTML = `<div class="error-box">${escapeHtml(error.message)}</div>`;
+    $("#dihedral-summary").textContent = error.message;
+    setStatus(error.message, "error");
   }
 }
 

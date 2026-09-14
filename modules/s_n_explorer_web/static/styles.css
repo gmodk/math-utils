@@ -215,3 +215,41 @@ tbody tr:hover { background: #12263a; }
   .toolbar, .compose-inputs { grid-template-columns: 1fr; }
   .operator { display: none; }
 }
+
+/* Dihedral extension: all rules are confined to this laboratory. */
+#view-dihedral .dihedral-controls { padding: 12px 16px; margin-bottom: 14px; }
+#view-dihedral .dihedral-heading { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:8px; }
+#view-dihedral .dihedral-heading h2 { font-size:22px; }
+#view-dihedral .shape-selector { display:flex; overflow-x:auto; gap:7px; padding:10px 2px; scrollbar-color:#567594 #0d1721; }
+#view-dihedral .shape-selector button { flex:0 0 auto; min-width:106px; text-align:left; }
+#view-dihedral .shape-selector small { display:block; font-size:11px; color:var(--muted); }
+#view-dihedral .dihedral-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+#view-dihedral .segments { display:inline-flex; }
+#view-dihedral [aria-pressed="true"], #view-dihedral tr.selected { background:#173b65; border-color:#80b5ff; color:white; }
+#view-dihedral button:focus-visible, #view-dihedral canvas:focus-visible { outline:3px solid var(--gold); outline-offset:2px; }
+#view-dihedral button { min-height:40px; }
+#view-dihedral #dihedral-m { width:68px; }
+#view-dihedral .polygon-card { min-height:0; padding:12px; }
+#view-dihedral .dihedral-layout { grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); }
+#view-dihedral #dihedral-stage { height:350px; position:relative; }
+#view-dihedral #polygon-svg, #view-dihedral #prism-viewport { width:100%; height:100%; max-height:none; }
+#view-dihedral #prism-viewport { position:relative; }
+#view-dihedral canvas { display:block; touch-action:none; border-radius:6px; }
+#view-dihedral [hidden] { display:none !important; }
+#view-dihedral .note { font-size:13px; margin:8px 0; }
+#view-dihedral #dihedral-summary { padding:12px 14px 0; }
+#view-dihedral #dihedral-selected { padding:8px 14px; }
+#view-dihedral #dihedral-selected h3 { margin:0 0 5px; color:var(--gold); }
+#view-dihedral #dihedral-selected p { margin:4px 0; overflow-wrap:anywhere; }
+#view-dihedral #dihedral-mapping { display:flex; flex-wrap:wrap; gap:5px; padding:0 14px 12px; }
+#view-dihedral .mapping-chip { font:12px var(--mono); border:1px solid #32485f; border-radius:4px; padding:3px 6px; }
+#view-dihedral .mapping-chip.moved { color:var(--gold); border-color:#7f7351; }
+#view-dihedral .table-wrap { max-height:360px; }
+#view-dihedral .element-button { background:transparent; color:inherit; border:0; cursor:pointer; padding:4px 8px; }
+#view-dihedral tr.selected td { color:white; }
+#view-dihedral .axis { stroke:var(--gold); stroke-width:2; stroke-dasharray:8 5; }
+#view-dihedral .canonical-slot { fill:none; stroke:#53677c; stroke-dasharray:3 3; }
+#view-dihedral .vertex.moved { stroke:var(--gold); fill:#394031; }
+#view-dihedral .target-index { fill:#9eb2cd; font:12px var(--mono); text-anchor:middle; }
+@media(max-width:1100px) { #view-dihedral .dihedral-layout { grid-template-columns:1fr; } }
+@media(max-width:700px) { #view-dihedral #dihedral-stage { height:290px; } #view-dihedral .dihedral-controls { padding:10px; } }

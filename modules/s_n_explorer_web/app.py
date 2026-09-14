@@ -15,6 +15,7 @@ from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
+from dihedral_visualization import geometry, animation_metadata
 
 from symmetric_group import (
     all_subgroups_sn,
@@ -57,7 +58,7 @@ def parse_int(params: dict, name: str, default: int, minimum: int, maximum: int)
 
 def serialize_dihedral(m: int) -> list[dict]:
     rows = []
-    for item in build_dihedral_group(m):
+    for index, item in enumerate(build_dihedral_group(m)):
         p = item["permutation"]
         o, s = order_and_sign(p)
         rows.append(
@@ -67,6 +68,7 @@ def serialize_dihedral(m: int) -> list[dict]:
                 "cycles": cycle_notation(p),
                 "order": o,
                 "parity": "even" if s == 1 else "odd",
+                "animation": animation_metadata(item, m, index % m),
             }
         )
     return rows
@@ -287,6 +289,7 @@ class ExplorerHandler(BaseHTTPRequestHandler):
                     "m": m,
                     "order": 2 * m,
                     "vertices": list(range(m)),
+                    "geometry": geometry(m),
                     "elements": serialize_dihedral(m),
                     "relations": [f"r^{m} = e", "s^2 = e", "s r s = r^{-1}"],
                 }

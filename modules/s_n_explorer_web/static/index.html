@@ -149,8 +149,34 @@
       </section>
 
       <section class="view" id="view-dihedral">
-        <div class="panel section-intro"><div><h2>Dihedral Group D<sub>m</sub></h2><p>Symmetries of a regular m-gon, realized as permutations of its vertices.</p></div><div class="inline-control"><label>m <input id="dihedral-m" type="number" min="3" max="24" value="5" /></label><button id="load-dihedral" class="button primary">Construct</button></div></div>
-        <div class="two-col dihedral-layout"><article class="panel polygon-card"><svg id="polygon-svg" viewBox="0 0 500 500" aria-label="Regular polygon"></svg><div id="dihedral-relations" class="relations"></div></article><article class="panel table-card"><div id="dihedral-summary"></div><div class="table-wrap"><table id="dihedral-table"><thead><tr><th>Name</th><th>Type</th><th>Cycles</th><th>Order</th></tr></thead><tbody></tbody></table></div></article></div>
+        <div class="panel dihedral-controls">
+          <div class="dihedral-heading"><h2 id="dihedral-object-name">Dihedral Group D<sub>n</sub></h2><span id="dihedral-order"></span></div>
+          <div id="dihedral-shapes" class="shape-selector" role="group" aria-label="Polygon and prism selector, n from 3 to 12"></div>
+          <div class="dihedral-toolbar">
+            <div class="segments" role="group" aria-label="Visualization mode"><button class="button" id="dihedral-2d" aria-pressed="true">2D polygon</button><button class="button" id="dihedral-3d" aria-pressed="false">3D prism</button></div>
+            <div class="segments" role="group" aria-label="Vertex label style"><button class="button" id="dihedral-numbers" aria-pressed="true">Numbers</button><button class="button" id="dihedral-greek" aria-pressed="false">Greek letters</button></div>
+            <label>n <input id="dihedral-m" aria-label="Polygon sides, 3 to 24" type="number" min="3" max="24" value="5" /></label><button id="load-dihedral" class="button primary">Construct</button>
+          </div>
+        </div>
+        <div class="two-col dihedral-layout">
+          <article class="panel polygon-card">
+            <div class="dihedral-toolbar"><label>Transformation <select id="dihedral-element" aria-label="Selected transformation"></select></label><button id="dihedral-replay" class="button">Replay transformation</button><label>Speed <select id="dihedral-speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label></div>
+            <div id="dihedral-stage" aria-describedby="dihedral-description">
+              <svg id="polygon-svg" viewBox="0 0 500 500" role="img" aria-label="Regular polygon and its selected symmetry"></svg>
+              <div id="prism-viewport" hidden></div>
+            </div>
+            <div id="dihedral-camera" hidden><div class="dihedral-toolbar"><button id="dihedral-reset" class="button">Reset camera</button><button id="dihedral-zoom-in" class="button" aria-label="Zoom in">Zoom +</button><button id="dihedral-zoom-out" class="button" aria-label="Zoom out">Zoom −</button></div><p class="note">Left-drag / one finger: orbit · wheel / pinch: zoom · right-drag / two fingers: pan. Focus canvas: arrows pan, Shift+arrows orbit, +/− zoom.</p></div>
+            <p id="dihedral-description" class="note"></p>
+            <p id="dihedral-spatial-note" class="note"></p>
+            <div id="dihedral-relations" class="relations"></div>
+          </article>
+          <article class="panel table-card">
+            <div id="dihedral-summary"></div>
+            <div id="dihedral-selected" aria-live="polite"></div>
+            <div id="dihedral-mapping" aria-label="Vertex label mapping"></div>
+            <div class="table-wrap"><table id="dihedral-table"><thead><tr><th>Name</th><th>Type</th><th>Cycles</th><th>Order</th></tr></thead><tbody></tbody></table></div>
+          </article>
+        </div>
       </section>
 
       <section class="view" id="view-subgroups">
@@ -162,6 +188,7 @@
       </section>
     </main>
   </div>
+  <script type="importmap">{"imports":{"three":"/static/vendor/three.module.js"}}</script>
   <script src="/static/app.js"></script>
 </body>
 </html>
