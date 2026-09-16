@@ -1,33 +1,12 @@
 <!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Explorer 9 — Bias Variance</title>
-<style>
-body{font-family:Arial,Helvetica,sans-serif;margin:24px;line-height:1.35}
-h1,h2,h3{margin-top:0}
-.subtitle{color:#333}
-.layout{display:grid;grid-template-columns:350px 1fr;gap:18px;align-items:start}
-.panel,.card,.quick-reference{border:1px solid #ccc;border-radius:10px;padding:14px;background:white}
-.controls{display:grid;gap:10px}
-.row{display:grid;grid-template-columns:125px 1fr 72px;gap:10px;align-items:center}
-.row.buttonrow{grid-template-columns:125px 1fr}
-input[type=range]{width:100%}
-button,select{padding:7px 9px}
-.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:12px}
-.metric{border:1px solid #ccc;border-radius:8px;padding:10px}
-.metric .label{font-size:13px;color:#555}.metric .value{font-size:19px;font-weight:bold}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:18px}
-canvas{width:100%;height:auto;border:1px solid #ddd;border-radius:8px;background:#fff}
-.note{font-size:14px;color:#333}.mono{font-family:"Courier New",monospace;white-space:pre-wrap}
-.quick-reference{margin-top:22px;background:#fafafa}
-.quick-reference table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:14px}
-.quick-reference th,.quick-reference td{border:1px solid #ccc;padding:7px;text-align:left;vertical-align:top}
-.formula{font-family:"Times New Roman",Times,serif;font-size:18px}
-</style>
-</head><body>
-<h1>Explorer 9 — Bias–Variance Tradeoff & Polynomial Complexity</h1><p class="subtitle">Model complexity controls a tradeoff between systematic approximation error and sensitivity to the training sample.</p>
+
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/static/styles.css"></head><body data-engine="bias-variance"><header class="topbar"><a class="brand" href="/">Statistical Geometry<small>Math Utils · four explorations</small></a><nav aria-label="Explorers"><a href="/correlation_geometry_interactive_explorer.html">Correlation</a><a href="/explorer_6_multiple_regression_projection_subspace.html">Multiple regression</a><a href="/explorer_9_bias_variance_polynomial_complexity.html" aria-current="page">Bias–variance</a><a href="/explorer_11_bayesian_linear_regression_posterior_geometry.html">Bayesian regression</a></nav></header><main><div class="request-state" role="status" aria-live="polite"><span id="request-message">Loading calculations…</span><strong>Sample seed <span id="seed-value">2026</span></strong><button id="retry" hidden>Retry</button></div>
+<h1>Bias–Variance Tradeoff and Polynomial Complexity</h1><p class="subtitle">Model complexity controls a tradeoff between systematic approximation error and sensitivity to the training sample.</p>
 <div class="layout"><div class="panel"><h2>Controls</h2><div class="controls">
-<div class="row"><label>degree</label><input id="degree" type="range" min="1" max="12" step="1" value="4"><div id="degreev"></div></div>
-<div class="row"><label>noise σ</label><input id="sigma" type="range" min=".05" max="1.2" step=".01" value=".35"><div id="sigmav"></div></div>
-<div class="row"><label>sample size</label><input id="n" type="range" min="15" max="100" step="1" value="35"><div id="nv"></div></div>
-<div class="row"><label>x₀</label><input id="x0" type="range" min="-1" max="1" step=".02" value=".6"><div id="x0v"></div></div>
+<div class="row"><label for="degree">degree</label><input id="degree" type="range" min="1" max="12" step="1" value="4"><div id="degreev"></div></div>
+<div class="row"><label for="sigma">noise σ</label><input id="sigma" type="range" min=".05" max="1.2" step=".01" value=".35"><div id="sigmav"></div></div>
+<div class="row"><label for="n">sample size</label><input id="n" type="range" min="15" max="100" step="1" value="35"><div id="nv"></div></div>
+<div class="row"><label for="x0">x₀</label><input id="x0" type="range" min="-1" max="1" step=".02" value=".6"><div id="x0v"></div></div>
 <div class="row buttonrow"><label>resample</label><button id="resample">new sample</button></div></div>
 <div class="metrics">
 <div class="metric"><div class="label">train MSE</div><div class="value" id="train"></div></div>
@@ -36,96 +15,12 @@ canvas{width:100%;height:auto;border:1px solid #ddd;border-radius:8px;background
 <div class="metric"><div class="label">variance at x₀</div><div class="value" id="var"></div></div>
 <div class="metric"><div class="label">noise σ²</div><div class="value" id="noise"></div></div>
 </div></div>
-<div class="cards"><div class="card"><h2>1) Current fit</h2><canvas id="fit" width="560" height="410"></canvas></div>
-<div class="card"><h2>2) Bias–variance decomposition at x₀</h2><canvas id="decomp" width="560" height="410"></canvas></div></div></div>
+<div class="cards"><div class="card"><h2>1) Current fit</h2><canvas role="img" id="fit" width="560" height="410" aria-label="fit visualization"></canvas></div>
+<div class="card"><h2>2) Bias–variance decomposition at x₀</h2><canvas role="img" id="decomp" width="560" height="410" aria-label="decomp visualization"></canvas></div></div></div>
 
-<script>
-function $(id){return document.getElementById(id);}
-function fmt(x,d=3){return Number(x).toFixed(d);}
-function clamp(x,a,b){return Math.max(a,Math.min(b,x));}
-function randn(){let u=0,v=0;while(u===0)u=Math.random();while(v===0)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
-function mean(a){return a.reduce((s,x)=>s+x,0)/a.length;}
-function dot(a,b){let s=0;for(let i=0;i<a.length;i++)s+=a[i]*b[i];return s;}
-function norm(a){return Math.sqrt(Math.max(0,dot(a,a)));}
-function center(a){const m=mean(a);return a.map(x=>x-m);}
-function variance(a){const m=mean(a);return a.reduce((s,x)=>s+(x-m)*(x-m),0)/(a.length-1);}
-function minv(a){return Math.min.apply(null,a);}
-function maxv(a){return Math.max.apply(null,a);}
-function solve2(a,b,c,d,e,f){
-  const det=a*d-b*c;
-  if(Math.abs(det)<1e-12)return [0,0];
-  return [(e*d-b*f)/det,(a*f-e*c)/det];
-}
-function invert2(a,b,c,d){
-  const det=a*d-b*c;
-  if(Math.abs(det)<1e-12)return null;
-  return [[d/det,-b/det],[-c/det,a/det]];
-}
-function matVec2(M,v){return [M[0][0]*v[0]+M[0][1]*v[1],M[1][0]*v[0]+M[1][1]*v[1]];}
-function eigen2(a,b,d){
-  const tr=a+d, disc=Math.sqrt(Math.max(0,(a-d)*(a-d)+4*b*b));
-  const l1=(tr+disc)/2,l2=(tr-disc)/2;
-  let v1=Math.abs(b)>1e-10?[b,l1-a]:(a>=d?[1,0]:[0,1]);
-  let n=Math.hypot(v1[0],v1[1]);v1=[v1[0]/n,v1[1]/n];
-  let v2=[-v1[1],v1[0]];
-  return [{value:l1,vector:v1},{value:l2,vector:v2}];
-}
-function jacobi3(Ain){
-  let A=Ain.map(r=>r.slice()),V=[[1,0,0],[0,1,0],[0,0,1]];
-  for(let it=0;it<70;it++){
-    let p=0,q=1,m=Math.abs(A[0][1]);
-    if(Math.abs(A[0][2])>m){p=0;q=2;m=Math.abs(A[0][2]);}
-    if(Math.abs(A[1][2])>m){p=1;q=2;m=Math.abs(A[1][2]);}
-    if(m<1e-10)break;
-    let phi=.5*Math.atan2(2*A[p][q],A[q][q]-A[p][p]),c=Math.cos(phi),s=Math.sin(phi);
-    let R=[[1,0,0],[0,1,0],[0,0,1]];R[p][p]=c;R[q][q]=c;R[p][q]=s;R[q][p]=-s;
-    let B=[[0,0,0],[0,0,0],[0,0,0]];
-    for(let i=0;i<3;i++)for(let j=0;j<3;j++)for(let k=0;k<3;k++)B[i][j]+=A[i][k]*R[k][j];
-    let C=[[0,0,0],[0,0,0],[0,0,0]];
-    for(let i=0;i<3;i++)for(let j=0;j<3;j++)for(let k=0;k<3;k++)C[i][j]+=R[k][i]*B[k][j];
-    A=C;
-    let NV=[[0,0,0],[0,0,0],[0,0,0]];
-    for(let i=0;i<3;i++)for(let j=0;j<3;j++)for(let k=0;k<3;k++)NV[i][j]+=V[i][k]*R[k][j];
-    V=NV;
-  }
-  let e=[0,1,2].map(i=>({value:A[i][i],vector:[V[0][i],V[1][i],V[2][i]]}));
-  e.sort((x,y)=>y.value-x.value);
-  return e;
-}
-function solveLinear(A,b){
-  const n=A.length,M=A.map((r,i)=>r.slice().concat([b[i]]));
-  for(let k=0;k<n;k++){
-    let piv=k;for(let i=k+1;i<n;i++)if(Math.abs(M[i][k])>Math.abs(M[piv][k]))piv=i;
-    [M[k],M[piv]]=[M[piv],M[k]];
-    if(Math.abs(M[k][k])<1e-12)M[k][k]=1e-12;
-    const p=M[k][k];for(let j=k;j<=n;j++)M[k][j]/=p;
-    for(let i=0;i<n;i++)if(i!==k){const f=M[i][k];for(let j=k;j<=n;j++)M[i][j]-=f*M[k][j];}
-  }
-  return M.map(r=>r[n]);
-}
-function polyFeatures(x,d){let r=[1],p=1;for(let k=1;k<=d;k++){p*=x;r.push(p);}return r;}
-function polyFit(xs,ys,d,lambda=1e-9){
-  const p=d+1,A=Array.from({length:p},()=>Array(p).fill(0)),b=Array(p).fill(0);
-  for(let i=0;i<xs.length;i++){const f=polyFeatures(xs[i],d);for(let j=0;j<p;j++){b[j]+=f[j]*ys[i];for(let k=0;k<p;k++)A[j][k]+=f[j]*f[k];}}
-  for(let j=0;j<p;j++)A[j][j]+=lambda;
-  return solveLinear(A,b);
-}
-function polyPredict(coef,x){let s=0,p=1;for(let k=0;k<coef.length;k++){s+=coef[k]*p;p*=x;}return s;}
-function drawAxes(ctx,W,H,left=45,right=20,top=20,bottom=35){
-  ctx.strokeStyle="black";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(left,H-bottom);ctx.lineTo(W-right,H-bottom);ctx.moveTo(left,H-bottom);ctx.lineTo(left,top);ctx.stroke();
-}
-</script>
 
-<script>
-let data={x:[],y:[]};
-function f(x){return Math.sin(Math.PI*x)+.4*x;}
-function gen(){let n=+$("n").value,s=+$("sigma").value;data={x:[],y:[]};for(let i=0;i<n;i++){let x=-1+2*Math.random();data.x.push(x);data.y.push(f(x)+s*randn());}}
-function calc(){let d=+$("degree").value,coef=polyFit(data.x,data.y,d,1e-7),tr=0;for(let i=0;i<data.x.length;i++)tr+=(data.y[i]-polyPredict(coef,data.x[i]))**2;tr/=data.x.length;let te=0,M=160;for(let i=0;i<M;i++){let x=-1+2*i/(M-1);te+=(polyPredict(coef,x)-f(x))**2;}te/=M;let x0=+$("x0").value,s=+$("sigma").value,preds=[],R=80,n=+$("n").value;for(let r=0;r<R;r++){let xs=[],ys=[];for(let i=0;i<n;i++){let x=-1+2*Math.random();xs.push(x);ys.push(f(x)+s*randn());}let c=polyFit(xs,ys,d,1e-7);preds.push(polyPredict(c,x0));}let mp=mean(preds),bv=(mp-f(x0))**2,v=variance(preds);return{coef,tr,te,bv,v,noise:s*s};}
-function drawFit(st){const c=$("fit"),ctx=c.getContext("2d"),W=c.width,H=c.height;ctx.clearRect(0,0,W,H);drawAxes(ctx,W,H);let X=x=>45+(W-65)*(x+1)/2,Y=y=>H-35-(H-55)*(y+2.2)/4.4;ctx.strokeStyle="#777";ctx.lineWidth=2;ctx.beginPath();for(let i=0;i<200;i++){let x=-1+2*i/199,px=X(x),py=Y(f(x));i?ctx.lineTo(px,py):ctx.moveTo(px,py);}ctx.stroke();ctx.strokeStyle="black";ctx.beginPath();for(let i=0;i<200;i++){let x=-1+2*i/199,px=X(x),py=Y(polyPredict(st.coef,x));i?ctx.lineTo(px,py):ctx.moveTo(px,py);}ctx.stroke();ctx.fillStyle="rgba(0,0,0,.45)";for(let i=0;i<data.x.length;i++){ctx.beginPath();ctx.arc(X(data.x[i]),Y(data.y[i]),3,0,2*Math.PI);ctx.fill();}ctx.font="14px Arial";ctx.fillStyle="black";ctx.fillText("gray = true f(x), black = fitted polynomial",20,20);}
-function drawDec(st){const c=$("decomp"),ctx=c.getContext("2d"),W=c.width,H=c.height;ctx.clearRect(0,0,W,H);let vals=[["bias²",st.bv],["variance",st.v],["noise",st.noise]],max=Math.max(...vals.map(x=>x[1]),.001);ctx.font="14px Arial";ctx.fillStyle="black";ctx.strokeStyle="black";vals.forEach((it,i)=>{let x=90+i*140,h=280*it[1]/max;ctx.strokeRect(x,H-55-h,80,h);ctx.fillText(it[0],x+8,H-30);ctx.fillText(fmt(it[1],4),x,H-65-h);});ctx.fillText("approx expected error = "+fmt(st.bv+st.v+st.noise,4),25,25);}
-function update(res=false){if(res||!data.x.length||data.x.length!=+$("n").value)gen();$("degreev").textContent=$("degree").value;$("sigmav").textContent=fmt(+$("sigma").value,2);$("nv").textContent=$("n").value;$("x0v").textContent=fmt(+$("x0").value,2);let s=calc();$("train").textContent=fmt(s.tr,4);$("test").textContent=fmt(s.te,4);$("bias").textContent=fmt(s.bv,4);$("var").textContent=fmt(s.v,4);$("noise").textContent=fmt(s.noise,4);drawFit(s);drawDec(s);}
-["degree","x0"].forEach(id=>$(id).addEventListener("input",()=>update(false)));["sigma","n"].forEach(id=>$(id).addEventListener("input",()=>update(true)));$("resample").onclick=()=>update(true);update(true);
-</script>
+
+
 <section class="quick-reference">
 <h2>Quick reference guide</h2>
 <p><strong>Purpose.</strong> Use this explorer to study the bias–variance tradeoff by fitting polynomial models of different complexity to noisy samples from a fixed nonlinear function.</p>
@@ -134,4 +29,4 @@ function update(res=false){if(res||!data.x.length||data.x.length!=+$("n").value)
 <h3>Metrics</h3><table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>Train MSE</td><td>Average squared residual on the displayed training set.</td><td>Usually falls as degree rises.</td></tr><tr><td>Test-grid MSE</td><td>Squared error against the noiseless true function on a dense grid.</td><td>Shows generalization of the mean function.</td></tr><tr><td>Bias² at x₀</td><td>Squared difference between average fitted prediction and true f(x₀).</td><td>Captures systematic model error.</td></tr><tr><td>Variance at x₀</td><td>Variance of fitted predictions across repeated training samples.</td><td>Captures sensitivity to sample fluctuations.</td></tr><tr><td>Noise σ²</td><td>Irreducible variance.</td><td>Cannot be removed by model choice.</td></tr></tbody></table>
 <h3>Core mathematical identity</h3><p class="formula">E[(Y−f̂(x))²] = Bias[f̂(x)]² + Var[f̂(x)] + σ² under the standard regression decomposition.</p>
 </section>
-</body></html>
+<aside class="migration-note">The solver retains the source’s 10⁻⁷ penalty on every coefficient, including the intercept. Variance uses 80 simulations and denominator 79. Reusing a seed makes the Monte Carlo estimate repeatable.</aside></main><script type="module" src="/static/api.js"></script></body></html>

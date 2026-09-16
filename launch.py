@@ -113,18 +113,12 @@ def module_specs() -> tuple[ModuleSpec, ...]:
         ModuleSpec(
             id="statistical-geometry",
             title="Correlation & Regression Explorers",
-            description="Eleven self-contained visual laboratories for correlation, covariance, PCA, regression, regularization, and Bayesian geometry.",
+            description="Four Python-powered laboratories for correlation geometry, multiple regression, bias–variance, and Bayesian posterior geometry.",
             port_offset=4,
             directory=MODULES / "regression_geometry_explorers",
-            health_path="/",
-            command=lambda host, port: python_command(
-                "-m",
-                "http.server",
-                str(port),
-                "--bind",
-                host,
-            ),
-            environment=lambda _host, _port: inherited_environment(),
+            health_path="/api/health",
+            command=lambda _host, _port: python_command("app.py"),
+            environment=lambda host, port: inherited_environment(HOST=host, PORT=str(port)),
         ),
     )
 
@@ -168,7 +162,14 @@ def ensure_project_layout() -> None:
     required = [LANDING / name for name in ("index.html", "app.js", "styles.css", "favicon.svg")]
     for spec in module_specs():
         required.append(spec.directory)
-        required.append(spec.directory / ("index.html" if spec.port_offset == 4 else "app.py"))
+        required.append(spec.directory / "app.py")
+        if spec.port_offset == 4:
+            required.extend(spec.directory / name for name in (
+                "index.html", "engines.py", "contracts.py", "static/api.js", "static/styles.css",
+                "correlation_geometry_interactive_explorer.html",
+                "explorer_6_multiple_regression_projection_subspace.html",
+                "explorer_9_bias_variance_polynomial_complexity.html",
+                "explorer_11_bayesian_linear_regression_posterior_geometry.html"))
     required.append(MODULES / "markov-chain-explorer-python-v2.0.0/frontend_dist/index.html")
     missing = [str(path.relative_to(ROOT)) for path in required if not path.exists()]
     if missing:

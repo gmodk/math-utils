@@ -1,145 +1,48 @@
-# Regression, Correlation & Statistical Geometry Explorers
+# Correlation & Regression Explorers
 
-A self-contained collection of eleven interactive HTML explorers for learning the geometry behind correlation, covariance, PCA, portfolio variance, ordinary least squares, regularization, multicollinearity, bias–variance tradeoffs, principal component regression, and Bayesian linear regression.
+Four experiences, served by one local Python application:
 
-No server, build system, external JavaScript package, or network connection is required. Open `index.html` in a modern browser.
+- `correlation_geometry_interactive_explorer.html` — Correlation as Geometry.
+- `explorer_6_multiple_regression_projection_subspace.html` — Multiple Regression as Projection onto a Subspace.
+- `explorer_9_bias_variance_polynomial_complexity.html` — Bias–Variance Tradeoff and Polynomial Complexity.
+- `explorer_11_bayesian_linear_regression_posterior_geometry.html` — Bayesian Linear Regression Posterior Geometry.
 
-## Explorers
+Start the complete platform from the root with `python launch.py --no-browser`; open `http://127.0.0.1:8004/`. Standalone: run this directory's `app.py` with the root shared environment; `HOST` defaults to `127.0.0.1`, `PORT` to `8004`. Direct `file://` opening is no longer supported: calculations require the local Python server.
 
-| # | Explorer | Main mathematical idea |
-|---|---|---|
-| 1 | 3D Correlation Vectors | A correlation matrix is a Gram matrix of unit vectors; correlations are cosines of angles. |
-| 2 | Covariance Ellipsoid & PCA | Eigenvectors give principal axes; eigenvalues give variance along those axes. |
-| 3 | 3-Asset Portfolio Variance Surface | Portfolio risk is the quadratic form `wᵀΣw` over the weight simplex. |
-| 4 | Trivariate Scatter & PCA | Raw observations, covariance geometry and PCA are different views of the same structure. |
-| 5 | Simple Regression / Projection Geometry | OLS is orthogonal projection of `y_c` onto `span(x_c)`. |
-| 6 | Multiple Regression / Projection Subspace | OLS projects `y_c` onto the column space of the centered design matrix. |
-| 7 | Ridge / Lasso Geometry | Regularization trades data fit against coefficient size; L2 and L1 penalties create different shrinkage geometry. |
-| 8 | Multicollinearity / VIF / Condition Geometry | Near-linear dependence inflates coefficient variance and makes `XᵀX` ill-conditioned. |
-| 9 | Bias–Variance / Polynomial Complexity | Prediction error decomposes into squared bias, estimator variance and irreducible noise. |
-| 10 | Principal Component Regression | Rotate predictors into orthogonal PCs, retain selected components, then regress in score space. |
-| 11 | Bayesian Linear Regression | Gaussian prior × Gaussian likelihood gives a Gaussian posterior and predictive distribution. |
+## Architecture and API
 
-Every explorer contains a **Quick reference guide** at the bottom explaining:
-- each control or option;
-- each chart;
-- each metric;
-- the central mathematical identity being visualized.
+`engines.py` owns sampling, statistics, linear algebra, and mathematical plot coordinates. `contracts.py` defines finite Pydantic inputs/outputs. `app.py` serves only registered pages, local assets and documentation. Six ES modules in `static/` handle controls, fetch cancellation/debouncing, DOM updates, SVG/Canvas rendering, and camera/pixel transforms. Assets and requests are constrained to the local origin. No build step or additional runtime dependencies.
 
-## Running locally
+- `GET /api/health` — ready status, engine version, four-explorer count.
+- `GET /api/catalog` — exactly four IDs, titles, and page routes.
+- `POST /api/v1/correlation/analyze` — `seed`, `rho`, `w`.
+- `POST /api/v1/multiple-regression/analyze` — `seed`, `beta1`, `beta2`, `rho`, `sigma`, `n`.
+- `POST /api/v1/bias-variance/analyze` — `seed`, `degree`, `sigma`, `n`, `x0`.
+- `POST /api/v1/bayesian/analyze` — `seed`, `beta`, `sigma`, `tau`, `n`, `x0`.
 
-### Simplest method
+Empty objects select source-declared defaults and seed 2026. Bounds match the source controls; integer fields are strict. Slider steps are preserved in HTML, not imposed as extra API restrictions. Invalid bounds, types, unknown fields and non-finite numbers return structured 422 errors. Singular/ill-conditioned systems also return a structured 422, without fabricated zero coefficients. Outputs retain full precision; only browser labels are rounded. `/openapi.json` describes the typed contracts; remote documentation assets are disabled.
 
-Open:
+## Reproducibility
 
-```text
-index.html
-```
+Protocol: `sha256-pcg64-boxmuller-v1`. The request/response seed is an integer in `[0, 4294967295]`, default 2026. Stream state is the first 16 bytes, interpreted big-endian, of SHA-256 over ASCII `protocol:seed:stream-name`. Stream names are `correlation`, `multiple-regression`, `polynomial-sample`, `polynomial-monte-carlo`, and `bayesian`.
 
-in Chrome, Firefox, Safari, Edge, or another current browser.
+Each independent normal uses two nonzero uniform draws and the Box–Muller cosine transform. The sine variate is discarded, matching the source transform. Random generators are request-local. Identical parameters and seed reproduce all mathematical results in the same engine/numerical runtime. Cross-platform comparisons allow floating-point tolerances.
 
-### Optional local HTTP server
+Resample increments the seed modulo 2³². Source data-generating controls in multiple regression, polynomial regression and Bayesian regression also advance it. Camera/highlight controls make no request. Correlation controls, degree/x₀, and Bayesian τ/x₀ retain the seed; redraws and retries retain it. Thus weight-only changes keep the scatter, and repeated Monte Carlo calculations at the same settings are stable. The original unseeded pages generated fresh scatter on correlation redraws and fresh Monte Carlo samples on every calculation; reproducibility intentionally changes those behaviors.
 
-From this directory:
+## Preserved conventions
 
-```bash
-python -m http.server 8000
-```
+- Correlation: 450 population-standardized Gaussian pairs, exact text thresholds, angle `acos(rho)`, 201-point two-asset variance curve, original variance-axis bounds.
+- Multiple regression: centered two-predictor model, fitted intercept, Gram–Schmidt display coordinates, positive residual norm, residual orthogonality and SST/SSR/SSE decomposition. Determinant remains a scale-dependent indicator.
+- Polynomial: `sin(pi*x)+0.4*x`, uniform x on `[-1,1)`, monomials including intercept, penalty `1e-7` on every coefficient, train MSE on the displayed data, noiseless test MSE over 160 endpoint-inclusive grid points, 80 Monte Carlo samples, variance denominator 79, 200-point display curves.
+- Bayesian: true intercept 0.35; known noise; zero-centered isotropic prior on both coefficients; likelihood/OLS covariance; posterior mean/covariance; 161-point two-SD coefficient contours; beta marginal interval and 120-point predictive bounds at ±1.96 SD; 100-point ±2 SD bounds for plot scaling.
 
-Then open:
+The Bayesian source declares noise default 0.8 with min 0.15 and step 0.02. Chromium normalizes this slider to **0.81**; the original attributes and browser behavior are preserved. API default remains the explicitly declared 0.8. The source's quick-reference wording about both coefficient intervals and shrinkage is retained, with an added clarification: only beta's interval and the OLS beta comparison are displayed. Coefficient ellipses are not 95% joint contours.
 
-```text
-http://localhost:8000
-```
+Solves use NumPy linear algebra rather than the original hand-written elimination. Condition numbers above `1e14` and degenerate response/predictor geometry are rejected. There is no tiny-pivot or zero-coefficient fallback. Tests compare coefficients against explicit normal equations and least-squares references.
 
-This is optional; all explorers are designed to run directly from the filesystem.
+## Visual and documentation preservation
 
-## Repository structure
+Controls, ranges, steps, declared defaults, metric labels, plot IDs and quick-reference sections are checked against `tests/fixtures/regression-source-contract.json`. Styling uses local Math Utils navy/panel/accent variables, system controls, serif headings, and monospaced formulas. Plot colors, ticks and label placement are adjusted for readable dark surfaces. Mathematical data and source grids are preserved.
 
-```text
-.
-├── index.html
-├── explorer_1_correlation_vectors_3d.html
-├── explorer_2_covariance_ellipsoid_pca_3d.html
-├── explorer_3_portfolio_variance_surface_3asset.html
-├── explorer_4_trivariate_scatter_pca_3d.html
-├── explorer_5_regression_projection_geometry.html
-├── explorer_6_multiple_regression_projection_subspace.html
-├── explorer_7_ridge_lasso_regularization_geometry.html
-├── explorer_8_multicollinearity_vif_condition_geometry.html
-├── explorer_9_bias_variance_polynomial_complexity.html
-├── explorer_10_principal_component_regression.html
-├── explorer_11_bayesian_linear_regression_posterior_geometry.html
-├── MATHEMATICAL_THEORY.md
-├── MATHEMATICAL_THEORY.docx
-└── README.md
-```
-
-## Mathematical progression
-
-The sequence is deliberate:
-
-1. **Correlation becomes geometry.** Centered square-integrable random variables behave like vectors; correlation is a normalized inner product.
-2. **Covariance becomes shape.** A covariance matrix determines an ellipsoid; PCA diagonalizes that geometry.
-3. **Portfolio risk becomes a quadratic surface.** Asset covariance is converted into portfolio variance by `wᵀΣw`.
-4. **Regression becomes projection.** Least squares is an orthogonal projection onto a model subspace.
-5. **Regularization modifies projection.** Ridge and lasso trade projection accuracy against coefficient complexity.
-6. **Multicollinearity exposes conditioning.** Nearly dependent predictors make inverse problems unstable.
-7. **Model complexity creates bias–variance tradeoffs.**
-8. **PCR uses spectral truncation** to stabilize a regression problem.
-9. **Bayesian regression replaces a single optimum with a posterior geometry.**
-
-The common language is linear algebra: inner products, Gram matrices, orthogonal projections, eigendecompositions, quadratic forms, conditioning and Gaussian geometry.
-
-## Important modeling notes
-
-The explorers are pedagogical rather than production analytics tools.
-
-- Synthetic data are generated in-browser.
-- Numerical solvers are intentionally small and transparent.
-- The lasso implementation uses coordinate descent for the two-predictor centered problem.
-- The minimum-variance portfolio in Explorer 3 is a grid-search approximation.
-- Monte Carlo estimates in Explorers 8 and 9 vary from run to run.
-- Gaussian assumptions in Explorers 4 and 11 are explicit modeling choices, not universal properties of financial or real-world data.
-- PCA maximizes predictor variance, not predictive relevance; Explorer 10 is designed to make that distinction visible.
-
-## Theory document
-
-`MATHEMATICAL_THEORY.docx` is the polished document version.  
-`MATHEMATICAL_THEORY.md` is included for repository-native reading and version control.
-
-## Suggested learning route
-
-For a first pass:
-
-```text
-1 → 2 → 5 → 6 → 8 → 7 → 9 → 10 → 11
-```
-
-For portfolio applications:
-
-```text
-1 → 2 → 4 → 3 → 10 → 11
-```
-
-## Technical design
-
-The explorers intentionally use:
-- vanilla HTML;
-- vanilla JavaScript;
-- HTML Canvas;
-- no third-party dependencies;
-- no network requests.
-
-This keeps each file portable and inspectable.
-
-## References
-
-See `MATHEMATICAL_THEORY.md` / `.docx` for a compact bibliography. Core references include:
-- Axler, *Linear Algebra Done Right*.
-- Strang, *Linear Algebra and Its Applications*.
-- Hastie, Tibshirani & Friedman, *The Elements of Statistical Learning*.
-- James, Witten, Hastie & Tibshirani, *An Introduction to Statistical Learning*.
-- Bishop, *Pattern Recognition and Machine Learning*.
-- Gelman et al., *Bayesian Data Analysis*.
-- Boyd & Vandenberghe, *Convex Optimization*.
+`MATHEMATICAL_THEORY.md` and `.docx` remain unchanged as historical references covering the former larger collection. They are not the current application catalog. The original four HTML snapshots remain in `backups/four-explorer-rebuild/` at the repository root pending browser approval.

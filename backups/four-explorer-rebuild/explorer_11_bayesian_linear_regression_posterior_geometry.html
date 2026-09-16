@@ -1,0 +1,140 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Explorer 11 — Bayesian Regression</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;margin:24px;line-height:1.35}
+h1,h2,h3{margin-top:0}
+.subtitle{color:#333}
+.layout{display:grid;grid-template-columns:350px 1fr;gap:18px;align-items:start}
+.panel,.card,.quick-reference{border:1px solid #ccc;border-radius:10px;padding:14px;background:white}
+.controls{display:grid;gap:10px}
+.row{display:grid;grid-template-columns:125px 1fr 72px;gap:10px;align-items:center}
+.row.buttonrow{grid-template-columns:125px 1fr}
+input[type=range]{width:100%}
+button,select{padding:7px 9px}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:12px}
+.metric{border:1px solid #ccc;border-radius:8px;padding:10px}
+.metric .label{font-size:13px;color:#555}.metric .value{font-size:19px;font-weight:bold}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:18px}
+canvas{width:100%;height:auto;border:1px solid #ddd;border-radius:8px;background:#fff}
+.note{font-size:14px;color:#333}.mono{font-family:"Courier New",monospace;white-space:pre-wrap}
+.quick-reference{margin-top:22px;background:#fafafa}
+.quick-reference table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:14px}
+.quick-reference th,.quick-reference td{border:1px solid #ccc;padding:7px;text-align:left;vertical-align:top}
+.formula{font-family:"Times New Roman",Times,serif;font-size:18px}
+</style>
+</head><body>
+<h1>Explorer 11 — Bayesian Linear Regression & Posterior Geometry</h1><p class="subtitle">Gaussian prior + Gaussian likelihood gives a Gaussian posterior whose geometry can be drawn directly in coefficient space.</p>
+<div class="layout"><div class="panel"><h2>Controls</h2><div class="controls">
+<div class="row"><label>true slope β</label><input id="beta" type="range" min="-2.5" max="2.5" step=".02" value="1.2"><div id="betav"></div></div>
+<div class="row"><label>noise σ</label><input id="sigma" type="range" min=".15" max="2.5" step=".02" value=".8"><div id="sigmav"></div></div>
+<div class="row"><label>prior scale τ</label><input id="tau" type="range" min=".15" max="5" step=".05" value="1"><div id="tauv"></div></div>
+<div class="row"><label>sample size</label><input id="n" type="range" min="10" max="250" step="1" value="50"><div id="nv"></div></div>
+<div class="row"><label>prediction x₀</label><input id="x0" type="range" min="-3" max="3" step=".05" value="1.5"><div id="x0v"></div></div>
+<div class="row buttonrow"><label>resample</label><button id="resample">new sample</button></div></div>
+<div class="metrics">
+<div class="metric"><div class="label">posterior α</div><div class="value" id="pa"></div></div>
+<div class="metric"><div class="label">posterior β</div><div class="value" id="pb"></div></div>
+<div class="metric"><div class="label">SD α</div><div class="value" id="sda"></div></div>
+<div class="metric"><div class="label">SD β</div><div class="value" id="sdb"></div></div>
+<div class="metric"><div class="label">95% CI β</div><div class="value" id="cib"></div></div>
+<div class="metric"><div class="label">OLS β</div><div class="value" id="olsb"></div></div>
+<div class="metric"><div class="label">predictive SD at x₀</div><div class="value" id="predsd"></div></div>
+</div></div>
+<div class="cards"><div class="card"><h2>1) Prior, likelihood and posterior in coefficient space</h2><canvas id="ell" width="560" height="420"></canvas></div>
+<div class="card"><h2>2) Posterior predictive regression</h2><canvas id="pred" width="560" height="420"></canvas></div></div></div>
+
+<script>
+function $(id){return document.getElementById(id);}
+function fmt(x,d=3){return Number(x).toFixed(d);}
+function clamp(x,a,b){return Math.max(a,Math.min(b,x));}
+function randn(){let u=0,v=0;while(u===0)u=Math.random();while(v===0)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+function mean(a){return a.reduce((s,x)=>s+x,0)/a.length;}
+function dot(a,b){let s=0;for(let i=0;i<a.length;i++)s+=a[i]*b[i];return s;}
+function norm(a){return Math.sqrt(Math.max(0,dot(a,a)));}
+function center(a){const m=mean(a);return a.map(x=>x-m);}
+function variance(a){const m=mean(a);return a.reduce((s,x)=>s+(x-m)*(x-m),0)/(a.length-1);}
+function minv(a){return Math.min.apply(null,a);}
+function maxv(a){return Math.max.apply(null,a);}
+function solve2(a,b,c,d,e,f){
+  const det=a*d-b*c;
+  if(Math.abs(det)<1e-12)return [0,0];
+  return [(e*d-b*f)/det,(a*f-e*c)/det];
+}
+function invert2(a,b,c,d){
+  const det=a*d-b*c;
+  if(Math.abs(det)<1e-12)return null;
+  return [[d/det,-b/det],[-c/det,a/det]];
+}
+function matVec2(M,v){return [M[0][0]*v[0]+M[0][1]*v[1],M[1][0]*v[0]+M[1][1]*v[1]];}
+function eigen2(a,b,d){
+  const tr=a+d, disc=Math.sqrt(Math.max(0,(a-d)*(a-d)+4*b*b));
+  const l1=(tr+disc)/2,l2=(tr-disc)/2;
+  let v1=Math.abs(b)>1e-10?[b,l1-a]:(a>=d?[1,0]:[0,1]);
+  let n=Math.hypot(v1[0],v1[1]);v1=[v1[0]/n,v1[1]/n];
+  let v2=[-v1[1],v1[0]];
+  return [{value:l1,vector:v1},{value:l2,vector:v2}];
+}
+function jacobi3(Ain){
+  let A=Ain.map(r=>r.slice()),V=[[1,0,0],[0,1,0],[0,0,1]];
+  for(let it=0;it<70;it++){
+    let p=0,q=1,m=Math.abs(A[0][1]);
+    if(Math.abs(A[0][2])>m){p=0;q=2;m=Math.abs(A[0][2]);}
+    if(Math.abs(A[1][2])>m){p=1;q=2;m=Math.abs(A[1][2]);}
+    if(m<1e-10)break;
+    let phi=.5*Math.atan2(2*A[p][q],A[q][q]-A[p][p]),c=Math.cos(phi),s=Math.sin(phi);
+    let R=[[1,0,0],[0,1,0],[0,0,1]];R[p][p]=c;R[q][q]=c;R[p][q]=s;R[q][p]=-s;
+    let B=[[0,0,0],[0,0,0],[0,0,0]];
+    for(let i=0;i<3;i++)for(let j=0;j<3;j++)for(let k=0;k<3;k++)B[i][j]+=A[i][k]*R[k][j];
+    let C=[[0,0,0],[0,0,0],[0,0,0]];
+    for(let i=0;i<3;i++)for(let j=0;j<3;j++)for(let k=0;k<3;k++)C[i][j]+=R[k][i]*B[k][j];
+    A=C;
+    let NV=[[0,0,0],[0,0,0],[0,0,0]];
+    for(let i=0;i<3;i++)for(let j=0;j<3;j++)for(let k=0;k<3;k++)NV[i][j]+=V[i][k]*R[k][j];
+    V=NV;
+  }
+  let e=[0,1,2].map(i=>({value:A[i][i],vector:[V[0][i],V[1][i],V[2][i]]}));
+  e.sort((x,y)=>y.value-x.value);
+  return e;
+}
+function solveLinear(A,b){
+  const n=A.length,M=A.map((r,i)=>r.slice().concat([b[i]]));
+  for(let k=0;k<n;k++){
+    let piv=k;for(let i=k+1;i<n;i++)if(Math.abs(M[i][k])>Math.abs(M[piv][k]))piv=i;
+    [M[k],M[piv]]=[M[piv],M[k]];
+    if(Math.abs(M[k][k])<1e-12)M[k][k]=1e-12;
+    const p=M[k][k];for(let j=k;j<=n;j++)M[k][j]/=p;
+    for(let i=0;i<n;i++)if(i!==k){const f=M[i][k];for(let j=k;j<=n;j++)M[i][j]-=f*M[k][j];}
+  }
+  return M.map(r=>r[n]);
+}
+function polyFeatures(x,d){let r=[1],p=1;for(let k=1;k<=d;k++){p*=x;r.push(p);}return r;}
+function polyFit(xs,ys,d,lambda=1e-9){
+  const p=d+1,A=Array.from({length:p},()=>Array(p).fill(0)),b=Array(p).fill(0);
+  for(let i=0;i<xs.length;i++){const f=polyFeatures(xs[i],d);for(let j=0;j<p;j++){b[j]+=f[j]*ys[i];for(let k=0;k<p;k++)A[j][k]+=f[j]*f[k];}}
+  for(let j=0;j<p;j++)A[j][j]+=lambda;
+  return solveLinear(A,b);
+}
+function polyPredict(coef,x){let s=0,p=1;for(let k=0;k<coef.length;k++){s+=coef[k]*p;p*=x;}return s;}
+function drawAxes(ctx,W,H,left=45,right=20,top=20,bottom=35){
+  ctx.strokeStyle="black";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(left,H-bottom);ctx.lineTo(W-right,H-bottom);ctx.moveTo(left,H-bottom);ctx.lineTo(left,top);ctx.stroke();
+}
+</script>
+
+<script>
+let D={x:[],y:[]};
+function gen(){let n=+$("n").value,b=+$("beta").value,s=+$("sigma").value;D={x:[],y:[]};for(let i=0;i<n;i++){let x=randn();D.x.push(x);D.y.push(.35+b*x+s*randn());}}
+function calc(){let s=+$("sigma").value,t=+$("tau").value,n=D.x.length,Sx=D.x.reduce((a,b)=>a+b,0),Sxx=D.x.reduce((a,b)=>a+b*b,0),Sy=D.y.reduce((a,b)=>a+b,0),Sxy=D.x.reduce((a,b,i)=>a+b*D.y[i],0);let a=n/(s*s)+1/(t*t),b=Sx/(s*s),d=Sxx/(s*s)+1/(t*t),inv=invert2(a,b,b,d),rhs=[Sy/(s*s),Sxy/(s*s)],mu=matVec2(inv,rhs);let ols=solve2(n,Sx,Sx,Sxx,Sy,Sxy),likeCov=invert2(n/(s*s),Sx/(s*s),Sx/(s*s),Sxx/(s*s));return{mu,cov:inv,ols,likeCov};}
+function ellipse(ctx,M,mu,scale,X,Y,label){let e=eigen2(M[0][0],M[0][1],M[1][1]),a=2*Math.sqrt(Math.max(e[0].value,0)),b=2*Math.sqrt(Math.max(e[1].value,0)),phi=Math.atan2(e[0].vector[1],e[0].vector[0]);ctx.beginPath();for(let i=0;i<=160;i++){let t=2*Math.PI*i/160,x=mu[0]+a*Math.cos(t)*Math.cos(phi)-b*Math.sin(t)*Math.sin(phi),y=mu[1]+a*Math.cos(t)*Math.sin(phi)+b*Math.sin(t)*Math.cos(phi);i?ctx.lineTo(X(x),Y(y)):ctx.moveTo(X(x),Y(y));}ctx.stroke();ctx.fillText(label,X(mu[0])+6,Y(mu[1])-6);}
+function drawEll(st){let c=$("ell"),ctx=c.getContext("2d"),W=c.width,H=c.height;ctx.clearRect(0,0,W,H);let tau=+$("tau").value,all=[0,st.mu[0],st.mu[1],st.ols[0],st.ols[1]],m=Math.max(2.5,...all.map(Math.abs),2*tau)*1.2, X=x=>45+(W-65)*(x+m)/(2*m),Y=y=>H-40-(H-65)*(y+m)/(2*m);drawAxes(ctx,W,H,45,20,25,40);ctx.font="14px Arial";ctx.fillStyle="black";ctx.strokeStyle="#999";ellipse(ctx,[[tau*tau,0],[0,tau*tau]],[0,0],1,X,Y,"prior");ctx.strokeStyle="#666";ellipse(ctx,st.likeCov,st.ols,1,X,Y,"likelihood/OLS");ctx.strokeStyle="black";ctx.lineWidth=2;ellipse(ctx,st.cov,st.mu,1,X,Y,"posterior");ctx.fillText("α",W-35,H-48);ctx.fillText("β",55,24);}
+function drawPred(st){let c=$("pred"),ctx=c.getContext("2d"),W=c.width,H=c.height;ctx.clearRect(0,0,W,H);let s=+$("sigma").value,lo=-3,hi=3,ys=D.y.slice();for(let i=0;i<100;i++){let x=lo+(hi-lo)*i/99,mu=st.mu[0]+st.mu[1]*x,v=s*s+st.cov[0][0]+2*x*st.cov[0][1]+x*x*st.cov[1][1];ys.push(mu+2*Math.sqrt(v),mu-2*Math.sqrt(v));}let yl=minv(ys),yh=maxv(ys),p=.1*(yh-yl);yl-=p;yh+=p, X=x=>45+(W-65)*(x-lo)/(hi-lo),Y=y=>H-40-(H-65)*(y-yl)/(yh-yl);drawAxes(ctx,W,H,45,20,25,40);ctx.fillStyle="rgba(0,0,0,.4)";for(let i=0;i<D.x.length;i++){ctx.beginPath();ctx.arc(X(D.x[i]),Y(D.y[i]),3,0,2*Math.PI);ctx.fill();}let upper=[],lower=[];for(let i=0;i<120;i++){let x=lo+(hi-lo)*i/119,mu=st.mu[0]+st.mu[1]*x,v=s*s+st.cov[0][0]+2*x*st.cov[0][1]+x*x*st.cov[1][1],sd=Math.sqrt(v);upper.push([X(x),Y(mu+1.96*sd)]);lower.push([X(x),Y(mu-1.96*sd)]);}ctx.strokeStyle="#777";ctx.beginPath();upper.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.stroke();ctx.beginPath();lower.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.stroke();ctx.strokeStyle="black";ctx.lineWidth=2;ctx.beginPath();for(let i=0;i<120;i++){let x=lo+(hi-lo)*i/119,y=st.mu[0]+st.mu[1]*x;i?ctx.lineTo(X(x),Y(y)):ctx.moveTo(X(x),Y(y));}ctx.stroke();ctx.font="14px Arial";ctx.fillStyle="black";ctx.fillText("black: posterior mean; gray: ~95% predictive band",20,20);}
+function update(res=false){if(res||!D.y.length||D.y.length!=+$("n").value)gen();$("betav").textContent=fmt(+$("beta").value,2);$("sigmav").textContent=fmt(+$("sigma").value,2);$("tauv").textContent=fmt(+$("tau").value,2);$("nv").textContent=$("n").value;$("x0v").textContent=fmt(+$("x0").value,2);let st=calc(),x0=+$("x0").value,s=+$("sigma").value,psd=Math.sqrt(s*s+st.cov[0][0]+2*x0*st.cov[0][1]+x0*x0*st.cov[1][1]);$("pa").textContent=fmt(st.mu[0],3);$("pb").textContent=fmt(st.mu[1],3);$("sda").textContent=fmt(Math.sqrt(st.cov[0][0]),3);$("sdb").textContent=fmt(Math.sqrt(st.cov[1][1]),3);$("cib").textContent="["+fmt(st.mu[1]-1.96*Math.sqrt(st.cov[1][1]),2)+", "+fmt(st.mu[1]+1.96*Math.sqrt(st.cov[1][1]),2)+"]";$("olsb").textContent=fmt(st.ols[1],3);$("predsd").textContent=fmt(psd,3);drawEll(st);drawPred(st);}
+["tau","x0"].forEach(id=>$(id).addEventListener("input",()=>update(false)));["beta","sigma","n"].forEach(id=>$(id).addEventListener("input",()=>update(true)));$("resample").onclick=()=>update(true);update(true);
+</script>
+<section class="quick-reference">
+<h2>Quick reference guide</h2>
+<p><strong>Purpose.</strong> Use this explorer to interpret Bayesian linear regression as the multiplication of a Gaussian prior by a Gaussian likelihood, producing a Gaussian posterior over coefficients and a posterior predictive distribution.</p>
+<h3>Controls / options</h3><table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>true slope β</td><td>Slope used to generate synthetic data.</td><td>Changes the data-generating relationship.</td></tr><tr><td>noise σ</td><td>Known observation-noise standard deviation used by the Bayesian model.</td><td>Wider noise makes the likelihood and posterior less concentrated.</td></tr><tr><td>prior scale τ</td><td>Standard deviation of the zero-mean isotropic Gaussian prior on (α,β).</td><td>Small τ produces stronger shrinkage toward zero.</td></tr><tr><td>sample size</td><td>Number of observations.</td><td>More data makes the likelihood dominate the prior.</td></tr><tr><td>prediction x₀</td><td>Point where posterior predictive uncertainty is reported.</td><td>Uncertainty tends to grow away from the center of observed x values.</td></tr><tr><td>resample</td><td>Generates a new dataset.</td><td>Shows posterior sampling sensitivity.</td></tr></tbody></table>
+<h3>Charts</h3><table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>Coefficient posterior geometry</td><td>Prior, likelihood/OLS, and posterior ellipses in (α,β) space.</td><td>The posterior is a precision-weighted compromise between prior and likelihood.</td></tr><tr><td>Posterior predictive regression</td><td>Data, posterior mean line, and approximate 95% predictive band.</td><td>Band includes coefficient uncertainty plus observation noise.</td></tr></tbody></table>
+<h3>Metrics</h3><table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>Posterior α, β</td><td>Posterior means.</td><td>Bayesian point estimates under squared-error loss.</td></tr><tr><td>Posterior SDs</td><td>Marginal posterior standard deviations.</td><td>Quantify coefficient uncertainty.</td></tr><tr><td>95% credible intervals</td><td>Mean ±1.96 SD for each marginal Gaussian posterior.</td><td>Posterior probability statement conditional on the model.</td></tr><tr><td>Shrinkage β</td><td>Posterior slope relative to OLS.</td><td>Shows prior influence.</td></tr><tr><td>Predictive SD at x₀</td><td>sqrt(σ² + x₀*ᵀΣpost x₀*).</td><td>Includes future observation noise and parameter uncertainty.</td></tr></tbody></table>
+<h3>Core mathematical identity</h3><p class="formula">Σpost=(XᵀX/σ²+I/τ²)⁻¹, μpost=Σpost Xᵀy/σ², and y*|x*,D is Gaussian with variance σ²+x*ᵀΣpost x*.</p>
+</section>
+</body></html>

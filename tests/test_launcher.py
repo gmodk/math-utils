@@ -102,10 +102,11 @@ def test_complete_platform(tmp_path):
             for spec in launch.module_specs():
                 for path in ['/', spec.health_path]:
                     assert launch.is_ready('127.0.0.1', base + spec.port_offset, path)
-            explorers = list((launch.MODULES / 'regression_geometry_explorers').glob('explorer_*.html'))
-            assert len(explorers) == 11
+            with urlopen(f'http://127.0.0.1:{base+4}/api/catalog') as response:
+                explorers = json.load(response)
+            assert [item['id'] for item in explorers] == ['correlation', 'multiple-regression', 'bias-variance', 'bayesian']
             for explorer in explorers:
-                assert launch.is_ready('127.0.0.1', base + 4, '/' + explorer.name)
+                assert launch.is_ready('127.0.0.1', base + 4, explorer['path'])
             # An occupied range must reject a second launch without disturbing the first.
             second = subprocess.run([sys.executable, str(ROOT / 'launch.py'), '--no-browser', '--port', str(base)], capture_output=True, text=True, timeout=10)
             assert second.returncode != 0
@@ -117,3 +118,14 @@ def test_complete_platform(tmp_path):
                 process.wait(timeout=15)
         assert process.returncode == 0
     launch.ensure_ports_available('127.0.0.1', list(range(base, base + 5)))
+
+
+def test_statistical_python_server_contract():
+    spec = launch.module_specs()[3]
+    assert spec.id == 'statistical-geometry'
+    assert spec.title == 'Correlation & Regression Explorers'
+    assert spec.port_offset == 4
+    assert spec.health_path == '/api/health'
+    assert spec.command('127.0.0.1', 9004)[1:] == ['app.py']
+    assert spec.environment('127.0.0.1', 9004)['HOST'] == '127.0.0.1'
+    assert spec.environment('127.0.0.1', 9004)['PORT'] == '9004'

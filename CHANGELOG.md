@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased — four-explorer statistical geometry rebuild (2026-09-16)
+
+- Replace the fourth static server with one FastAPI application on the same port offset, using HOST/PORT and `/api/health`.
+- Retain exactly correlation geometry, multiple-regression projection, polynomial bias–variance, and Bayesian posterior geometry.
+- Move sampling, statistical formulas, regression, posterior computations, and mathematical plot data into deterministic Python engines with finite typed APIs.
+- Preserve source controls, metric labels, plot surfaces, and quick-reference sections in a shared local dark Math Utils shell.
+- Add cancellation/debouncing, explicit input/numerical errors, keyboard labels/focus, mobile layouts, and local-only asset policy.
+- Add mathematical, API, source-contract and protected-file tests. Camera/highlight changes reuse regression results.
+- Keep the incoming eight deletions (seven retired experiences plus the replaced correlation page) and preserve the new correlation source in a backup.
+- Preserve all 173 pre-rebuild source files in the other three modules. Historical checksum differences are not silently rebaselined.
+- Retain the source's Bayesian slider normalization (declared 0.8 becomes 0.81 in Chromium). Seeded redraws intentionally stabilize scatter and Monte Carlo estimates; numerical failures now produce errors instead of zero-coefficient fallbacks.
+- Release packaging and backup removal remain pending browser approval. No new ZIP has been built.
+
 ## 1.0.0 — 2026-09-14
 
 ### Added

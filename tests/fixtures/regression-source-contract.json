@@ -1,0 +1,234 @@
+[
+  {
+    "file": "correlation_geometry_interactive_explorer.html",
+    "sha256": "e31d4bbdc869779711e6c4398ce8d9e35e08d4c6cc1666eef1d20d21fc0e5f96",
+    "inputs": [
+      {
+        "id": "rho",
+        "type": "range",
+        "min": "-0.95",
+        "max": "0.95",
+        "step": "0.01",
+        "value": "0.20"
+      },
+      {
+        "id": "w",
+        "type": "range",
+        "min": "0",
+        "max": "1",
+        "step": "0.01",
+        "value": "0.50"
+      }
+    ],
+    "plots": [
+      "geometry",
+      "scatter",
+      "variancePlot"
+    ],
+    "metric_labels": [
+      "Angle between centered variables",
+      "Interpretation",
+      "Portfolio variance (standardized assets)",
+      "Diversification message"
+    ],
+    "quick_reference": null
+  },
+  {
+    "file": "explorer_6_multiple_regression_projection_subspace.html",
+    "sha256": "8d83e88bd128c2a3540927b64a861386788f8294a4850506ddf021dbdf67d7e7",
+    "inputs": [
+      {
+        "id": "beta1",
+        "type": "range",
+        "min": "-2.5",
+        "max": "2.5",
+        "step": "0.01",
+        "value": "1.10"
+      },
+      {
+        "id": "beta2",
+        "type": "range",
+        "min": "-2.5",
+        "max": "2.5",
+        "step": "0.01",
+        "value": "0.70"
+      },
+      {
+        "id": "rho",
+        "type": "range",
+        "min": "-0.95",
+        "max": "0.95",
+        "step": "0.01",
+        "value": "0.45"
+      },
+      {
+        "id": "sigma",
+        "type": "range",
+        "min": "0.05",
+        "max": "2.50",
+        "step": "0.01",
+        "value": "0.90"
+      },
+      {
+        "id": "n",
+        "type": "range",
+        "min": "20",
+        "max": "400",
+        "step": "1",
+        "value": "120"
+      },
+      {
+        "id": "point",
+        "type": "range",
+        "min": "1",
+        "max": "120",
+        "step": "1",
+        "value": "20"
+      },
+      {
+        "id": "yaw",
+        "type": "range",
+        "min": "-180",
+        "max": "180",
+        "step": "1",
+        "value": "32"
+      },
+      {
+        "id": "pitch",
+        "type": "range",
+        "min": "-85",
+        "max": "85",
+        "step": "1",
+        "value": "18"
+      }
+    ],
+    "plots": [
+      "predictorScatter",
+      "projection3d",
+      "obsFitted",
+      "bars"
+    ],
+    "metric_labels": [
+      "estimated intercept α̂",
+      "estimated β̂₁",
+      "estimated β̂₂",
+      "sample corr(x₁,x₂)",
+      "R²",
+      "angle to subspace θ",
+      "x₁c·e",
+      "x₂c·e",
+      "condition indicator det(X'X)"
+    ],
+    "quick_reference": "\n  <h2>Quick reference guide</h2>\n  <p><strong>Purpose.</strong> Use this explorer to generalize OLS projection from a line to the predictor subspace span(x1c,x2c).</p>\n  <h3>Controls / options</h3>\n  <table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>true β₁, β₂</td><td>Data-generating slopes.</td><td>Set the signal carried by each predictor.</td></tr><tr><td>corr(x₁,x₂)</td><td>Predictor correlation.</td><td>High |correlation| creates multicollinearity and makes coefficient estimates unstable.</td></tr><tr><td>noise σ</td><td>Noise level.</td><td>Raises residual variation.</td></tr><tr><td>sample size</td><td>Number of observations.</td><td>Larger samples stabilize the fitted plane.</td></tr><tr><td>highlight</td><td>Selects an observation.</td><td>Highlights it in predictor and observed-vs-fitted plots.</td></tr><tr><td>yaw / pitch</td><td>Camera orientation for the projection panel.</td><td>Changes display only.</td></tr><tr><td>generate new sample</td><td>Resamples the synthetic dataset.</td><td>Shows sampling variability.</td></tr></tbody></table>\n  <h3>Charts</h3>\n  <table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>Predictor scatter</td><td>x₂ versus x₁.</td><td>An elongated cloud signals predictor collinearity.</td></tr><tr><td>Projection onto predictor plane</td><td>yc decomposed into ŷc in span(x1c,x2c) plus perpendicular residual e.</td><td>This is the geometric meaning of the normal equations.</td></tr><tr><td>Observed vs fitted</td><td>y versus ŷ.</td><td>Points near the diagonal are well predicted.</td></tr><tr><td>SST/SSR/SSE</td><td>Variance decomposition.</td><td>The same Pythagorean decomposition extends to multiple regression.</td></tr></tbody></table>\n  <h3>Metrics</h3>\n  <table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>α̂, β̂₁, β̂₂</td><td>OLS coefficient estimates.</td><td>Interpret conditionally: each slope is the partial effect holding the other predictor fixed.</td></tr><tr><td>sample corr(x₁,x₂)</td><td>Predictor dependence.</td><td>Large magnitude warns of collinearity.</td></tr><tr><td>R²</td><td>Fraction of centered response sum of squares explained by the predictor subspace.</td><td>Equals squared cosine of the angle from yc to its projection.</td></tr><tr><td>x₁c·e, x₂c·e</td><td>Normal-equation orthogonality checks.</td><td>Should be approximately zero.</td></tr><tr><td>det(X'X) indicator</td><td>Determinant of the centered 2×2 Gram matrix.</td><td>Small values signal near-linear dependence.</td></tr></tbody></table>\n  <h3>Core mathematical identity</h3>\n  <p class=\"formula\">β̂=(XcᵀXc)⁻¹Xcᵀyc, ŷc=P_X yc, P_X=Xc(XcᵀXc)⁻¹Xcᵀ.</p>\n"
+  },
+  {
+    "file": "explorer_9_bias_variance_polynomial_complexity.html",
+    "sha256": "ae71f6d83518ff04a12da5091ba7c609eb15a130e528fe177c0a5336155b7070",
+    "inputs": [
+      {
+        "id": "degree",
+        "type": "range",
+        "min": "1",
+        "max": "12",
+        "step": "1",
+        "value": "4"
+      },
+      {
+        "id": "sigma",
+        "type": "range",
+        "min": ".05",
+        "max": "1.2",
+        "step": ".01",
+        "value": ".35"
+      },
+      {
+        "id": "n",
+        "type": "range",
+        "min": "15",
+        "max": "100",
+        "step": "1",
+        "value": "35"
+      },
+      {
+        "id": "x0",
+        "type": "range",
+        "min": "-1",
+        "max": "1",
+        "step": ".02",
+        "value": ".6"
+      }
+    ],
+    "plots": [
+      "fit",
+      "decomp"
+    ],
+    "metric_labels": [
+      "train MSE",
+      "test-grid MSE",
+      "bias² at x₀",
+      "variance at x₀",
+      "noise σ²"
+    ],
+    "quick_reference": "\n<h2>Quick reference guide</h2>\n<p><strong>Purpose.</strong> Use this explorer to study the bias–variance tradeoff by fitting polynomial models of different complexity to noisy samples from a fixed nonlinear function.</p>\n<h3>Controls / options</h3><table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>polynomial degree</td><td>Model complexity.</td><td>Low degree tends to underfit; high degree can become unstable.</td></tr><tr><td>noise σ</td><td>Irreducible observation noise.</td><td>Raises the noise floor of achievable prediction error.</td></tr><tr><td>sample size</td><td>Training observations.</td><td>More data usually reduces variance.</td></tr><tr><td>evaluation x₀</td><td>Location where bias and variance are estimated over repeated samples.</td><td>Edge regions often exhibit more variance.</td></tr><tr><td>resample</td><td>Creates a fresh displayed training sample.</td><td>The Monte Carlo bias/variance calculation still averages over many samples.</td></tr></tbody></table>\n<h3>Charts</h3><table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>Data + fitted polynomial</td><td>One training sample, true function and current fitted polynomial.</td><td>Compare systematic misspecification versus oscillatory overfitting.</td></tr><tr><td>Bias–variance decomposition</td><td>Bias², model variance and noise variance at x₀.</td><td>Expected prediction error is approximately bias²+variance+noise.</td></tr></tbody></table>\n<h3>Metrics</h3><table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>Train MSE</td><td>Average squared residual on the displayed training set.</td><td>Usually falls as degree rises.</td></tr><tr><td>Test-grid MSE</td><td>Squared error against the noiseless true function on a dense grid.</td><td>Shows generalization of the mean function.</td></tr><tr><td>Bias² at x₀</td><td>Squared difference between average fitted prediction and true f(x₀).</td><td>Captures systematic model error.</td></tr><tr><td>Variance at x₀</td><td>Variance of fitted predictions across repeated training samples.</td><td>Captures sensitivity to sample fluctuations.</td></tr><tr><td>Noise σ²</td><td>Irreducible variance.</td><td>Cannot be removed by model choice.</td></tr></tbody></table>\n<h3>Core mathematical identity</h3><p class=\"formula\">E[(Y−f̂(x))²] = Bias[f̂(x)]² + Var[f̂(x)] + σ² under the standard regression decomposition.</p>\n"
+  },
+  {
+    "file": "explorer_11_bayesian_linear_regression_posterior_geometry.html",
+    "sha256": "492e782d94de0a5cc85fb37d85c0f2e7c8dbd52c2306a86e84a7c09887a493be",
+    "inputs": [
+      {
+        "id": "beta",
+        "type": "range",
+        "min": "-2.5",
+        "max": "2.5",
+        "step": ".02",
+        "value": "1.2"
+      },
+      {
+        "id": "sigma",
+        "type": "range",
+        "min": ".15",
+        "max": "2.5",
+        "step": ".02",
+        "value": ".8"
+      },
+      {
+        "id": "tau",
+        "type": "range",
+        "min": ".15",
+        "max": "5",
+        "step": ".05",
+        "value": "1"
+      },
+      {
+        "id": "n",
+        "type": "range",
+        "min": "10",
+        "max": "250",
+        "step": "1",
+        "value": "50"
+      },
+      {
+        "id": "x0",
+        "type": "range",
+        "min": "-3",
+        "max": "3",
+        "step": ".05",
+        "value": "1.5"
+      }
+    ],
+    "plots": [
+      "ell",
+      "pred"
+    ],
+    "metric_labels": [
+      "posterior α",
+      "posterior β",
+      "SD α",
+      "SD β",
+      "95% CI β",
+      "OLS β",
+      "predictive SD at x₀"
+    ],
+    "quick_reference": "\n<h2>Quick reference guide</h2>\n<p><strong>Purpose.</strong> Use this explorer to interpret Bayesian linear regression as the multiplication of a Gaussian prior by a Gaussian likelihood, producing a Gaussian posterior over coefficients and a posterior predictive distribution.</p>\n<h3>Controls / options</h3><table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>true slope β</td><td>Slope used to generate synthetic data.</td><td>Changes the data-generating relationship.</td></tr><tr><td>noise σ</td><td>Known observation-noise standard deviation used by the Bayesian model.</td><td>Wider noise makes the likelihood and posterior less concentrated.</td></tr><tr><td>prior scale τ</td><td>Standard deviation of the zero-mean isotropic Gaussian prior on (α,β).</td><td>Small τ produces stronger shrinkage toward zero.</td></tr><tr><td>sample size</td><td>Number of observations.</td><td>More data makes the likelihood dominate the prior.</td></tr><tr><td>prediction x₀</td><td>Point where posterior predictive uncertainty is reported.</td><td>Uncertainty tends to grow away from the center of observed x values.</td></tr><tr><td>resample</td><td>Generates a new dataset.</td><td>Shows posterior sampling sensitivity.</td></tr></tbody></table>\n<h3>Charts</h3><table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>Coefficient posterior geometry</td><td>Prior, likelihood/OLS, and posterior ellipses in (α,β) space.</td><td>The posterior is a precision-weighted compromise between prior and likelihood.</td></tr><tr><td>Posterior predictive regression</td><td>Data, posterior mean line, and approximate 95% predictive band.</td><td>Band includes coefficient uncertainty plus observation noise.</td></tr></tbody></table>\n<h3>Metrics</h3><table><thead><tr><th>Item</th><th>Meaning</th><th>How to read it</th></tr></thead><tbody><tr><td>Posterior α, β</td><td>Posterior means.</td><td>Bayesian point estimates under squared-error loss.</td></tr><tr><td>Posterior SDs</td><td>Marginal posterior standard deviations.</td><td>Quantify coefficient uncertainty.</td></tr><tr><td>95% credible intervals</td><td>Mean ±1.96 SD for each marginal Gaussian posterior.</td><td>Posterior probability statement conditional on the model.</td></tr><tr><td>Shrinkage β</td><td>Posterior slope relative to OLS.</td><td>Shows prior influence.</td></tr><tr><td>Predictive SD at x₀</td><td>sqrt(σ² + x₀*ᵀΣpost x₀*).</td><td>Includes future observation noise and parameter uncertainty.</td></tr></tbody></table>\n<h3>Core mathematical identity</h3><p class=\"formula\">Σpost=(XᵀX/σ²+I/τ²)⁻¹, μpost=Σpost Xᵀy/σ², and y*|x*,D is Gaussian with variance σ²+x*ᵀΣpost x*.</p>\n"
+  }
+]

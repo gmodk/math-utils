@@ -1,0 +1,116 @@
+git status --short
+ M CHANGELOG.md
+ M README.md
+ M VALIDATION.md
+ M landing/index.html
+ M launch.py
+ M modules/regression_geometry_explorers/README.md
+ D modules/regression_geometry_explorers/explorer_10_principal_component_regression.html
+ M modules/regression_geometry_explorers/explorer_11_bayesian_linear_regression_posterior_geometry.html
+ D modules/regression_geometry_explorers/explorer_1_correlation_vectors_3d.html
+ D modules/regression_geometry_explorers/explorer_2_covariance_ellipsoid_pca_3d.html
+ D modules/regression_geometry_explorers/explorer_3_portfolio_variance_surface_3asset.html
+ D modules/regression_geometry_explorers/explorer_4_trivariate_scatter_pca_3d.html
+ D modules/regression_geometry_explorers/explorer_5_regression_projection_geometry.html
+ M modules/regression_geometry_explorers/explorer_6_multiple_regression_projection_subspace.html
+ D modules/regression_geometry_explorers/explorer_7_ridge_lasso_regularization_geometry.html
+ D modules/regression_geometry_explorers/explorer_8_multicollinearity_vif_condition_geometry.html
+ M modules/regression_geometry_explorers/explorer_9_bias_variance_polynomial_complexity.html
+ M modules/regression_geometry_explorers/index.html
+ M tests/check_sources.py
+ M tests/test_launcher.py
+?? backups/
+?? modules/regression_geometry_explorers/app.py
+?? modules/regression_geometry_explorers/contracts.py
+?? modules/regression_geometry_explorers/correlation_geometry_interactive_explorer.html
+?? modules/regression_geometry_explorers/engines.py
+?? modules/regression_geometry_explorers/static/
+?? tests/fixtures/
+?? tests/test_regression_api.py
+?? tests/test_regression_engines.py
+?? tests/test_regression_preservation.py
+?? validation-results/four-explorer-changes.txt
+?? validation-results/four-explorer-readiness.json
+?? validation-results/four-explorer-root.xml
+
+git diff --stat
+ CHANGELOG.md                                       |  13 +
+ README.md                                          | 128 ++-----
+ VALIDATION.md                                      | 125 +++++--
+ landing/index.html                                 |   4 +-
+ launch.py                                          |  23 +-
+ modules/regression_geometry_explorers/README.md    | 157 ++-------
+ ...explorer_10_principal_component_regression.html | 141 --------
+ ...esian_linear_regression_posterior_geometry.html | 131 +------
+ .../explorer_1_correlation_vectors_3d.html         | 249 -------------
+ .../explorer_2_covariance_ellipsoid_pca_3d.html    | 278 ---------------
+ ...plorer_3_portfolio_variance_surface_3asset.html | 298 ----------------
+ .../explorer_4_trivariate_scatter_pca_3d.html      | 260 --------------
+ .../explorer_5_regression_projection_geometry.html | 348 ------------------
+ ..._6_multiple_regression_projection_subspace.html | 391 +--------------------
+ ...orer_7_ridge_lasso_regularization_geometry.html | 170 ---------
+ ...8_multicollinearity_vif_condition_geometry.html | 134 -------
+ ...orer_9_bias_variance_polynomial_complexity.html | 129 +------
+ modules/regression_geometry_explorers/index.html   |  37 +-
+ tests/check_sources.py                             |  64 ++--
+ tests/test_launcher.py                             |  18 +-
+ 20 files changed, 258 insertions(+), 2840 deletions(-)
+
+git status --short --untracked-files=all
+ M CHANGELOG.md
+ M README.md
+ M VALIDATION.md
+ M landing/index.html
+ M launch.py
+ M modules/regression_geometry_explorers/README.md
+ D modules/regression_geometry_explorers/explorer_10_principal_component_regression.html
+ M modules/regression_geometry_explorers/explorer_11_bayesian_linear_regression_posterior_geometry.html
+ D modules/regression_geometry_explorers/explorer_1_correlation_vectors_3d.html
+ D modules/regression_geometry_explorers/explorer_2_covariance_ellipsoid_pca_3d.html
+ D modules/regression_geometry_explorers/explorer_3_portfolio_variance_surface_3asset.html
+ D modules/regression_geometry_explorers/explorer_4_trivariate_scatter_pca_3d.html
+ D modules/regression_geometry_explorers/explorer_5_regression_projection_geometry.html
+ M modules/regression_geometry_explorers/explorer_6_multiple_regression_projection_subspace.html
+ D modules/regression_geometry_explorers/explorer_7_ridge_lasso_regularization_geometry.html
+ D modules/regression_geometry_explorers/explorer_8_multicollinearity_vif_condition_geometry.html
+ M modules/regression_geometry_explorers/explorer_9_bias_variance_polynomial_complexity.html
+ M modules/regression_geometry_explorers/index.html
+ M tests/check_sources.py
+ M tests/test_launcher.py
+?? backups/four-explorer-rebuild/README.md
+?? backups/four-explorer-rebuild/capture_contract.py
+?? backups/four-explorer-rebuild/capture_final.py
+?? backups/four-explorer-rebuild/correlation_geometry_interactive_explorer.html
+?? backups/four-explorer-rebuild/explorer_11_bayesian_linear_regression_posterior_geometry.html
+?? backups/four-explorer-rebuild/explorer_6_multiple_regression_projection_subspace.html
+?? backups/four-explorer-rebuild/explorer_9_bias_variance_polynomial_complexity.html
+?? backups/four-explorer-rebuild/git-status-before.txt
+?? backups/four-explorer-rebuild/index.html
+?? backups/four-explorer-rebuild/migrate_page.py
+?? backups/four-explorer-rebuild/protected-modules.json
+?? backups/four-explorer-rebuild/pytest-root-2/test_complete_platform0/platform.log
+?? backups/four-explorer-rebuild/pytest-root-final/test_complete_platform0/platform.log
+?? modules/regression_geometry_explorers/app.py
+?? modules/regression_geometry_explorers/contracts.py
+?? modules/regression_geometry_explorers/correlation_geometry_interactive_explorer.html
+?? modules/regression_geometry_explorers/engines.py
+?? modules/regression_geometry_explorers/static/api.js
+?? modules/regression_geometry_explorers/static/bayesian.js
+?? modules/regression_geometry_explorers/static/bias-variance.js
+?? modules/regression_geometry_explorers/static/correlation.js
+?? modules/regression_geometry_explorers/static/favicon.svg
+?? modules/regression_geometry_explorers/static/multiple-regression.js
+?? modules/regression_geometry_explorers/static/rendering.js
+?? modules/regression_geometry_explorers/static/styles.css
+?? tests/fixtures/regression-protected-files.json
+?? tests/fixtures/regression-source-contract.json
+?? tests/test_regression_api.py
+?? tests/test_regression_engines.py
+?? tests/test_regression_preservation.py
+?? validation-results/four-explorer-changes.txt
+?? validation-results/four-explorer-readiness.json
+?? validation-results/four-explorer-root.xml
+
+Incoming deletions were preserved; no new deletion of legacy explorer files was performed.
+The replacement correlation HTML was already untracked. Backup and test artifacts are retained.
+The diff statistic covers tracked files only; the full status above also lists new engines, UI assets, tests and fixtures.

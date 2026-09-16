@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Correlation as Geometry — Interactive Explorer</title>
+
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/static/styles.css"></head>
+<body data-engine="correlation"><header class="topbar"><a class="brand" href="/">Statistical Geometry<small>Math Utils · four explorations</small></a><nav aria-label="Explorers"><a href="/correlation_geometry_interactive_explorer.html" aria-current="page">Correlation</a><a href="/explorer_6_multiple_regression_projection_subspace.html">Multiple regression</a><a href="/explorer_9_bias_variance_polynomial_complexity.html">Bias–variance</a><a href="/explorer_11_bayesian_linear_regression_posterior_geometry.html">Bayesian regression</a></nav></header><main><div class="request-state" role="status" aria-live="polite"><span id="request-message">Loading calculations…</span><strong>Sample seed <span id="seed-value">2026</span></strong><button id="retry" hidden>Retry</button></div>
+  <h1>Correlation as Geometry — Interactive Explorer</h1>
+  <p class="subtitle">
+    Explore the idea that, for centered random variables,
+    correlation behaves like the cosine of an angle:
+    <span class="equation">&rho;(X,Y) = cos(&theta;)</span>.
+  </p>
+
+  <div class="controls">
+    <div class="control-row">
+      <label for="rho">Correlation &rho;</label>
+      <input id="rho" type="range" min="-0.95" max="0.95" step="0.01" value="0.20">
+      <div id="rhoValue">0.20</div>
+    </div>
+    <div class="control-row">
+      <label for="w">Portfolio weight w on asset X</label>
+      <input id="w" type="range" min="0" max="1" step="0.01" value="0.50">
+      <div id="wValue">0.50</div>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric">
+      <div class="label">Angle between centered variables</div>
+      <div class="value" id="thetaDeg">78.46°</div>
+    </div>
+    <div class="metric">
+      <div class="label">Interpretation</div>
+      <div class="value" id="interp" style="font-size:18px;">Weak positive alignment</div>
+    </div>
+    <div class="metric">
+      <div class="label">Portfolio variance (standardized assets)</div>
+      <div class="value" id="varianceValue">0.600</div>
+    </div>
+    <div class="metric">
+      <div class="label">Diversification message</div>
+      <div class="value" id="divMessage" style="font-size:18px;">Some diversification benefit</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>1) Geometry in an inner-product space</h2>
+      <p class="small">
+        The fixed vector represents <strong>X<sub>c</sub></strong>; the rotating vector represents
+        <strong>Y<sub>c</sub></strong>. Their angle satisfies
+        <span class="equation">&rho;(X,Y) = cos(&theta;)</span>.
+      </p>
+      <svg id="geometry" viewBox="0 0 320 320" aria-label="Geometry panel"></svg>
+    </div>
+
+    <div class="card">
+      <h2>2) Simulated correlated samples</h2>
+      <p class="small">
+        A scatter of simulated standardized pairs \((X,Y)\) with the chosen correlation.
+        When &rho; is near 0, the cloud has no preferred diagonal direction. When &rho; is near 1 or -1,
+        the cloud concentrates along a line.
+      </p>
+      <canvas role="img" id="scatter" width="320" height="320" aria-label="Scatter panel"></canvas>
+    </div>
+
+    <div class="card">
+      <h2>3) Portfolio variance as geometry</h2>
+      <p class="small">
+        For two standardized assets with equal volatilities \(1\), the portfolio variance is
+        <span class="equation">&sigma;<sub>P</sub><sup>2</sup> = w<sup>2</sup> + (1-w)<sup>2</sup> + 2w(1-w)&rho;</span>.
+        Lower correlation bends the curve downward and improves diversification.
+      </p>
+      <svg id="variancePlot" viewBox="0 0 420 280" aria-label="Variance panel"></svg>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <strong>How to use it.</strong> Move the correlation slider first. Then move the portfolio-weight slider.
+    Watch how the angle changes, how the sample cloud rotates, and how the portfolio variance curve changes shape.
+  </div>
+
+
+<aside class="migration-note">The scatter is a finite sample from population-standardized variables. Reusing a seed keeps the same underlying sample on redraws; the displayed correlation is the population parameter.</aside></main><script type="module" src="/static/api.js"></script></body>
+</html>

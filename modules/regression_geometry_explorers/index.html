@@ -1,29 +1,10 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Regression, Correlation & Statistical Geometry Explorers</title>
-<style>
-body{font-family:Arial,Helvetica,sans-serif;margin:28px;line-height:1.45;max-width:1050px}
-li{margin:14px 0}
-small{color:#444}
-code{background:#f4f4f4;padding:2px 5px;border-radius:4px}
-</style>
-</head>
-<body>
-<h1>Regression, Correlation & Statistical Geometry — 11 Interactive Explorers</h1>
-<p>Each explorer is a self-contained HTML/JavaScript file and includes a quick-reference guide describing its controls, charts, metrics and core mathematical identity.</p>
-<ol><li><a href="explorer_1_correlation_vectors_3d.html">Explorer 1 — 3D Correlation Vectors</a><br><small>Correlation as inner-product geometry; Gram matrices; positive-semidefinite feasibility.</small></li>
-<li><a href="explorer_2_covariance_ellipsoid_pca_3d.html">Explorer 2 — 3D Covariance Ellipsoid & PCA</a><br><small>Covariance ellipsoids, eigendecomposition, principal axes, explained variance.</small></li>
-<li><a href="explorer_3_portfolio_variance_surface_3asset.html">Explorer 3 — 3-Asset Portfolio Variance Surface</a><br><small>Portfolio variance as the quadratic form wᵀΣw over the long-only simplex.</small></li>
-<li><a href="explorer_4_trivariate_scatter_pca_3d.html">Explorer 4 — 3D Trivariate Scatter & PCA</a><br><small>Joint Gaussian samples, correlation geometry, PCA directions and dimension reduction.</small></li>
-<li><a href="explorer_5_regression_projection_geometry.html">Explorer 5 — Simple Regression / Projection Geometry</a><br><small>OLS as orthogonal projection onto span(xc), residual orthogonality and R²=cos²θ.</small></li>
-<li><a href="explorer_6_multiple_regression_projection_subspace.html">Explorer 6 — Multiple Regression / Projection Subspace</a><br><small>OLS projection onto span(x1c,x2c), normal equations, collinearity and fitted subspaces.</small></li>
-<li><a href="explorer_7_ridge_lasso_regularization_geometry.html">Explorer 7 — Ridge / Lasso Regularization Geometry</a><br><small>Penalized least squares, coefficient shrinkage and the geometric contrast between L2 and L1 penalties.</small></li>
-<li><a href="explorer_8_multicollinearity_vif_condition_geometry.html">Explorer 8 — Multicollinearity / VIF / Condition Geometry</a><br><small>Near-linear dependence, VIF, condition number and sampling instability of coefficients.</small></li>
-<li><a href="explorer_9_bias_variance_polynomial_complexity.html">Explorer 9 — Bias–Variance / Polynomial Complexity</a><br><small>Underfitting, overfitting and the pointwise bias² + variance + noise decomposition.</small></li>
-<li><a href="explorer_10_principal_component_regression.html">Explorer 10 — Principal Component Regression</a><br><small>PCA rotation, truncation, PCR coefficients, explained variance and predictive tradeoffs.</small></li>
-<li><a href="explorer_11_bayesian_linear_regression_posterior_geometry.html">Explorer 11 — Bayesian Linear Regression / Posterior Geometry</a><br><small>Gaussian prior, Gaussian likelihood, posterior ellipses, shrinkage and posterior prediction.</small></li></ol>
-<p>Repository documentation: <a href="README.md">README.md</a> and <a href="MATHEMATICAL_THEORY.md">MATHEMATICAL_THEORY.md</a>.</p>
-</body></html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/favicon.svg" type="image/svg+xml"><title>Statistical Geometry · Math Utils</title><link rel="stylesheet" href="/static/styles.css"></head>
+<body><header class="topbar"><a class="brand" href="/">Statistical Geometry<small>Math Utils · four explorations</small></a><span class="small">Correlation &amp; Regression Explorers</span></header>
+<main><p class="formula">INNER PRODUCTS · PROJECTIONS · UNCERTAINTY</p><h1>See the geometry<br>behind the statistics.</h1><p class="subtitle">Four connected experiments. Move a control, inspect a projection, and follow the mathematical explanation from data to uncertainty.</p>
+<div class="home-cards">
+<a href="/correlation_geometry_interactive_explorer.html"><span>01 / INNER PRODUCTS</span><h2>Correlation as Geometry</h2><p>Explore angles, correlated samples, and the geometry of two-asset portfolio variance.</p>Open explorer ↗</a>
+<a href="/explorer_6_multiple_regression_projection_subspace.html"><span>02 / PROJECTION</span><h2>Multiple Regression as Projection onto a Subspace</h2><p>Decompose a response into its fitted projection and orthogonal residual.</p>Open explorer ↗</a>
+<a href="/explorer_9_bias_variance_polynomial_complexity.html"><span>03 / COMPLEXITY</span><h2>Bias–Variance Tradeoff and Polynomial Complexity</h2><p>Compare a current polynomial fit with repeated-sample bias and variance.</p>Open explorer ↗</a>
+<a href="/explorer_11_bayesian_linear_regression_posterior_geometry.html"><span>04 / POSTERIOR GEOMETRY</span><h2>Bayesian Linear Regression Posterior Geometry</h2><p>Inspect prior, likelihood, posterior, and predictive uncertainty.</p>Open explorer ↗</a>
+</div><p class="small">Local calculations · reproducible samples · no network assets</p><p class="small"><a href="/README.md">Module documentation</a> · <a href="/MATHEMATICAL_THEORY.md">Historical theory reference</a></p></main></body></html>

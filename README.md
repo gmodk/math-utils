@@ -1,123 +1,65 @@
 # Math Utils
 
-Math Utils gathers the existing mathematical explorer projects behind one local landing page while preserving every module's own interface, mathematics, routes, assets, and behavior.
+Math Utils launches four isolated mathematical applications from one local landing page:
 
-## Included applications
+1. Distributed Memory Architecture Atlas.
+2. Markov Chain Explorer.
+3. Sₙ Explorer WebUI.
+4. Correlation & Regression Explorers: **Correlation as Geometry**, **Multiple Regression as Projection onto a Subspace**, **Bias–Variance Tradeoff and Polynomial Complexity**, and **Bayesian Linear Regression Posterior Geometry**.
 
-1. **Distributed Memory Architecture Atlas 2.1.0** — the five distributed-memory approaches in one complete suite: combinatorial, spectral-hypergraph, probabilistic, sheaf-theoretic, and information-theoretic. The original geometry, graph/TDA, recovery, diagnostic, and cryptography laboratories are included.
-2. **Markov Chain Explorer — Python Edition 2.0.0** — the Python numerical backend, unchanged prebuilt JavaScript interface, CSV workflows, stochastic calculations, and interactive 2D/3D weighted hypergraphs.
-3. **Sₙ Explorer WebUI** — the Python group-theory engine and original web interface for permutations, dihedral groups, subgroups, quotients, Cayley tables, and conjugacy classes.
-4. **Correlation & Regression Explorers** — all eleven self-contained statistical-geometry explorers and their mathematical documentation.
+The first three applications retain their existing implementation files. Statistical geometry now uses one FastAPI application with Python numerical engines and a local HTML/CSS/vanilla-JavaScript interface. Each application keeps a separate process and origin.
 
-The applications remain isolated under `modules/`. The root integration layer only launches them and provides navigation, so their original root-relative API and asset paths do not collide.
+## Startup
 
-## Start the complete platform
-
-Requires Python 3.10 or newer.
-
-### Windows
-
-Double-click:
+Requires Python 3.10 or newer. From this directory:
 
 ```text
-run-math-utils.bat
-```
-
-### macOS or Linux
-
-```bash
-./run-math-utils.sh
-```
-
-Or on any platform:
-
-```bash
 python launch.py
 ```
 
-The first launch creates one shared `.venv`, installs the numerical dependencies, starts every module, and opens the landing page at `http://127.0.0.1:8000`. Later launches reuse the environment.
+Windows: `run-math-utils.bat`. macOS/Linux: `sh run-math-utils.sh`.
 
-Internet access is required for initial installation and any later required dependency updates. Node.js and npm are not required at runtime.
-
-Stop the entire platform with `Ctrl+C` in the terminal that started it.
-
-## Ports
-
-| Surface | Default URL |
-| --- | --- |
-| Math Utils landing page | `http://127.0.0.1:8000` |
-| Distributed Memory Architecture Atlas | `http://127.0.0.1:8001` |
-| Markov Chain Explorer | `http://127.0.0.1:8002` |
-| Sₙ Explorer WebUI | `http://127.0.0.1:8003` |
-| Correlation & Regression Explorers | `http://127.0.0.1:8004` |
-
-To use another consecutive port range:
-
-```bash
-python launch.py --port 9000
-```
-
-This puts the landing page on `9000` and the four applications on `9001` through `9004`.
-
-Use `python launch.py --no-browser` to start without opening a browser window. Use `--host 0.0.0.0` only when you deliberately want the services reachable from other devices on the same network.
-
-## Project structure
+The launcher creates and reuses one `.venv`, installs root runtime requirements only when needed, checks all five ports, starts the applications, waits for readiness, and opens the landing page. Initial dependency installation or required updates may need internet access. Installed applications and their assets run locally without a frontend build or runtime internet dependency. No Node.js or npm is required.
 
 ```text
-math-utils/
-├── launch.py
-├── landing/
-├── modules/
-│   ├── distributed-memory-architecture-atlas/
-│   ├── markov-chain-explorer-python-v2.0.0/
-│   ├── s_n_explorer_web/
-│   └── regression_geometry_explorers/
-├── tests/
-├── requirements.txt
-├── run-math-utils.bat
-├── run-math-utils.sh
-├── CHANGELOG.md
-└── VALIDATION.md
+python launch.py --no-browser
+python launch.py --host 127.0.0.1 --port 9100 --no-browser
 ```
 
-Each module retains its own README and technical documentation.
+| Application | Default port |
+|---|---:|
+| Landing | 8000 |
+| Atlas | 8001 |
+| Markov | 8002 |
+| Sₙ | 8003 |
+| Statistical geometry | 8004 |
 
-## Development validation
+`--port` selects the landing port; the four applications use the next four ports. Ctrl+C stops the platform. IPv4 addresses/hostnames are supported. `--host 0.0.0.0` exposes the applications to your network. `--skip-install` is a validation-only bypass that uses the current interpreter.
 
-From the project root:
+## Statistical geometry rebuild
 
-```bash
-python -m pip install -r requirements-dev.txt
+The fourth module keeps ID `statistical-geometry`, title `Correlation & Regression Explorers`, and port offset 4. Its Python app receives `HOST`/`PORT` and exposes `/api/health`, `/api/catalog`, and four typed `/api/v1/{explorer}/analyze` endpoints. All statistical calculations and generated plot coordinates run in Python. Browser code handles input, request cancellation, formatting, drawing, and camera/pixel transforms.
+
+The four original control definitions, metrics, chart surfaces, and explanatory sections are preserved. See [module README](modules/regression_geometry_explorers/README.md) for the seed protocol, mathematical conventions, and deliberate differences. The theory Markdown and Word documents are retained as historical broader references; they do not introduce additional explorer experiences.
+
+## Validation
+
+Use `.venv/Scripts/python.exe` on Windows or `.venv/bin/python` on macOS/Linux. Install development requirements with that interpreter and `-m pip install -r requirements-dev.txt`.
+
+```text
 python -B -X utf8 -m pytest -q -p no:cacheprovider tests
-python -B tests/check_sources.py
+python -B -X utf8 -m pytest -q -p no:cacheprovider modules/distributed-memory-architecture-atlas/tests
+python -B -X utf8 -m pytest -q -p no:cacheprovider modules/markov-chain-explorer-python-v2.0.0/tests
 ```
 
-The original test suites can also be run independently from their module directories.
+Run Sₙ's tests from `modules/s_n_explorer_web` with `../../.venv/Scripts/python.exe -B -X utf8 -m pytest -q -p no:cacheprovider tests` (use `.venv/bin/python` on Unix).
 
-## Rebuilt integration (1.1.0)
+Set `MATH_UTILS_TEST_PORT=9100` when default ports are occupied. Use a fresh `--basetemp` path if the host's default pytest temporary directory is inaccessible. Run suites separately to avoid their module-name collisions.
 
-The launcher always uses this repository's shared `.venv`, even when invoked from another virtual environment. It installs runtime requirements only when a required distribution is missing or outside its declared version range. Dependency changes may require internet access on a later launch. `--skip-install` is an explicit validation-only bypass that uses the current interpreter.
+`python -B tests/check_sources.py` compiles Python in memory and verifies all 173 protected files against the pre-rebuild baseline. Browser loading and control checks verify the new JavaScript syntax and behavior without a JavaScript command-line runtime. Exact executed commands, results, limitations, and browser observations are in [VALIDATION.md](VALIDATION.md).
 
-All five ports are checked before startup. Invalid base ports (outside 1–65531) are rejected. The isolated vendored servers support IPv4 addresses and hostnames; IPv6 binds are rejected. The console reports module readiness, fails after a 60-second health-check deadline, and shuts down the platform if any child exits. The landing page continues checking readiness every five seconds after startup.
+## Review and release status
 
-For a ZIP extraction on macOS/Linux, `sh run-math-utils.sh` works without changing executable permissions. Windows users can run `run-math-utils.bat`; it prefers `py -3` and falls back to `python`. All wrappers forward launcher arguments. Python 3.10+ must be installed and available to the wrapper. The first setup needs internet access; Node.js is used only for developer syntax checks, never for startup.
+The source backup is retained in `backups/four-explorer-rebuild/`. Do not delete it or create a release archive before browser approval. The seven retired pages and replaced old correlation page were already deleted in the incoming working tree. The replacement correlation source was untracked; its bytes were captured before migration.
 
-### Reproduce validation
-
-After a normal first launch has created `.venv`, stop the platform. Use `.venv/Scripts/python.exe` on Windows or `.venv/bin/python` on macOS/Linux as `PYTHON` below (replace the word with the actual path). Run from the repository root:
-
-```text
-PYTHON -m pip install -r requirements-dev.txt
-PYTHON -B -X utf8 -m pytest -q -p no:cacheprovider tests
-PYTHON -B -X utf8 -m pytest -q -p no:cacheprovider modules/distributed-memory-architecture-atlas/tests
-PYTHON -B -X utf8 -m pytest -q -p no:cacheprovider modules/markov-chain-explorer-python-v2.0.0/tests
-PYTHON -B -X utf8 -m pytest -q -p no:cacheprovider modules/s_n_explorer_web/tests
-PYTHON -B tests/check_sources.py
-PYTHON -m pip check
-PYTHON -B tests/build_release.py
-```
-
-Run module suites separately to avoid identically named vendored test modules colliding. The live root test requires ports 8000–8004 to be free; set `MATH_UTILS_TEST_PORT` to choose another range. UTF-8 mode lets the unchanged Markov test read its UTF-8 JavaScript bundle on Windows. The source checker compiles Python in memory and checks external and inline JavaScript with Node; it writes nothing under `modules/`. The statistical bundle contains eleven standalone explorers and has no automated test suite.
-
-`module-checksums.json` records every retained module file's original path, byte size and SHA-256. `validation-results/` contains the test XML, static-check counts and tested dependency versions. `tests/build_release.py` packages only the listed integration files and retained content, verifies archive CRCs and every member's bytes, and emits a checksum sidecar and `release-verification.json` outside the ZIP (avoiding a self-referential archive hash).
-
+The old `module-checksums.json`, ZIP/checksum, `release-verification.json`, and historical validation artifacts predate this rebuild. They are not evidence for it. The old archive builder still uses the historical manifest; reconcile release manifests and packaging only after browser approval. No new archive was produced.

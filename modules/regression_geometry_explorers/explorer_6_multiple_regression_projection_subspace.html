@@ -4,31 +4,10 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Explorer 6 — Multiple Regression as Projection onto a Subspace</title>
-<style>
-  body { font-family: Arial, Helvetica, sans-serif; margin: 24px; line-height: 1.35; }
-  h1, h2 { margin: 0 0 8px 0; }
-  .subtitle { color: #333; margin-top: 6px; margin-bottom: 18px; }
-  .layout { display: grid; grid-template-columns: 360px 1fr; gap: 18px; align-items: start; }
-  .panel, .card { border: 1px solid #ccc; border-radius: 10px; padding: 14px; background: #fff; }
-  .controls { display: grid; gap: 10px; }
-  .row { display: grid; grid-template-columns: 120px 1fr 72px; gap: 10px; align-items: center; }
-  .row.buttonrow { grid-template-columns: 120px 1fr; }
-  input[type=range] { width: 100%; }
-  button { padding: 8px 10px; }
-  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 12px; }
-  .metric { border: 1px solid #ccc; border-radius: 8px; padding: 10px; }
-  .metric .label { font-size: 13px; color: #555; margin-bottom: 4px; }
-  .metric .value { font-size: 20px; font-weight: bold; }
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 18px; }
-  canvas { width: 100%; height: auto; border: 1px solid #ddd; border-radius: 8px; background: white; }
-  .note { font-size: 14px; color: #333; }
-  .mono { font-family: "Courier New", monospace; white-space: pre-wrap; }
-  .equation { font-family: "Times New Roman", Times, serif; font-size: 20px; }
-  .footer { margin-top: 18px; font-size: 14px; color: #333; }
-</style>
-</head>
-<body>
-  <h1>Explorer 6 — Multiple Regression as Projection onto a Plane / Subspace</h1>
+
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/static/styles.css"></head>
+<body data-engine="multiple-regression"><header class="topbar"><a class="brand" href="/">Statistical Geometry<small>Math Utils · four explorations</small></a><nav aria-label="Explorers"><a href="/correlation_geometry_interactive_explorer.html">Correlation</a><a href="/explorer_6_multiple_regression_projection_subspace.html" aria-current="page">Multiple regression</a><a href="/explorer_9_bias_variance_polynomial_complexity.html">Bias–variance</a><a href="/explorer_11_bayesian_linear_regression_posterior_geometry.html">Bayesian regression</a></nav></header><main><div class="request-state" role="status" aria-live="polite"><span id="request-message">Loading calculations…</span><strong>Sample seed <span id="seed-value">2026</span></strong><button id="retry" hidden>Retry</button></div>
+  <h1>Multiple Regression as Projection onto a Subspace</h1>
   <p class="subtitle">
     With two centered predictors <span class="equation">x<sub>1c</sub>, x<sub>2c</sub></span>,
     the fitted centered response <span class="equation">\hat y<sub>c</sub></span> is the orthogonal projection of
@@ -80,7 +59,7 @@
           The cloud in the <span class="mono">(x₁, x₂)</span> plane shows the predictor geometry.
           Stronger correlation means the cloud becomes more elongated, which makes the spanning plane nearly degenerate numerically.
         </p>
-        <canvas id="predictorScatter" width="500" height="340"></canvas>
+        <canvas role="img" id="predictorScatter" width="500" height="340" aria-label="predictorScatter visualization"></canvas>
       </div>
 
       <div class="card">
@@ -92,7 +71,7 @@
           <span class="mono">y_c = ŷ_c + e</span>
           with <span class="mono">e ⟂ span(x₁c, x₂c)</span>.
         </p>
-        <canvas id="projection3d" width="500" height="340"></canvas>
+        <canvas role="img" id="projection3d" width="500" height="340" aria-label="projection3d visualization"></canvas>
       </div>
 
       <div class="card">
@@ -102,12 +81,12 @@
           <span class="mono">y = ŷ</span>.
           The highlighted observation shows one fitted value / observed value pair.
         </p>
-        <canvas id="obsFitted" width="500" height="340"></canvas>
+        <canvas role="img" id="obsFitted" width="500" height="340" aria-label="obsFitted visualization"></canvas>
       </div>
 
       <div class="card">
         <h2>4) Sum of squares and algebraic summary</h2>
-        <canvas id="bars" width="500" height="220"></canvas>
+        <canvas role="img" id="bars" width="500" height="220" aria-label="bars visualization"></canvas>
         <p class="note mono" id="summaryText"></p>
       </div>
     </div>
@@ -120,362 +99,10 @@
     <span class="equation">y_c</span> and the predictor subspace.
   </div>
 
-<script>
-function $(id){ return document.getElementById(id); }
-function fmt(x,d=3){ return Number(x).toFixed(d); }
-function clamp(x,a,b){ return Math.max(a, Math.min(b,x)); }
-function randn(){ let u=0,v=0; while(u===0) u=Math.random(); while(v===0) v=Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
-function mean(arr){ return arr.reduce((a,b)=>a+b,0)/arr.length; }
-function dot(a,b){ let s=0; for(let i=0;i<a.length;i++) s += a[i]*b[i]; return s; }
-function norm(a){ return Math.sqrt(Math.max(0,dot(a,a))); }
-function center(arr){ const m=mean(arr); return arr.map(v=>v-m); }
-function minVal(arr){ return Math.min.apply(null, arr); }
-function maxVal(arr){ return Math.max.apply(null, arr); }
-function vecScale(a,s){ return [a[0]*s,a[1]*s,a[2]*s]; }
-function vecAdd(a,b){ return [a[0]+b[0],a[1]+b[1],a[2]+b[2]]; }
-function vecSub(a,b){ return [a[0]-b[0],a[1]-b[1],a[2]-b[2]]; }
-function normalize3(a){ const n = Math.sqrt(Math.max(0,a[0]*a[0]+a[1]*a[1]+a[2]*a[2])); return n < 1e-12 ? [0,0,0] : [a[0]/n,a[1]/n,a[2]/n]; }
-function projectionFactory(yawDeg, pitchDeg, scale=95, dist=5.3){
-  const yaw = yawDeg*Math.PI/180, pitch = pitchDeg*Math.PI/180;
-  const cy=Math.cos(yaw), sy=Math.sin(yaw), cp=Math.cos(pitch), sp=Math.sin(pitch);
-  return function(pt, cx, cy0){
-    let x=pt[0], y=pt[1], z=pt[2];
-    let x1 = cy*x + sy*z;
-    let z1 = -sy*x + cy*z;
-    let y2 = cp*y - sp*z1;
-    let z2 = sp*y + cp*z1;
-    let persp = dist/(dist + z2);
-    return [cx + scale*x1*persp, cy0 - scale*y2*persp, z2];
-  }
-}
-function drawArrow(ctx, p1, p2, label){
-  ctx.beginPath(); ctx.moveTo(p1[0], p1[1]); ctx.lineTo(p2[0], p2[1]); ctx.stroke();
-  const ang = Math.atan2(p2[1]-p1[1], p2[0]-p1[0]);
-  ctx.beginPath();
-  ctx.moveTo(p2[0], p2[1]);
-  ctx.lineTo(p2[0]-10*Math.cos(ang-Math.PI/7), p2[1]-10*Math.sin(ang-Math.PI/7));
-  ctx.lineTo(p2[0]-10*Math.cos(ang+Math.PI/7), p2[1]-10*Math.sin(ang+Math.PI/7));
-  ctx.closePath(); ctx.fill();
-  ctx.fillText(label, p2[0]+6, p2[1]-4);
-}
-
-let state = {x1:[], x2:[], y:[]};
-
-function generateData(){
-  const beta1 = parseFloat($("beta1").value);
-  const beta2 = parseFloat($("beta2").value);
-  const rho = parseFloat($("rho").value);
-  const sigma = parseFloat($("sigma").value);
-  const n = parseInt($("n").value, 10);
-
-  const s = Math.sqrt(Math.max(0, 1-rho*rho));
-  let x1=[], x2=[], y=[];
-  for(let i=0;i<n;i++){
-    const z1 = randn(), z2 = randn(), eps = randn();
-    const xi1 = z1;
-    const xi2 = rho*z1 + s*z2;
-    const yi = beta1*xi1 + beta2*xi2 + sigma*eps;
-    x1.push(xi1); x2.push(xi2); y.push(yi);
-  }
-  state.x1 = x1; state.x2 = x2; state.y = y;
-  if(parseInt($("point").value, 10) > n) $("point").value = n;
-  $("point").max = n;
-}
-
-function computeStats(){
-  const x1 = state.x1.slice(), x2 = state.x2.slice(), y = state.y.slice();
-  const m1 = mean(x1), m2 = mean(x2), my = mean(y);
-  const x1c = x1.map(v=>v-m1), x2c = x2.map(v=>v-m2), yc = y.map(v=>v-my);
-
-  const s11 = dot(x1c,x1c), s22 = dot(x2c,x2c), s12 = dot(x1c,x2c);
-  const s1y = dot(x1c,yc), s2y = dot(x2c,yc);
-  const det = s11*s22 - s12*s12;
-
-  let beta1Hat = NaN, beta2Hat = NaN;
-  if(Math.abs(det) > 1e-10){
-    beta1Hat = (s22*s1y - s12*s2y) / det;
-    beta2Hat = (s11*s2y - s12*s1y) / det;
-  } else {
-    beta1Hat = 0; beta2Hat = 0;
-  }
-  const alphaHat = my - beta1Hat*m1 - beta2Hat*m2;
-  const yhat = x1.map((v,i)=>alphaHat + beta1Hat*v + beta2Hat*x2[i]);
-  const yhatc = center(yhat);
-  const e = y.map((v,i)=>v-yhat[i]);
-
-  const SSR = dot(yhatc,yhatc), SSE = dot(e,e), SST = dot(yc,yc);
-  const R2 = SSR / SST;
-  const theta = Math.acos(clamp(Math.sqrt(Math.max(0, R2)), -1, 1));
-  const corr12 = s12 / Math.sqrt(s11*s22);
-
-  // Gram-Schmidt basis for the predictor plane
-  const u1 = x1c.map(v => v/Math.sqrt(s11));
-  const coeff = dot(x2c, u1);
-  const x2orth = x2c.map((v,i) => v - coeff*u1[i]);
-  const n2 = norm(x2orth);
-  const u2 = n2 > 1e-10 ? x2orth.map(v => v/n2) : x1c.map(() => 0);
-
-  const a = dot(yc, u1);
-  const b = dot(yc, u2);
-  const c = Math.sqrt(Math.max(0, SSE));
-
-  const yCoord = [a,b,c];
-  const yhatCoord = [a,b,0];
-  const eCoord = [0,0,c];
-  const x1Coord = [Math.sqrt(s11), 0, 0];
-  const x2Coord = [coeff, n2, 0];
-
-  return {
-    x1,x2,y,m1,m2,my,x1c,x2c,yc,s11,s22,s12,s1y,s2y,det,
-    beta1Hat,beta2Hat,alphaHat,yhat,yhatc,e,SSR,SSE,SST,R2,theta,corr12,
-    a,b,c,yCoord,yhatCoord,eCoord,x1Coord,x2Coord
-  };
-}
-
-function drawPredictorScatter(stats){
-  const canvas = $("predictorScatter"), ctx = canvas.getContext("2d");
-  const W = canvas.width, H = canvas.height;
-  ctx.clearRect(0,0,W,H);
-
-  const left=48, right=18, top=18, bottom=38;
-  const xmin=minVal(stats.x1), xmax=maxVal(stats.x1), ymin=minVal(stats.x2), ymax=maxVal(stats.x2);
-  const xpad = 0.15*(xmax-xmin || 1), ypad = 0.15*(ymax-ymin || 1);
-  const xlo = xmin-xpad, xhi = xmax+xpad, ylo = ymin-ypad, yhi = ymax+ypad;
-  const X = v => left + (W-left-right)*(v-xlo)/(xhi-xlo);
-  const Y = v => H-bottom - (H-top-bottom)*(v-ylo)/(yhi-ylo);
-
-  ctx.strokeStyle="black"; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(left,H-bottom); ctx.lineTo(W-right,H-bottom); ctx.moveTo(left,H-bottom); ctx.lineTo(left,top); ctx.stroke();
-  ctx.font="14px Arial"; ctx.fillStyle="black"; ctx.fillText("x₁", W-right-12, H-bottom-8); ctx.fillText("x₂", left+6, top+14);
-
-  ctx.fillStyle="rgba(0,0,0,0.45)";
-  for(let i=0;i<stats.x1.length;i++){ ctx.beginPath(); ctx.arc(X(stats.x1[i]), Y(stats.x2[i]), 3, 0, 2*Math.PI); ctx.fill(); }
-
-  let idx = Math.max(0, Math.min(parseInt($("point").value,10)-1, stats.x1.length-1));
-  ctx.fillStyle="black";
-  ctx.beginPath(); ctx.arc(X(stats.x1[idx]), Y(stats.x2[idx]), 5, 0, 2*Math.PI); ctx.fill();
-  ctx.fillText("highlighted obs.", X(stats.x1[idx])+8, Y(stats.x2[idx])-8);
-
-  ctx.fillText("sample corr(x₁,x₂) = " + fmt(stats.corr12, 3), 20, 20);
-}
-
-function drawProjection3D(stats){
-  const canvas = $("projection3d"), ctx = canvas.getContext("2d");
-  const W = canvas.width, H = canvas.height;
-  ctx.clearRect(0,0,W,H);
-
-  const yaw = parseFloat($("yaw").value), pitch = parseFloat($("pitch").value);
-  const proj = projectionFactory(yaw, pitch, 78, 6.0);
-  const cx = 250, cy = 220;
-
-  // scale coordinates for display
-  const m = Math.max(
-    Math.abs(stats.x1Coord[0]), Math.abs(stats.x2Coord[0]), Math.abs(stats.x2Coord[1]),
-    Math.abs(stats.yCoord[0]), Math.abs(stats.yCoord[1]), Math.abs(stats.yCoord[2]), 1e-6
-  );
-  function S(v){ return [v[0]/m*2.2, v[1]/m*2.2, v[2]/m*2.2]; }
-
-  const O = proj([0,0,0], cx, cy);
-
-  // draw subspace plane as grid z=0
-  ctx.strokeStyle="black"; ctx.lineWidth=1; ctx.fillStyle="black"; ctx.font="14px Arial";
-  const grid = 6;
-  for(let i=-grid;i<=grid;i++){
-    let p1 = proj([i*0.35, -grid*0.35, 0], cx, cy), p2 = proj([i*0.35, grid*0.35, 0], cx, cy);
-    ctx.beginPath(); ctx.moveTo(p1[0],p1[1]); ctx.lineTo(p2[0],p2[1]); ctx.stroke();
-    p1 = proj([-grid*0.35, i*0.35, 0], cx, cy); p2 = proj([grid*0.35, i*0.35, 0], cx, cy);
-    ctx.beginPath(); ctx.moveTo(p1[0],p1[1]); ctx.lineTo(p2[0],p2[1]); ctx.stroke();
-  }
-  ctx.fillText("predictor subspace span(x₁c, x₂c)", 18, 20);
-
-  // draw basis axes u1,u2,u3
-  const U1 = proj([2.4,0,0], cx, cy), U2 = proj([0,2.4,0], cx, cy), U3 = proj([0,0,2.4], cx, cy);
-  drawArrow(ctx, O, U1, "u₁");
-  drawArrow(ctx, O, U2, "u₂");
-  drawArrow(ctx, O, U3, "u₃");
-
-  // x1 and x2 in the plane
-  const X1 = proj(S(stats.x1Coord), cx, cy);
-  const X2 = proj(S(stats.x2Coord), cx, cy);
-  drawArrow(ctx, O, X1, "x₁c");
-  drawArrow(ctx, O, X2, "x₂c");
-
-  // yhat, y, residual
-  const Yhat = proj(S(stats.yhatCoord), cx, cy);
-  const Y = proj(S(stats.yCoord), cx, cy);
-  drawArrow(ctx, O, Yhat, "ŷ_c");
-  drawArrow(ctx, O, Y, "y_c");
-
-  // residual from yhat to y
-  ctx.beginPath(); ctx.moveTo(Yhat[0], Yhat[1]); ctx.lineTo(Y[0], Y[1]); ctx.stroke();
-  const ang = Math.atan2(Y[1]-Yhat[1], Y[0]-Yhat[0]);
-  ctx.beginPath();
-  ctx.moveTo(Y[0], Y[1]);
-  ctx.lineTo(Y[0]-10*Math.cos(ang-Math.PI/7), Y[1]-10*Math.sin(ang-Math.PI/7));
-  ctx.lineTo(Y[0]-10*Math.cos(ang+Math.PI/7), Y[1]-10*Math.sin(ang+Math.PI/7));
-  ctx.closePath(); ctx.fill();
-  ctx.fillText("e", Y[0]+8, Y[1]-6);
-
-  // drop line to plane and right-angle marker
-  ctx.beginPath(); ctx.moveTo(Yhat[0],Yhat[1]); ctx.lineTo(Y[0],Y[1]); ctx.stroke();
-  const rightA = proj([S(stats.yhatCoord)[0]-0.10, S(stats.yhatCoord)[1], 0], cx, cy);
-  const rightB = proj([S(stats.yhatCoord)[0]-0.10, S(stats.yhatCoord)[1], 0.10], cx, cy);
-  const rightC = proj([S(stats.yhatCoord)[0], S(stats.yhatCoord)[1], 0.10], cx, cy);
-  ctx.beginPath(); ctx.moveTo(rightA[0], rightA[1]); ctx.lineTo(rightB[0], rightB[1]); ctx.lineTo(rightC[0], rightC[1]); ctx.stroke();
-
-  ctx.fillText("y_c = ŷ_c + e", 18, 42);
-  ctx.fillText("e ⟂ span(x₁c, x₂c)", 18, 64);
-  ctx.fillText("R² = cos²(θ)", 18, 86);
-}
-
-function drawObsFitted(stats){
-  const canvas = $("obsFitted"), ctx = canvas.getContext("2d");
-  const W = canvas.width, H = canvas.height;
-  ctx.clearRect(0,0,W,H);
-
-  const left=48, right=18, top=18, bottom=38;
-  const xmin=minVal(stats.yhat), xmax=maxVal(stats.yhat), ymin=minVal(stats.y), ymax=maxVal(stats.y);
-  const lo = Math.min(xmin,ymin), hi = Math.max(xmax,ymax), pad = 0.12*(hi-lo || 1);
-  const a = lo-pad, b = hi+pad;
-  const X = v => left + (W-left-right)*(v-a)/(b-a);
-  const Y = v => H-bottom - (H-top-bottom)*(v-a)/(b-a);
-
-  ctx.strokeStyle="black"; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(left,H-bottom); ctx.lineTo(W-right,H-bottom); ctx.moveTo(left,H-bottom); ctx.lineTo(left,top); ctx.stroke();
-  ctx.font="14px Arial"; ctx.fillStyle="black"; ctx.fillText("ŷ", W-right-12, H-bottom-8); ctx.fillText("y", left+6, top+14);
-
-  // diagonal y = yhat
-  ctx.lineWidth=2;
-  ctx.beginPath(); ctx.moveTo(X(a), Y(a)); ctx.lineTo(X(b), Y(b)); ctx.stroke();
-
-  ctx.fillStyle="rgba(0,0,0,0.45)";
-  for(let i=0;i<stats.y.length;i++){ ctx.beginPath(); ctx.arc(X(stats.yhat[i]), Y(stats.y[i]), 3, 0, 2*Math.PI); ctx.fill(); }
-
-  let idx = Math.max(0, Math.min(parseInt($("point").value,10)-1, stats.y.length-1));
-  ctx.fillStyle="black";
-  ctx.beginPath(); ctx.arc(X(stats.yhat[idx]), Y(stats.y[idx]), 5, 0, 2*Math.PI); ctx.fill();
-  ctx.fillText("highlighted obs.", X(stats.yhat[idx])+8, Y(stats.y[idx])-8);
-}
-
-function drawBars(stats){
-  const canvas = $("bars"), ctx = canvas.getContext("2d");
-  const W = canvas.width, H = canvas.height;
-  ctx.clearRect(0,0,W,H);
-  const left=55, right=25, top=28, bottom=38, plotH=H-top-bottom;
-  const maxV = Math.max(stats.SST, stats.SSR, stats.SSE, 1e-6);
-  const Y = v => H-bottom - plotH*(v/maxV);
-
-  ctx.strokeStyle="black"; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(left,H-bottom); ctx.lineTo(W-right,H-bottom); ctx.moveTo(left,H-bottom); ctx.lineTo(left,top); ctx.stroke();
-  ctx.font="14px Arial"; ctx.fillStyle="black";
-
-  function bar(x, w, v, label){
-    const y = Y(v);
-    ctx.strokeRect(x,y,w,H-bottom-y);
-    ctx.fillText(label, x + w/2 - 10, H-bottom + 18);
-    ctx.fillText(fmt(v,2), x, y - 8);
-  }
-  bar(85,88,stats.SST,"SST");
-  bar(215,88,stats.SSR,"SSR");
-  bar(345,88,stats.SSE,"SSE");
-  ctx.fillText("SST = SSR + SSE", 18, 18);
-  ctx.fillText("R² = SSR / SST = " + fmt(stats.R2,3), 18, H-10);
-}
-
-function updateSummary(stats){
-  $("alphaHat").textContent = fmt(stats.alphaHat,3);
-  $("beta1Hat").textContent = fmt(stats.beta1Hat,3);
-  $("beta2Hat").textContent = fmt(stats.beta2Hat,3);
-  $("corr12Val").textContent = fmt(stats.corr12,3);
-  $("r2Val").textContent = fmt(stats.R2,3);
-  $("thetaVal").textContent = fmt(stats.theta*180/Math.PI,1) + "°";
-  $("orth1Val").textContent = fmt(dot(stats.x1c, stats.e), 6);
-  $("orth2Val").textContent = fmt(dot(stats.x2c, stats.e), 6);
-  $("detVal").textContent = fmt(stats.det, 3);
-
-  const text =
-`normal equations / projection:
-  X_c'X_c β̂ = X_c' y_c
-  β̂₁ = ${fmt(stats.beta1Hat, 4)}
-  β̂₂ = ${fmt(stats.beta2Hat, 4)}
-  α̂ = ${fmt(stats.alphaHat, 4)}
-
-orthogonality:
-  <x₁c, e> = ${fmt(dot(stats.x1c, stats.e), 6)}
-  <x₂c, e> = ${fmt(dot(stats.x2c, stats.e), 6)}
-
-sum of squares:
-  SST = ||y_c||² = ${fmt(stats.SST, 4)}
-  SSR = ||ŷ_c||² = ${fmt(stats.SSR, 4)}
-  SSE = ||e||² = ${fmt(stats.SSE, 4)}
-  SSR + SSE = ${fmt(stats.SSR + stats.SSE, 4)}
-
-subspace angle:
-  θ = ${fmt(stats.theta*180/Math.PI, 3)}°
-  R² = ${fmt(stats.R2, 4)}
-  cos²(θ) = ${fmt(Math.cos(stats.theta)*Math.cos(stats.theta), 4)}`;
-  $("summaryText").textContent = text;
-}
-
-function syncLabels(){
-  $("beta1Val").textContent = fmt(parseFloat($("beta1").value), 2);
-  $("beta2Val").textContent = fmt(parseFloat($("beta2").value), 2);
-  $("rhoVal").textContent = fmt(parseFloat($("rho").value), 2);
-  $("sigmaVal").textContent = fmt(parseFloat($("sigma").value), 2);
-  $("nVal").textContent = $("n").value;
-  $("pointVal").textContent = $("point").value;
-  $("yawVal").textContent = $("yaw").value + "°";
-  $("pitchVal").textContent = $("pitch").value + "°";
-}
-
-function fullUpdate(resample=false){
-  syncLabels();
-  if(resample || state.x1.length !== parseInt($("n").value,10)) generateData();
-  const stats = computeStats();
-  drawPredictorScatter(stats);
-  drawProjection3D(stats);
-  drawObsFitted(stats);
-  drawBars(stats);
-  updateSummary(stats);
-}
-
-["beta1","beta2","rho","sigma","n"].forEach(id => $(id).addEventListener("input", () => fullUpdate(true)));
-["point","yaw","pitch"].forEach(id => $(id).addEventListener("input", () => fullUpdate(false)));
-$("resample").addEventListener("click", () => fullUpdate(true));
-
-generateData();
-fullUpdate(false);
-</script>
 
 
-<style>
-.quick-reference {
-  margin: 24px 0 8px;
-  border: 1px solid #bbb;
-  border-radius: 10px;
-  padding: 16px;
-  background: #fafafa;
-}
-.quick-reference h2 { margin-top: 0; }
-.quick-reference h3 { margin-bottom: 6px; }
-.quick-reference table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 8px 0 16px;
-  font-size: 14px;
-}
-.quick-reference th, .quick-reference td {
-  border: 1px solid #ccc;
-  padding: 7px 8px;
-  vertical-align: top;
-  text-align: left;
-}
-.quick-reference code { white-space: nowrap; }
-.quick-reference .formula {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 18px;
-}
-</style>
+
+
 
 <section class="quick-reference">
   <h2>Quick reference guide</h2>
@@ -490,5 +117,5 @@ fullUpdate(false);
   <p class="formula">β̂=(XcᵀXc)⁻¹Xcᵀyc, ŷc=P_X yc, P_X=Xc(XcᵀXc)⁻¹Xcᵀ.</p>
 </section>
 
-</body>
+<aside class="migration-note">The determinant is a scale-dependent indicator, not a condition number. Singular designs produce an explicit error. Camera and highlight changes reuse the current calculation.</aside></main><script type="module" src="/static/api.js"></script></body>
 </html>

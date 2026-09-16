@@ -1,0 +1,38 @@
+{
+  "platform": "Math Utils",
+  "version": "1.1.0",
+  "modules": [
+    {
+      "id": "memory-atlas",
+      "title": "Distributed Memory Architecture Atlas",
+      "description": "Five mathematical lenses with geometry, graph/TDA, recovery, diagnostics, and cryptography laboratories.",
+      "port": 9101,
+      "url": "http://127.0.0.1:9101/",
+      "ready": true
+    },
+    {
+      "id": "markov",
+      "title": "Markov Chain Explorer",
+      "description": "Homogeneous and non-homogeneous chains, Poisson kernels, stochastic analysis, and interactive weighted hypergraphs.",
+      "port": 9102,
+      "url": "http://127.0.0.1:9102/",
+      "ready": true
+    },
+    {
+      "id": "symmetric-groups",
+      "title": "S\u2099 Explorer WebUI",
+      "description": "Permutations, cycle structure, Cayley tables, dihedral groups, subgroups, quotients, and conjugacy classes.",
+      "port": 9103,
+      "url": "http://127.0.0.1:9103/",
+      "ready": true
+    },
+    {
+      "id": "statistical-geometry",
+      "title": "Correlation & Regression Explorers",
+      "description": "Four Python-powered laboratories for correlation geometry, multiple regression, bias\u2013variance, and Bayesian posterior geometry.",
+      "port": 9104,
+      "url": "http://127.0.0.1:9104/",
+      "ready": true
+    }
+  ]
+}
