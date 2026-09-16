@@ -1,0 +1,793 @@
+{
+  "components": {
+    "groups": [
+      "a",
+      "z"
+    ],
+    "beta0": 2,
+    "beta1": 2,
+    "edges": 5
+  },
+  "weights": {
+    "strength": [
+      {
+        "filterWeight": 0.5,
+        "forceWeight": 0.5
+      },
+      {
+        "filterWeight": 0.5,
+        "forceWeight": 0.5
+      },
+      {
+        "filterWeight": 0.5,
+        "forceWeight": 0.5
+      },
+      {
+        "filterWeight": 0.5,
+        "forceWeight": 0.5
+      },
+      {
+        "filterWeight": 0.5,
+        "forceWeight": 0.5
+      }
+    ],
+    "distance": [
+      {
+        "filterWeight": 0.5,
+        "forceWeight": 0.5
+      },
+      {
+        "filterWeight": 0.5,
+        "forceWeight": 0.5
+      },
+      {
+        "filterWeight": 0.5,
+        "forceWeight": 0.5
+      },
+      {
+        "filterWeight": 0.5,
+        "forceWeight": 0.5
+      },
+      {
+        "filterWeight": 0.5,
+        "forceWeight": 0.5
+      }
+    ]
+  },
+  "physics": [
+    {
+      "id": "a",
+      "x": 122.07168070061016,
+      "y": 162.3413121560645,
+      "z": 0.9040872085947047,
+      "vx": -1.464375034982851,
+      "vy": -2.111597558814951,
+      "vz": 0.3384510469567149
+    },
+    {
+      "id": "b",
+      "x": -136.2323002724493,
+      "y": 83.98185308788965,
+      "z": 123.98415296866087,
+      "vx": 2.129225500480348,
+      "vy": -0.008317758736770441,
+      "vz": -2.2504597763759246
+    },
+    {
+      "id": "c",
+      "x": 19.260843989912537,
+      "y": 1.9067859239814062,
+      "z": -197.61071249838855,
+      "vx": 0.33831958037926774,
+      "vy": 0.7117963621261841,
+      "vz": 4.325733193568235
+    },
+    {
+      "id": "d",
+      "x": 116.49324597720133,
+      "y": -80.08101921477936,
+      "z": 146.22162534468987,
+      "vx": -0.22949473980001595,
+      "vy": 1.4654479700453789,
+      "vz": -2.4357133235955795
+    },
+    {
+      "id": "z",
+      "x": -123.67382374491406,
+      "y": -168.1489319531562,
+      "z": -21.98947169338004,
+      "vx": 0.15004223625175128,
+      "vy": -0.0573290146198418,
+      "vz": -0.016012213022272057
+    }
+  ],
+  "filtration": {
+    "components": 2,
+    "beta1": 2,
+    "edgeCount": 5,
+    "mergeEdgeIds": [
+      "e0",
+      "e1",
+      "e2"
+    ],
+    "cycleEdgeIds": [
+      "e3",
+      "e4"
+    ],
+    "rootByNode": {
+      "a": "a",
+      "b": "a",
+      "c": "a",
+      "d": "a",
+      "z": "z"
+    },
+    "componentSizes": {
+      "a": 4,
+      "z": 1
+    }
+  },
+  "faces": [
+    {
+      "id": "f:a|b|c|d",
+      "vertices": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "edges": [
+        "e0",
+        "e1",
+        "e2",
+        "e3"
+      ],
+      "birth": 0.5
+    }
+  ],
+  "independent": [
+    {
+      "id": "f:a|b|c|d",
+      "vertices": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "edges": [
+        "e0",
+        "e1",
+        "e2",
+        "e3"
+      ],
+      "birth": 0.5
+    }
+  ],
+  "persistence": [
+    {
+      "dim": 0,
+      "birth": 0,
+      "death": null
+    },
+    {
+      "dim": 0,
+      "birth": 0,
+      "death": 0.5
+    },
+    {
+      "dim": 0,
+      "birth": 0,
+      "death": 0.5
+    },
+    {
+      "dim": 0,
+      "birth": 0,
+      "death": 0.5
+    },
+    {
+      "dim": 0,
+      "birth": 0,
+      "death": null
+    },
+    {
+      "dim": 1,
+      "birth": 0.5,
+      "death": null
+    }
+  ],
+  "analysis": {
+    "current": {
+      "components": 2,
+      "beta1": 2,
+      "edgeCount": 5,
+      "mergeEdgeIds": [
+        "e0",
+        "e1",
+        "e2"
+      ],
+      "cycleEdgeIds": [
+        "e3",
+        "e4"
+      ],
+      "rootByNode": {
+        "a": "a",
+        "b": "a",
+        "c": "a",
+        "d": "a",
+        "z": "z"
+      },
+      "componentSizes": {
+        "a": 4,
+        "z": 1
+      }
+    },
+    "candidates": [
+      {
+        "id": "f:a|b|c|d",
+        "vertices": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        "edges": [
+          "e0",
+          "e1",
+          "e2",
+          "e3"
+        ],
+        "birth": 0.5
+      }
+    ],
+    "faces": [
+      {
+        "id": "f:a|b|c|d",
+        "vertices": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        "edges": [
+          "e0",
+          "e1",
+          "e2",
+          "e3"
+        ],
+        "birth": 0.5
+      }
+    ],
+    "activeFaces": [
+      {
+        "id": "f:a|b|c|d",
+        "vertices": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        "edges": [
+          "e0",
+          "e1",
+          "e2",
+          "e3"
+        ],
+        "birth": 0.5
+      }
+    ],
+    "intervals": [
+      {
+        "dim": 0,
+        "birth": 0,
+        "death": null
+      },
+      {
+        "dim": 0,
+        "birth": 0,
+        "death": 0.5
+      },
+      {
+        "dim": 0,
+        "birth": 0,
+        "death": 0.5
+      },
+      {
+        "dim": 0,
+        "birth": 0,
+        "death": 0.5
+      },
+      {
+        "dim": 0,
+        "birth": 0,
+        "death": null
+      },
+      {
+        "dim": 1,
+        "birth": 0.5,
+        "death": null
+      }
+    ],
+    "h0": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        0.5
+      ],
+      [
+        0,
+        0.5
+      ],
+      [
+        0,
+        0.5
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "h1": [
+      [
+        0.5,
+        1
+      ]
+    ],
+    "h2": [],
+    "curves": [
+      {
+        "epsilon": 0,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.025,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.05,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.075,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.1,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.125,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.15,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.175,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.2,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.225,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.25,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.275,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.3,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.325,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.35,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.375,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.4,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.425,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.45,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.475,
+        "beta0": 5,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.5,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.525,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.55,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.575,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.6,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.625,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.65,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.675,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.7,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.725,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.75,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.775,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.8,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.825,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.85,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.875,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.9,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.925,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.95,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.975,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 1,
+        "beta0": 2,
+        "beta1": 1,
+        "beta2": 0
+      }
+    ],
+    "beta0": 2,
+    "beta1": 1,
+    "beta2": 0,
+    "euler": 1,
+    "largest": 4,
+    "componentColorByNode": {
+      "a": "#72e5ff",
+      "b": "#72e5ff",
+      "c": "#72e5ff",
+      "d": "#72e5ff",
+      "z": "#ff8fd8"
+    },
+    "componentIndexByNode": {
+      "a": 1,
+      "b": 1,
+      "c": 1,
+      "d": 1,
+      "z": 2
+    }
+  },
+  "metrics": [
+    {
+      "id": "a",
+      "depth": 2,
+      "degree": 3,
+      "rank": 0.26671122767819694,
+      "metrics": {
+        "degree": 0.75,
+        "pagerank": 0.26671122767819694,
+        "reachability": 0.75,
+        "descendants": 0.75,
+        "prerequisites": 0.75
+      },
+      "descendantCount": 3,
+      "ancestorCount": 3
+    },
+    {
+      "id": "b",
+      "depth": 2,
+      "degree": 2,
+      "rank": 0.14944960926775586,
+      "metrics": {
+        "degree": 0.5,
+        "pagerank": 0.14944960926775586,
+        "reachability": 0.75,
+        "descendants": 0.75,
+        "prerequisites": 0.75
+      },
+      "descendantCount": 3,
+      "ancestorCount": 3
+    },
+    {
+      "id": "c",
+      "depth": 2,
+      "degree": 3,
+      "rank": 0.276480699408267,
+      "metrics": {
+        "degree": 0.75,
+        "pagerank": 0.276480699408267,
+        "reachability": 0.75,
+        "descendants": 0.75,
+        "prerequisites": 0.75
+      },
+      "descendantCount": 3,
+      "ancestorCount": 3
+    },
+    {
+      "id": "d",
+      "depth": 2,
+      "degree": 2,
+      "rank": 0.27121388533252727,
+      "metrics": {
+        "degree": 0.5,
+        "pagerank": 0.27121388533252727,
+        "reachability": 0.75,
+        "descendants": 0.75,
+        "prerequisites": 0.75
+      },
+      "descendantCount": 3,
+      "ancestorCount": 3
+    },
+    {
+      "id": "z",
+      "depth": 0,
+      "degree": 0,
+      "rank": 0.03614457831325302,
+      "metrics": {
+        "degree": 0,
+        "pagerank": 0.03614457831325302,
+        "reachability": 0,
+        "descendants": 0,
+        "prerequisites": 0
+      },
+      "descendantCount": 0,
+      "ancestorCount": 0
+    }
+  ],
+  "layouts": {
+    "semantic": {
+      "c": {
+        "x": 421.5908643814961,
+        "y": -34.545514158005204,
+        "z": 0
+      },
+      "d": {
+        "x": 333.15414794187967,
+        "y": -62.2727570790026,
+        "z": 42.91463788672466
+      },
+      "a": {
+        "x": 386.0601857669285,
+        "y": -90,
+        "z": -69.05269110230476
+      },
+      "b": {
+        "x": 418.65478692579103,
+        "y": -117.72724292099738,
+        "z": 50.41832452315026
+      },
+      "z": {
+        "x": 339.0449149776157,
+        "y": -145.4544858419948,
+        "z": -7.2443778759304305
+      }
+    },
+    "hierarchical": {
+      "z": {
+        "x": 90,
+        "y": -75,
+        "z": 0
+      },
+      "a": {
+        "x": 90,
+        "y": 75,
+        "z": 0
+      },
+      "b": {
+        "x": 5.5109105961630896e-15,
+        "y": 75,
+        "z": 90
+      },
+      "c": {
+        "x": -90,
+        "y": 75,
+        "z": 1.1021821192326179e-14
+      },
+      "d": {
+        "x": -1.6532731788489267e-14,
+        "y": 75,
+        "z": -90
+      }
+    },
+    "cluster": {
+      "a": {
+        "x": 297.5659420219965,
+        "y": 50.087922695995296,
+        "z": 0
+      },
+      "b": {
+        "x": 217.68761749589132,
+        "y": 25.043961347997648,
+        "z": 38.76160841381582
+      },
+      "c": {
+        "x": 265.4737161765806,
+        "y": 0,
+        "z": -62.37017260853332
+      },
+      "d": {
+        "x": 294.91400109426286,
+        "y": -25.04396134799764,
+        "z": 45.53913182736152
+      },
+      "z": {
+        "x": 223.00831030236253,
+        "y": -50.087922695995296,
+        "z": -6.543309049227486
+      }
+    },
+    "radial": {
+      "a": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "b": {
+        "x": 81.98915917499228,
+        "y": 73.33333333333334,
+        "z": 0
+      },
+      "c": {
+        "x": -81.11057658861517,
+        "y": 0,
+        "z": 74.30393236876762
+      },
+      "d": {
+        "x": 7.1679616598078795,
+        "y": -73.33333333333334,
+        "z": -81.6752260349841
+      },
+      "z": {
+        "x": 680,
+        "y": 0,
+        "z": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,561 @@
+{
+  "components": {
+    "groups": [
+      "a"
+    ],
+    "beta0": 1,
+    "beta1": 1,
+    "edges": 3
+  },
+  "weights": {
+    "strength": [
+      {
+        "filterWeight": 1,
+        "forceWeight": 0
+      },
+      {
+        "filterWeight": 0.5000000000000001,
+        "forceWeight": 0.4999999999999999
+      },
+      {
+        "filterWeight": 0,
+        "forceWeight": 1
+      }
+    ],
+    "distance": [
+      {
+        "filterWeight": 0,
+        "forceWeight": 1
+      },
+      {
+        "filterWeight": 0.4999999999999999,
+        "forceWeight": 0.5000000000000001
+      },
+      {
+        "filterWeight": 1,
+        "forceWeight": 0
+      }
+    ]
+  },
+  "physics": [
+    {
+      "id": "a",
+      "x": 151.9013150030577,
+      "y": 135.08158151061244,
+      "z": -0.3549544636364753,
+      "vx": -1.7311640105866337,
+      "vy": -1.8422929511144746,
+      "vz": -0.1323789904243923
+    },
+    {
+      "id": "b",
+      "x": -149.03769389890581,
+      "y": -0.12206691922846019,
+      "z": 136.8528034245972,
+      "vx": 2.178344942660819,
+      "vy": -0.045496867906115075,
+      "vz": -1.8735116344864668
+    },
+    {
+      "id": "c",
+      "x": 13.932110956218848,
+      "y": -134.95951459138396,
+      "z": -150.54284667104298,
+      "vx": 0.09373774187040533,
+      "vy": 1.8877898190205895,
+      "vz": 2.0162522688197813
+    }
+  ],
+  "filtration": {
+    "components": 1,
+    "beta1": 1,
+    "edgeCount": 3,
+    "mergeEdgeIds": [
+      "e0",
+      "e1"
+    ],
+    "cycleEdgeIds": [
+      "e2"
+    ],
+    "rootByNode": {
+      "a": "a",
+      "b": "a",
+      "c": "a"
+    },
+    "componentSizes": {
+      "a": 3
+    }
+  },
+  "faces": [],
+  "independent": [],
+  "persistence": [
+    {
+      "dim": 0,
+      "birth": 0,
+      "death": null
+    },
+    {
+      "dim": 0,
+      "birth": 0,
+      "death": 0.2
+    },
+    {
+      "dim": 0,
+      "birth": 0,
+      "death": 0.3
+    },
+    {
+      "dim": 1,
+      "birth": 0.4,
+      "death": null
+    }
+  ],
+  "analysis": {
+    "current": {
+      "components": 1,
+      "beta1": 1,
+      "edgeCount": 3,
+      "mergeEdgeIds": [
+        "e0",
+        "e1"
+      ],
+      "cycleEdgeIds": [
+        "e2"
+      ],
+      "rootByNode": {
+        "a": "a",
+        "b": "a",
+        "c": "a"
+      },
+      "componentSizes": {
+        "a": 3
+      }
+    },
+    "candidates": [],
+    "faces": [],
+    "activeFaces": [],
+    "intervals": [
+      {
+        "dim": 0,
+        "birth": 0,
+        "death": null
+      },
+      {
+        "dim": 0,
+        "birth": 0,
+        "death": 0.2
+      },
+      {
+        "dim": 0,
+        "birth": 0,
+        "death": 0.3
+      },
+      {
+        "dim": 1,
+        "birth": 0.4,
+        "death": null
+      }
+    ],
+    "h0": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        0.2
+      ],
+      [
+        0,
+        0.3
+      ]
+    ],
+    "h1": [
+      [
+        0.4,
+        1
+      ]
+    ],
+    "h2": [],
+    "curves": [
+      {
+        "epsilon": 0,
+        "beta0": 3,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.025,
+        "beta0": 3,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.05,
+        "beta0": 3,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.075,
+        "beta0": 3,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.1,
+        "beta0": 3,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.125,
+        "beta0": 3,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.15,
+        "beta0": 3,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.175,
+        "beta0": 3,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.2,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.225,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.25,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.275,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.3,
+        "beta0": 1,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.325,
+        "beta0": 1,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.35,
+        "beta0": 1,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.375,
+        "beta0": 1,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.4,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.425,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.45,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.475,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.5,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.525,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.55,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.575,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.6,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.625,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.65,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.675,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.7,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.725,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.75,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.775,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.8,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.825,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.85,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.875,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.9,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.925,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.95,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.975,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      },
+      {
+        "epsilon": 1,
+        "beta0": 1,
+        "beta1": 1,
+        "beta2": 0
+      }
+    ],
+    "beta0": 1,
+    "beta1": 1,
+    "beta2": 0,
+    "euler": 0,
+    "largest": 3,
+    "componentColorByNode": {
+      "a": "#72e5ff",
+      "b": "#72e5ff",
+      "c": "#72e5ff"
+    },
+    "componentIndexByNode": {
+      "a": 1,
+      "b": 1,
+      "c": 1
+    }
+  },
+  "metrics": [
+    {
+      "id": "a",
+      "depth": 2,
+      "degree": 2,
+      "rank": 0.3333333333333333,
+      "metrics": {
+        "degree": 1,
+        "pagerank": 0.3333333333333333,
+        "reachability": 1,
+        "descendants": 1,
+        "prerequisites": 1
+      },
+      "descendantCount": 2,
+      "ancestorCount": 2
+    },
+    {
+      "id": "b",
+      "depth": 2,
+      "degree": 2,
+      "rank": 0.3333333333333333,
+      "metrics": {
+        "degree": 1,
+        "pagerank": 0.3333333333333333,
+        "reachability": 1,
+        "descendants": 1,
+        "prerequisites": 1
+      },
+      "descendantCount": 2,
+      "ancestorCount": 2
+    },
+    {
+      "id": "c",
+      "depth": 2,
+      "degree": 2,
+      "rank": 0.3333333333333333,
+      "metrics": {
+        "degree": 1,
+        "pagerank": 0.3333333333333333,
+        "reachability": 1,
+        "descendants": 1,
+        "prerequisites": 1
+      },
+      "descendantCount": 2,
+      "ancestorCount": 2
+    }
+  ],
+  "layouts": {
+    "semantic": {
+      "a": {
+        "x": 420.02082791081,
+        "y": -54.2042833102432,
+        "z": 0
+      },
+      "b": {
+        "x": 340.40802881669697,
+        "y": -90,
+        "z": 36.26948880009894
+      },
+      "c": {
+        "x": 383.4988498838753,
+        "y": -125.7957166897568,
+        "z": -39.867589796183715
+      }
+    },
+    "hierarchical": {
+      "a": {
+        "x": 90,
+        "y": 0,
+        "z": 0
+      },
+      "b": {
+        "x": -44.99999999999998,
+        "y": 0,
+        "z": 77.94228634059948
+      },
+      "c": {
+        "x": -45.00000000000004,
+        "y": 0,
+        "z": -77.94228634059947
+      }
+    },
+    "cluster": {
+      "a": {
+        "x": 296.14784456460256,
+        "y": 32.331615074619044,
+        "z": 0
+      },
+      "b": {
+        "x": 224.2395098989521,
+        "y": 0,
+        "z": 32.7595382710571
+      },
+      "c": {
+        "x": 263.1602515080164,
+        "y": -32.331615074619044,
+        "z": -36.00943594494013
+      }
+    },
+    "radial": {
+      "a": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "b": {
+        "x": 95.26279441628824,
+        "y": 55,
+        "z": 0
+      },
+      "c": {
+        "x": -70.24381984134408,
+        "y": -55,
+        "z": 64.3490930324336
+      }
+    }
+  }
+}

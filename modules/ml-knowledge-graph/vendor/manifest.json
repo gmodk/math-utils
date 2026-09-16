@@ -1,0 +1,20 @@
+[
+  {
+    "package": "three",
+    "version": "0.160.0",
+    "source": "https://registry.npmjs.org/three/-/three-0.160.0.tgz",
+    "sha256": "1ee2f935c4f555814b388e87b5ef78a44856bd2e9d0feb88643a6e193fb42856"
+  },
+  {
+    "package": "katex",
+    "version": "0.16.11",
+    "source": "https://registry.npmjs.org/katex/-/katex-0.16.11.tgz",
+    "sha256": "8c5494c5f7d8e8bf73ff3fe64d4bd09a340e4878b7eec9bbd9ef8d8f3e24193f"
+  },
+  {
+    "package": "marked",
+    "version": "15.0.4",
+    "source": "https://registry.npmjs.org/marked/-/marked-15.0.4.tgz",
+    "sha256": "bb835befb5ecdfefb38fea62818a89148b6821b88df149b21ae4ed07858a9ed6"
+  }
+]

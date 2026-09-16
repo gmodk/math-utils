@@ -1,0 +1,451 @@
+{
+  "components": {
+    "groups": [
+      "a",
+      "b"
+    ],
+    "beta0": 2,
+    "beta1": 0,
+    "edges": 0
+  },
+  "weights": {
+    "strength": [],
+    "distance": []
+  },
+  "physics": [
+    {
+      "id": "a",
+      "x": 182.09580212793753,
+      "y": 104.8597927876089,
+      "z": -0.037891000885811085,
+      "vx": 0.0869378072090603,
+      "vy": -0.052873935323734356,
+      "vz": -0.014296142452288031
+    },
+    {
+      "id": "b",
+      "x": -133.44945743631774,
+      "y": -104.8597927876089,
+      "z": 122.64633738914243,
+      "vx": 0.24604664389830216,
+      "vy": 0.052873935323734356,
+      "vz": -0.07615777487297638
+    }
+  ],
+  "filtration": {
+    "components": 2,
+    "beta1": 0,
+    "edgeCount": 0,
+    "mergeEdgeIds": [],
+    "cycleEdgeIds": [],
+    "rootByNode": {
+      "a": "a",
+      "b": "b"
+    },
+    "componentSizes": {
+      "a": 1,
+      "b": 1
+    }
+  },
+  "faces": [],
+  "independent": [],
+  "persistence": [
+    {
+      "dim": 0,
+      "birth": 0,
+      "death": null
+    },
+    {
+      "dim": 0,
+      "birth": 0,
+      "death": null
+    }
+  ],
+  "analysis": {
+    "current": {
+      "components": 2,
+      "beta1": 0,
+      "edgeCount": 0,
+      "mergeEdgeIds": [],
+      "cycleEdgeIds": [],
+      "rootByNode": {
+        "a": "a",
+        "b": "b"
+      },
+      "componentSizes": {
+        "a": 1,
+        "b": 1
+      }
+    },
+    "candidates": [],
+    "faces": [],
+    "activeFaces": [],
+    "intervals": [
+      {
+        "dim": 0,
+        "birth": 0,
+        "death": null
+      },
+      {
+        "dim": 0,
+        "birth": 0,
+        "death": null
+      }
+    ],
+    "h0": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "h1": [],
+    "h2": [],
+    "curves": [
+      {
+        "epsilon": 0,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.025,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.05,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.075,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.1,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.125,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.15,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.175,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.2,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.225,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.25,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.275,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.3,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.325,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.35,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.375,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.4,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.425,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.45,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.475,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.5,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.525,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.55,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.575,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.6,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.625,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.65,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.675,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.7,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.725,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.75,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.775,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.8,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.825,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.85,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.875,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.9,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.925,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.95,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.975,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 1,
+        "beta0": 2,
+        "beta1": 0,
+        "beta2": 0
+      }
+    ],
+    "beta0": 2,
+    "beta1": 0,
+    "beta2": 0,
+    "euler": 2,
+    "largest": 1,
+    "componentColorByNode": {
+      "a": "#72e5ff",
+      "b": "#ff8fd8"
+    },
+    "componentIndexByNode": {
+      "a": 1,
+      "b": 2
+    }
+  },
+  "metrics": [
+    {
+      "id": "a",
+      "depth": 0,
+      "degree": 0,
+      "rank": 0.5,
+      "metrics": {
+        "degree": 0,
+        "pagerank": 0.5,
+        "reachability": 0,
+        "descendants": 0,
+        "prerequisites": 0
+      },
+      "descendantCount": 0,
+      "ancestorCount": 0
+    },
+    {
+      "id": "b",
+      "depth": 0,
+      "degree": 0,
+      "rank": 0.5,
+      "metrics": {
+        "degree": 0,
+        "pagerank": 0.5,
+        "reachability": 0,
+        "descendants": 0,
+        "prerequisites": 0
+      },
+      "descendantCount": 0,
+      "ancestorCount": 0
+    }
+  ],
+  "layouts": {
+    "semantic": {
+      "a": {
+        "x": 421.56921938165306,
+        "y": -66,
+        "z": 0
+      },
+      "b": {
+        "x": 349.34815134195895,
+        "y": -114,
+        "z": 28.07960423233466
+      }
+    },
+    "hierarchical": {
+      "a": {
+        "x": 90,
+        "y": 0,
+        "z": 0
+      },
+      "b": {
+        "x": -90,
+        "y": 0,
+        "z": 1.1021821192326179e-14
+      }
+    },
+    "cluster": {
+      "a": {
+        "x": 296.3730669589464,
+        "y": 21,
+        "z": 0
+      },
+      "b": {
+        "x": 233.17963242421408,
+        "y": -21,
+        "z": 24.56965370329283
+      }
+    },
+    "radial": {
+      "a": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "b": {
+        "x": 680,
+        "y": 0,
+        "z": 0
+      }
+    }
+  }
+}

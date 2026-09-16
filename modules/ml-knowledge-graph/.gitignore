@@ -1,0 +1,68 @@
+# Environment
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+
+# Dependencies
+node_modules/
+.pnpm-store/
+.npm/
+.yarn/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Build outputs / artifacts
+dist/
+build/
+out/
+coverage/
+tmp/
+_site/
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+.svelte-kit/
+vite.svg
+*.tsbuildinfo
+
+# Python artifacts
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Render/media artifacts
+frames/
+*.mp4
+*.webm
+*.mov
+*.avi
+*.mkv
+
+# Local graph layout cache
+knowledge_graph.layout.json
+!knowledge_graph.layout.json
+
+# Pinned browser runtime is source for the offline integration.
+!vendor/three/build/
+!vendor/three/build/three.module.js

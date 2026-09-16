@@ -305,11 +305,6 @@
     "sha256": "a74fd47133184afc60297bddc469fc1ce63f1cc88c3a47cfb2ad0262f3e8a430"
   },
   {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/components.json",
-    "bytes": 420,
-    "sha256": "31f4ca67a4a62572571003d3d5aac85ee6fbfca67a192924bac6b168d95e98fd"
-  },
-  {
     "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/components/markov-3d-graph.tsx",
     "bytes": 12720,
     "sha256": "2390de5d3c799694ef79532bd50dd7141358d3f2045c2d343cbf13e157e3a744"
@@ -630,6 +625,11 @@
     "sha256": "a0784eb77831a799fad7991df4f1b666f876201565a80175e1aa68733574a2e4"
   },
   {
+    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/components.json",
+    "bytes": 420,
+    "sha256": "31f4ca67a4a62572571003d3d5aac85ee6fbfca67a192924bac6b168d95e98fd"
+  },
+  {
     "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/frontend-main.tsx",
     "bytes": 281,
     "sha256": "06e08ef232764adb0d3d0b89081c844338b90e4ee342635ca883e5345b6cd26b"
@@ -775,84 +775,1189 @@
     "sha256": "bf2255211ef7d2ab4fdd378f30f8a31d84536bf1d2a90c4e62adb085af5537be"
   },
   {
-    "path": "modules/regression_geometry_explorers/explorer_1_correlation_vectors_3d.html",
-    "bytes": 12048,
-    "sha256": "802e10ec8de6e98af0d306ab16ec462a03925635f53172713745c571ebac6648"
+    "path": "modules/ml-knowledge-graph/.claude/skills/build-knowledge-graph/scripts/graph.py",
+    "bytes": 27550,
+    "sha256": "ce7283d24311f3c8830e8df04027f070de686b240ce155e8fa5ce2f9e34a1138"
   },
   {
-    "path": "modules/regression_geometry_explorers/explorer_10_principal_component_regression.html",
-    "bytes": 13604,
-    "sha256": "4da4e63d5188ecc015a7a6509e0aaece70c33c71af8573ce1382d530caec15e4"
+    "path": "modules/ml-knowledge-graph/.claude/skills/build-knowledge-graph/SKILL.md",
+    "bytes": 13513,
+    "sha256": "3607b98ba8ed3b79e3ee5399fdcddf44c080b241c5b6a0f2e708b0241b200991"
   },
   {
-    "path": "modules/regression_geometry_explorers/explorer_11_bayesian_linear_regression_posterior_geometry.html",
-    "bytes": 14297,
-    "sha256": "5f9eaed8219dd18bfec5f06e295c652f3de8db34cc6ff71b9b5d932845ade18e"
+    "path": "modules/ml-knowledge-graph/.gitignore",
+    "bytes": 877,
+    "sha256": "66535d273230a31e647ec41ae6f3523872924f320ca34d8bb388653a010f2d69"
   },
   {
-    "path": "modules/regression_geometry_explorers/explorer_2_covariance_ellipsoid_pca_3d.html",
-    "bytes": 13417,
-    "sha256": "839c2f64c7fb8fc9e8fc46fef8eb176963835b78508eb8acd0c8ff0ca2443093"
+    "path": "modules/ml-knowledge-graph/app.py",
+    "bytes": 8755,
+    "sha256": "d9a135c5674a0bec3aec623c9d5dcfbad332498613282f10f7aef92195978ffe"
   },
   {
-    "path": "modules/regression_geometry_explorers/explorer_3_portfolio_variance_surface_3asset.html",
-    "bytes": 14660,
-    "sha256": "04f12d8de78eb03d5b11c7d5d4c1fa596f1be9ebeec00d8e8cbf8d0c735762d1"
+    "path": "modules/ml-knowledge-graph/assets/mathematics-of-machine-learning-cover.jpg",
+    "bytes": 618615,
+    "sha256": "eb51390b609894f2349e85e5555c44addade6afe9dae772ce00de776ef4f78a9"
   },
   {
-    "path": "modules/regression_geometry_explorers/explorer_4_trivariate_scatter_pca_3d.html",
-    "bytes": 12517,
-    "sha256": "c0e247c462583f55e319773ee5221195ff551e937b158d9075b68d06ebaf4e84"
+    "path": "modules/ml-knowledge-graph/backend/__init__.py",
+    "bytes": 61,
+    "sha256": "417a252c0931d293afa753ea5dbc4d8b704798ce199f6177c1a0823291b590ab"
   },
   {
-    "path": "modules/regression_geometry_explorers/explorer_5_regression_projection_geometry.html",
-    "bytes": 17690,
-    "sha256": "0ed2f4e5ade613904df90ba96fb7e14bf2797e4a2d0a41eb1fc15d9e0d346a60"
+    "path": "modules/ml-knowledge-graph/backend/csv_import.py",
+    "bytes": 13322,
+    "sha256": "caeb98393505054c067fd80a174d75bf5b626f6f3e15699201c3556ea31be5ce"
   },
   {
-    "path": "modules/regression_geometry_explorers/explorer_6_multiple_regression_projection_subspace.html",
-    "bytes": 24081,
-    "sha256": "4c0b3bd9c631d06c322838779b5b26c3c1f8715567fd3778c85d51c49a06299c"
+    "path": "modules/ml-knowledge-graph/backend/fork_graph.py",
+    "bytes": 6246,
+    "sha256": "b695a400873f83af077b0845342e6154b985001f2c8d2746fa0b73f2749f782b"
   },
   {
-    "path": "modules/regression_geometry_explorers/explorer_7_ridge_lasso_regularization_geometry.html",
-    "bytes": 13257,
-    "sha256": "f2d6776106a9cb274a536616e189fe8ae7d7223a068493b2e38e3c774fc6c2e5"
+    "path": "modules/ml-knowledge-graph/backend/graph_analysis.py",
+    "bytes": 8385,
+    "sha256": "90314c3658686a5a8da9500e0de5d709fa8893aa5119bddbe0a5ab702e12d9a9"
   },
   {
-    "path": "modules/regression_geometry_explorers/explorer_8_multicollinearity_vif_condition_geometry.html",
-    "bytes": 11305,
-    "sha256": "bc0089a8dafa083159efd109996d5091b4148243300916bc6614cabb3bcd29f2"
+    "path": "modules/ml-knowledge-graph/backend/topology.py",
+    "bytes": 5930,
+    "sha256": "0b023ed0d53d9979306b37a78335f6380d265b036c7ccd7dee8ba221febbbc9c"
   },
   {
-    "path": "modules/regression_geometry_explorers/explorer_9_bias_variance_polynomial_complexity.html",
-    "bytes": 12309,
-    "sha256": "1a48930d5c4e3711981d66098cb276169bb444cd01063f330c97dec64a0250ff"
+    "path": "modules/ml-knowledge-graph/constellation/api-model.js",
+    "bytes": 5028,
+    "sha256": "90c929273f43e73712b415557e161abf3c5373c16c9857867aa526133c446a43"
   },
   {
-    "path": "modules/regression_geometry_explorers/index.html",
-    "bytes": 3364,
-    "sha256": "f770667ee41f09315cb5fabe374dad1be351adbfc6480c986bfaf059090aa98a"
+    "path": "modules/ml-knowledge-graph/constellation/csv-preview.js",
+    "bytes": 4236,
+    "sha256": "4391eeb684a853f9a18a29c7b36871166d4a22efa83c3b0022e2d04ef8f9a7d0"
   },
   {
-    "path": "modules/regression_geometry_explorers/MATHEMATICAL_THEORY.docx",
-    "bytes": 42862,
-    "sha256": "fdb936a8c057fbcc0d52692577185a06b3de304fcfe600f74e0ec68f4c39199a"
+    "path": "modules/ml-knowledge-graph/constellation/feature.css",
+    "bytes": 8089,
+    "sha256": "110d9a2cd05e1618e7f321701756eb7aed0622a0273fcbbd69adb69edb8e67e7"
   },
   {
-    "path": "modules/regression_geometry_explorers/MATHEMATICAL_THEORY.md",
-    "bytes": 11915,
-    "sha256": "9e89a426368d9cb348c2b1c526827fe96e402ff2671e4d4df83e941d2aa2b49b"
+    "path": "modules/ml-knowledge-graph/constellation/index.html",
+    "bytes": 7887,
+    "sha256": "587c9d1de7b6451843a494af8e4aeb9fd724547a1a06985816c3ac733608f995"
   },
   {
-    "path": "modules/regression_geometry_explorers/README.md",
-    "bytes": 6221,
-    "sha256": "1aa6ef15f6499d9921f057d9cf91fff886c7e2170855dbbe60109b175b97adff"
+    "path": "modules/ml-knowledge-graph/constellation/mobile.css",
+    "bytes": 239,
+    "sha256": "af8e8c8757890286e4c3e63a18d79b4c2248aaaec508dc4b65bafba2bea7b8a4"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/constellation/src/app.js",
+    "bytes": 42855,
+    "sha256": "28ed58bd1e062c14078bb9e346a4a8ebf97fc92f0d679396e1cd6c2b327db968"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/constellation/src/sample-data.js",
+    "bytes": 1974285,
+    "sha256": "4de8183e898700d8bbe39e4c35eefeea1c907805917dbd7a60beeeba601b1d98"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/constellation/styles.css",
+    "bytes": 7807,
+    "sha256": "7ab2426d32c55f07c7e7b38fe07fac698a14ed31a951bfa3d007dc87efb3d7eb"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/docs/CSV_SCHEMA.md",
+    "bytes": 1547,
+    "sha256": "8a94211b19f5b14fd45523c9d6affee194364f55db2981718dc2482afb9a1c7c"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/docs/INTEGRATION.md",
+    "bytes": 4924,
+    "sha256": "ed0c0d59090899de75ba2e8a6907e11de74b9220810802cf43876f178bd1231d"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/docs/SOURCE_INVENTORY.md",
+    "bytes": 7267,
+    "sha256": "5c5114bbc26b59e1ccedb0f3405e33da95fd5fb0b942c8ff745df630fae0fca6"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/docs/video-renderer.md",
+    "bytes": 17985,
+    "sha256": "813eb31cb0635e37836a4725d29caafc62ecf07a8b9fda840a2f1795b4645855"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/index.html",
+    "bytes": 21413,
+    "sha256": "ddea1bdf050a9b74c3c6226d1fe62f8e5050d034ee101b0bb2bbc55f3dfc1d2b"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/js/api.js",
+    "bytes": 1212,
+    "sha256": "aea3700fd358988eb244fabcb23b0dbef8d7a01b9b10a86f7ab068aafafe24fe"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/js/csv-import.js",
+    "bytes": 1476,
+    "sha256": "be0cbd8d2c55d8dc8da289bcae5bad8cb2de8cf956db29278e93ed620804c884"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/js/graph.js",
+    "bytes": 3025,
+    "sha256": "62bb25fd36801f2d5729a388f29dab9f1155a92ff0154d0a200e54e326373380"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/js/interaction.js",
+    "bytes": 2483,
+    "sha256": "4de3d7b2159206b328a19eafdc77d5b286d06344ccbacde95d6d272381b9e0c9"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/js/layouts.js",
+    "bytes": 2018,
+    "sha256": "59f7ac1e2d0ae8618fea27a09a9ca29bd3034e9fcc34aef1cde031f323298735"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/js/main.js",
+    "bytes": 115262,
+    "sha256": "dc9f20475b868c4e198969af767a18020459b93ec85a30bb1390b04c8d08c710"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/js/renderer.js",
+    "bytes": 39141,
+    "sha256": "9c67a9cf79e3df303f01b475c2092e05a97ff9223620a799a08a5de70f223108"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/js/ui.js",
+    "bytes": 32107,
+    "sha256": "7e93c754b05f79098320b9f0b8a5bbc533f1e2e54bf86f7087e2731739b27570"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/knowledge_graph.json",
+    "bytes": 2953243,
+    "sha256": "e22fe086b14632f4350a98abb51c67ff6eea4031d42fa8464492461732ac470b"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/knowledge_graph.layout.json",
+    "bytes": 170552,
+    "sha256": "2f4f93d69a26b5c50147966038eec0b1344f403a37d2bd093f5507f9f83c5706"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/LICENSE",
+    "bytes": 1093,
+    "sha256": "69ee9812b3efa951b7cb3b3b342b91f352314c82330a2defa3fb5344d4df2e4c"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/package-lock.json",
+    "bytes": 52429,
+    "sha256": "b54ee0f236305ed5fb39dc993ee58d14d9aab8939d00330a3804604bccfde863"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/package.json",
+    "bytes": 476,
+    "sha256": "b474a9351e5d209ad3ea5d10d01e8076b13b5b06131a656ef096b09bd0affbdb"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/README.md",
+    "bytes": 20161,
+    "sha256": "6c20d695fc68750a71f3d5387a6b582c3cfb9fc1c26d1dc38cd24a5e89b5b088"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/bundle.mjs",
+    "bytes": 1190,
+    "sha256": "b2f14776b1ccdd28316667423c4b399a97831a52d1f7209de93b2707ef381630"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/CSV_SCHEMA_GUIDE.md",
+    "bytes": 2279,
+    "sha256": "b9a458ef64d17dd969974bbf420cd4a04b34419dc74a01b47a79e25b733dac87"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/build_science_sample.mjs",
+    "bytes": 34360,
+    "sha256": "abf2bb91993b1aafb69f5b8978af4003c6ef6f25a41aead95b942577707222cc"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/expand_science_atlas.mjs",
+    "bytes": 45861,
+    "sha256": "ff7b4e7881bbc8530861152fe6eae80716864021d42ab08372bd0f22f690bfdf"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/full_science_world_edges.csv",
+    "bytes": 852595,
+    "sha256": "1b8f18bb8e07336d2758746048c8f7a7e27d361b80710bfb483520c948e12391"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/full_science_world_nodes.csv",
+    "bytes": 1113089,
+    "sha256": "de9ea09e8db167b8096774304f5247bbd977d383af47eec50a7a7fd467f023e0"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/agricultural_food_veterinary_edges.csv",
+    "bytes": 32640,
+    "sha256": "c1a42bbe4b5f427d4d9a5f6959143ebb8ea67fd40b488b416c8de3dec69586ec"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/agricultural_food_veterinary_nodes.csv",
+    "bytes": 41588,
+    "sha256": "1e910e75f36177e74b3a5b90c07719db1238c4c166683bd07bdc218093ff61a3"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/ai_machine_learning_edges.csv",
+    "bytes": 31271,
+    "sha256": "e54eb8b039d4e465d59a577a50701fd0bbd74b6eb4c2945381b6fa34aed4132b"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/ai_machine_learning_nodes.csv",
+    "bytes": 44159,
+    "sha256": "890b38a11cec600a063d5bb4e0907b14130317cd2aa893e3a5c0bc4eb428fccd"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/astronomy_cosmology_edges.csv",
+    "bytes": 32526,
+    "sha256": "831df1e443d8f928aefe922024e7efaf2ca6814ed926b94b51271b6481b787c6"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/astronomy_cosmology_nodes.csv",
+    "bytes": 44167,
+    "sha256": "88893d64c8c3cc2cc38b7004fb183c4761fece0876932bfa6a05ad244999c4a7"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/biochemistry_molecular_edges.csv",
+    "bytes": 32564,
+    "sha256": "3a111e517f02c01465e65b637a078339998943138330ba36202aa26071e53cc8"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/biochemistry_molecular_nodes.csv",
+    "bytes": 42793,
+    "sha256": "11e1a8eebc6ad2fa7c995a3bc5ab760a7a4ab977b882eaa05f601d7e272c56e6"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/chemical_sciences_edges.csv",
+    "bytes": 31666,
+    "sha256": "adbfbbbe2527faf3ae19d6858742f759334dc8c36b0d2265092a5457a9e268f4"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/chemical_sciences_nodes.csv",
+    "bytes": 40780,
+    "sha256": "cec64a80a7d98ea39abbc6270073963f40be5ee1c38f82227809f301d0413df0"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/climate_atmosphere_edges.csv",
+    "bytes": 30999,
+    "sha256": "b876d410730ec01e38846b65df7630aa0750a05a6e306b9d281499783991f287"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/climate_atmosphere_nodes.csv",
+    "bytes": 41113,
+    "sha256": "3f9d81ec63f00d6801122d53c7bf2b7d4215024c908fdc993bbda1fc4f76302d"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/cognitive_behavioral_edges.csv",
+    "bytes": 31532,
+    "sha256": "cb3203cd79ac362cba170215e7881a5ae3b451284adce662d82d629c98bcd7df"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/cognitive_behavioral_nodes.csv",
+    "bytes": 41313,
+    "sha256": "538d65a180a7cd3a2be23f7dc35a942d0f7ca7f1edb5f52e638e8fd66f4a0e45"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/computer_science_edges.csv",
+    "bytes": 30984,
+    "sha256": "abbdc3600428275d87b99d5026fd4fcfea544012e16a3b730d4811e27004e06e"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/computer_science_nodes.csv",
+    "bytes": 39863,
+    "sha256": "18d7dc895942d16b65b95ac04dbd1b0283a362b4c712b3c8ccb02a50f3943697"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/cross_domain_edges.csv",
+    "bytes": 25708,
+    "sha256": "29572a4efbcacb5c85ff6a8b55c4717a2e1ffd6496750c2c46d7fe75ea821c13"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/cross_domain_nodes.csv",
+    "bytes": 31396,
+    "sha256": "f9b0d0b897b86da7e1c32c57f2f95133632716d5908833471e41435eb0ea9c3f"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/earth_geosciences_edges.csv",
+    "bytes": 28106,
+    "sha256": "9d44f5b174910c1bef818090b1f974e25c929935b0250bdb6c7f35f71cd8f3df"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/earth_geosciences_nodes.csv",
+    "bytes": 36442,
+    "sha256": "141f4c02511d734b5089491fda4416a4e16b792640d1715c502352e2233d85ae"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/engineering_technology_edges.csv",
+    "bytes": 33142,
+    "sha256": "19f20a9ac105083c976eb7e5b5a15d6ca1246bad1f731bf4e4fd28d1748915cc"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/engineering_technology_nodes.csv",
+    "bytes": 41507,
+    "sha256": "7da74b02c0c0194cbc246cbbd735c945b4c2c04a33c78f61296b92620976fe27"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/environment_ecology_edges.csv",
+    "bytes": 31485,
+    "sha256": "e497557b0361921d143fd301ff10275dfbdfb82734a44d539077a8852637f324"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/environment_ecology_nodes.csv",
+    "bytes": 41583,
+    "sha256": "930a0986d18aad30041d76a23c9a05d754aa444b06b0dd333d862029be3f423a"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/evolution_ecology_edges.csv",
+    "bytes": 29878,
+    "sha256": "2d1fd629e3b3d257f95264842381e0be1dc685a40a423e811866906a45cd4dac"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/evolution_ecology_nodes.csv",
+    "bytes": 39029,
+    "sha256": "1529d19ee162b8e4c3401f9746ceed180f7e17d284a298c5378991450db80817"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/fundamental_physics_edges.csv",
+    "bytes": 35720,
+    "sha256": "a7a910d8bb8f4d72b0f3f10df79daa4137c0766d224108620fcd8a87bafc9f1e"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/fundamental_physics_nodes.csv",
+    "bytes": 43824,
+    "sha256": "1fdf9157eded2980dcc2160492fd4c1c7ded93a88dc6cc39afbadb5d0b5fbfa0"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/genetics_genomics_edges.csv",
+    "bytes": 29534,
+    "sha256": "e635369223b2e610f81f8d7e58ffc96ad8604dc926f1592cd892e4ff4caf91ae"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/genetics_genomics_nodes.csv",
+    "bytes": 40399,
+    "sha256": "f494bcf183859d6477981b4a2a2b1b8c5c2f3d01266b546bc15d30a9afc82c8a"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/materials_science_edges.csv",
+    "bytes": 29783,
+    "sha256": "163905fd08a500c34e8568f3953998db94358e41272e0a68be4c1dcfca9733c4"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/materials_science_nodes.csv",
+    "bytes": 40475,
+    "sha256": "0d6db38bad1e493b17ea215dc71058c481c02b479a2e51d732cf5e355b929932"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/mathematical_sciences_edges.csv",
+    "bytes": 37595,
+    "sha256": "24d8b26e2e3b1904823ebadbc07ae5406d55a82746fa8a841c630442de9a909b"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/mathematical_sciences_nodes.csv",
+    "bytes": 48848,
+    "sha256": "46bcff84f5081da5e3bf177f702df942628fae1d5fb6a0c92f064c924430cb4b"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/medical_health_edges.csv",
+    "bytes": 27961,
+    "sha256": "c14a774d612f73be479e9bdab6166a3bf1baf90d0ea26c4694102e39cbf52e68"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/medical_health_nodes.csv",
+    "bytes": 38042,
+    "sha256": "29ce371580875d9fba276c8bb29d5fa279f218d21f281642b9b517fd07fa4241"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/microbiology_virology_edges.csv",
+    "bytes": 29942,
+    "sha256": "c8a20d74559127d19e0fabe19ba91b1633d80bbe434038c4e6508fb1ef9cf31a"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/microbiology_virology_nodes.csv",
+    "bytes": 40112,
+    "sha256": "b2fffd0d38f4f14176c355adf62481b4fe209231233ab713b844618f9c2e1b2a"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/module_manifest.csv",
+    "bytes": 3459,
+    "sha256": "35e663b7c7452b60ccd3b7cd4727a4e9f32c8330b6d1ef8dc5ea84b2abc061a6"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/neuroscience_edges.csv",
+    "bytes": 28103,
+    "sha256": "13e3d3d1c8dbc6cb421e038ca620e380fbad2cc6ab0fa2edee736bb024fd2bd5"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/neuroscience_nodes.csv",
+    "bytes": 42475,
+    "sha256": "1707fdb68cd2ade56595aa1fd9a356e7df7f1d918310d6478e350d6cb6c80148"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/ocean_marine_edges.csv",
+    "bytes": 28630,
+    "sha256": "705b4e57731f7f1663a61250091c22641ed1ca6f505e77c5e123f1e2900cfff0"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/ocean_marine_nodes.csv",
+    "bytes": 38794,
+    "sha256": "2ae422a5a8786e4cf83394896f761175ff4a73ccfe447bb591335597013a23c7"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/organismal_biology_edges.csv",
+    "bytes": 28512,
+    "sha256": "3e1f5cbbdcb5291dc4b9922897664fe0984600cdd147570ecc5ad7f503c6069e"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/organismal_biology_nodes.csv",
+    "bytes": 38874,
+    "sha256": "538cf619224b169e9814358d7726f95745ee822d62c700df3e035a8753ab72d8"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/probability_statistics_edges.csv",
+    "bytes": 33583,
+    "sha256": "02ac49954aac93246e2a26c592434370577b41c23f02eca7da70fb1a8b49897d"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/probability_statistics_nodes.csv",
+    "bytes": 44699,
+    "sha256": "1802fbece265a06d1e29b13e384289f7e5628610cf1ad3f7879da35d41165c51"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/public_population_health_edges.csv",
+    "bytes": 31976,
+    "sha256": "834b5c2dbacca373d54d078fc0788bb79f5b94890ca92c8b535a5da4bdcf3858"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/public_population_health_nodes.csv",
+    "bytes": 40913,
+    "sha256": "5ecaf1c895c4c570a326ea8ee7569e3b0f96c18c1a3678693782b0e27325aa1b"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/quantum_technology_edges.csv",
+    "bytes": 30319,
+    "sha256": "3daf48bb1aed1dc16e00c736a23e41dc618fd48d53931a61bc62813bb979825c"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/quantum_technology_nodes.csv",
+    "bytes": 40876,
+    "sha256": "3fd7b6690e9fa3c82624164532085533c061a0570b2548cd2749cdd45b5ab4d6"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/science_studies_edges.csv",
+    "bytes": 30667,
+    "sha256": "20da058f074003dc88f1efc6c063aec1d4e8a32f931c9f90e9c1f00f35f0f8fd"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/science_studies_nodes.csv",
+    "bytes": 42706,
+    "sha256": "b9b2f13f731caa2db8b1bcc89555ed7018e1c7a68ea32979a5c9667482ef72f8"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/social_sciences_edges.csv",
+    "bytes": 29488,
+    "sha256": "8098bc62ec6039918aca5828e850f7e682b46f5f80ee589b1320b39c2697aac9"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/social_sciences_nodes.csv",
+    "bytes": 39688,
+    "sha256": "101212036354fd30134207c3f085197797230020178ed0d544f7ead3a53ccf4b"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/systems_complexity_edges.csv",
+    "bytes": 27869,
+    "sha256": "42e6f86aa67110b7efcbffe5aa0cb3c8b101e7dd2fc212b985838590cdcfc631"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_modules/systems_complexity_nodes.csv",
+    "bytes": 40523,
+    "sha256": "8eb359ae178eac1d7706ec39591d6b0bfe58e5908e7637467ac5e504eb208165"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_world_edges.csv",
+    "bytes": 852595,
+    "sha256": "1b8f18bb8e07336d2758746048c8f7a7e27d361b80710bfb483520c948e12391"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/examples/science_world_nodes.csv",
+    "bytes": 1113089,
+    "sha256": "de9ea09e8db167b8096774304f5247bbd977d383af47eec50a7a7fd467f023e0"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/feature.css",
+    "bytes": 7863,
+    "sha256": "a9a87b11358220a28cbe3a28a005e959ea01643f11f7546b800cbd72210e08b9"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/FEATURE_PARITY.md",
+    "bytes": 2139,
+    "sha256": "bbdc60ef74113d8c1d61ce911a742689c36c0dca179444217e6a0fa436b8544e"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/index.html",
+    "bytes": 7310,
+    "sha256": "2b93819fa8d04673bad30291efbc390367d756774cc1bcca105df11a7a07760d"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/LICENSE",
+    "bytes": 1151,
+    "sha256": "a6d542c251e3a6e7a42c08dbeaf7325e30519d1f34b0cbd585ceb036e4bc63fd"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/make-sample-data.mjs",
+    "bytes": 683,
+    "sha256": "da1c543ae4ec49fc952cc411f2a0ccdbbf57da81e6738cfa8161d8a6ae4eeb9f"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/mobile.css",
+    "bytes": 239,
+    "sha256": "af8e8c8757890286e4c3e63a18d79b4c2248aaaec508dc4b65bafba2bea7b8a4"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/package.json",
+    "bytes": 365,
+    "sha256": "72bfff010a8d6876026dbff7ec20108ce6c49a62f883e3a2f68d218924afc5a7"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/README.md",
+    "bytes": 5086,
+    "sha256": "b702861819161d7ce5bc9cc609960c38443f2608d88cffaea6c4070eed8d5d8b"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/science-atlas-project-handoff.md",
+    "bytes": 16142,
+    "sha256": "907081a8375add95e589256a572d2789dfcf8aca4202b1654230f5bf4323890c"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/SCIENCE_ATLAS_SCOPE.md",
+    "bytes": 3221,
+    "sha256": "e0bc7d5438ae2392027983f271d3d418847608e0201d7762e313be1c3268f07a"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/src/app.js",
+    "bytes": 47878,
+    "sha256": "5f6dc290babe76991b195487c954433a4e64c2b4c2d2c5e1cb91e525d0e622e8"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/src/csv-core.js",
+    "bytes": 11111,
+    "sha256": "ee283ebd553b3f45547440394ca58c9781c0fc66b7b5aa93c154b4487d890c2e"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/src/graph-core.js",
+    "bytes": 9967,
+    "sha256": "36b372ad320ee1d54ce37d50e580783fd32c846bc1fbe0525c8b1934e3f0e08e"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/src/sample-data.js",
+    "bytes": 1974285,
+    "sha256": "4de8183e898700d8bbe39e4c35eefeea1c907805917dbd7a60beeeba601b1d98"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/src/topology.js",
+    "bytes": 6352,
+    "sha256": "88e7e5d49851544cbc57110a736efd6316bb2ec7d911c25d6953062789678edd"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/styles.css",
+    "bytes": 7807,
+    "sha256": "7ab2426d32c55f07c7e7b38fe07fac698a14ed31a951bfa3d007dc87efb3d7eb"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/tests/core.test.cjs",
+    "bytes": 2918,
+    "sha256": "6647675f809f3485bca62a266625117c5a5bdb091265ebd6f10f6ff319787f7c"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/tests/parity.test.cjs",
+    "bytes": 2306,
+    "sha256": "e20903db95bb1aa895912cae238d666ecbca476740582dcd50667729a00359ee"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/tests/science-sample.test.cjs",
+    "bytes": 7310,
+    "sha256": "582978e3cac2d7a7607364a839ba5c71d6630b4e05f2665c71c9bc6777bbfd87"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/tests/static.test.cjs",
+    "bytes": 986,
+    "sha256": "2d80da0444c9ec33f95555c57fe9f6e848e2c2a1912a1e47d846b667b2670159"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/tests/topology.test.cjs",
+    "bytes": 1976,
+    "sha256": "a3f92a050ce5f6e37b080890d33242e9775a068a6245018a8f8f131dce33e191"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/reference/csv-importer/universal-csv-graph-importer.html",
+    "bytes": 2072535,
+    "sha256": "e3ed803d02335f629ea41c6986affcde858328e8f37e807751eaac0e2ee6bae2"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/scripts/render-graph-video.mjs",
+    "bytes": 25526,
+    "sha256": "b9b78c5e568c63ba3131b8e6ea587d04262195e857a35ee0ead353d08785fbad"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/scripts/video-script.example.json",
+    "bytes": 1353,
+    "sha256": "3d2165974ebbafe187077bb0bab0c23d6918b33c1858fffecb6192f2daa526c2"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/scripts/video-script.json",
+    "bytes": 33672,
+    "sha256": "7db57723e7f369d91f1080fbef5787d4bd751e71971d403627563f5b2c314c2c"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/SPECS.md",
+    "bytes": 24877,
+    "sha256": "d3284498cc214f327adf1f1c7ee9bd743c79c576fb551f71cf54288bbb5cbe76"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/style.css",
+    "bytes": 25375,
+    "sha256": "2faadb458094f08c4c3a6bef10ffb279a91b1ef2d54649dc2c03dee076543a49"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/tests/conftest.py",
+    "bytes": 106,
+    "sha256": "f7efe8a2052374264cb892d9dcc96b35d466e9d4ce5f8053456244cf4ea424ea"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/tests/fixtures/empty.json",
+    "bytes": 5557,
+    "sha256": "c3a625713c155949db9e363e7b208ec799c102b787e3f6f6e28d9d7d09bdf2a9"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/tests/fixtures/face_limit.json",
+    "bytes": 529386,
+    "sha256": "45e6f991b5ed5e3e23d5cb672d7a778e46a119a36d20868469311d5f8e7b5e3d"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/tests/fixtures/isolated.json",
+    "bytes": 7985,
+    "sha256": "665cf2bd3891f7ad0aaa57b7d352bcc846cecf00cc3d13ce25a0d155b43dad5d"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/tests/fixtures/parallel.json",
+    "bytes": 9854,
+    "sha256": "7f7edd2e07b2a21d7936e77047c1b47303d1c1d6f1a35d2f5812667f00434cf2"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/tests/fixtures/square.json",
+    "bytes": 12615,
+    "sha256": "3a36c2699faaf2b7f40e10895f694534481383a56a0f9e0dcd20db6fc81acca0"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/tests/fixtures/square_before.json",
+    "bytes": 12308,
+    "sha256": "f118166a24d92a9511b784bca33e2b61f7f8b337b181a20f5aff71df61421886"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/tests/fixtures/ties.json",
+    "bytes": 14424,
+    "sha256": "f501f25f5fc457d03d09f0ac36eda9b03bc14eb6b1a825356eac1ccf5eb09c01"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/tests/fixtures/triangle.json",
+    "bytes": 10178,
+    "sha256": "8d6ceff4f79daecb4c52077f0ae2d367f095eb0ec6c2dab4731bdc3b2c50aee0"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/tests/reference_outputs.cjs",
+    "bytes": 2808,
+    "sha256": "d1e4324fc19cab03492f07b7a878aa4bb2dee582cfd865d6fcc65ca103b95f12"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/tests/test_api.py",
+    "bytes": 12157,
+    "sha256": "de765e23c4cbabac47cb08496d589f415839947ec5fcab73d0d4594f3768fde5"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/tests/test_topology_parity.py",
+    "bytes": 3722,
+    "sha256": "f2b7cf3fa3d9c144682cedbf7ded95342d1a3b7ec2ef83c9c45219b5be21c985"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/THIRD_PARTY_NOTICES.md",
+    "bytes": 836,
+    "sha256": "1677f0f9eebe25ce3d378ae65dea7a1ce9b99aaa2b09529ceed9d7c0314addd5"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/UPSTREAM.md",
+    "bytes": 1794,
+    "sha256": "272ed645d0e5f14e0aa703aca2605211499a7fbbf512bd89e7fff74b2a8e89f2"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/contrib/auto-render.js",
+    "bytes": 10638,
+    "sha256": "c3a6b981b6ea0e3f3de472f7bddcef78307c7129c1017cd0b19cf9dabb09446a"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/contrib/auto-render.min.js",
+    "bytes": 3481,
+    "sha256": "7b57d427ac6270677daf8d8380ded2cc73336f9149a167b8e1fe0d6ef66604ae"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/contrib/auto-render.mjs",
+    "bytes": 6840,
+    "sha256": "42d3240990d45436d6dd4dfb36e7792448cdc2b602c47ac424fd09b1e93dbdfe"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/contrib/copy-tex.js",
+    "bytes": 4507,
+    "sha256": "2a0cbb0816ea3fa4558b2c810f833fd9c2e293708898c4a1e590617c9ab204eb"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/contrib/copy-tex.min.js",
+    "bytes": 1673,
+    "sha256": "07770af90943a1de1a1010794bc78c6a7346d46d48fb63e35cc76ba76b827604"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/contrib/copy-tex.mjs",
+    "bytes": 3640,
+    "sha256": "d037b7c4cdc73420285a580e5b8f9cb441ad67e661fd1ad31dd45aadcf047bf5"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/contrib/mathtex-script-type.js",
+    "bytes": 4337,
+    "sha256": "26ac089b9fedab2395f2c8f12503ae18ccf2e3be57b22493fb74e50518256f11"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/contrib/mathtex-script-type.min.js",
+    "bytes": 1308,
+    "sha256": "fea4211d25044a9b76ae3a875c03f743d5805781a27612874cf8b4d4d0819af8"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/contrib/mathtex-script-type.mjs",
+    "bytes": 751,
+    "sha256": "57f519b2230307c74d08020f52c859c969f5527eb40d24bb8ab3e2167808d5c6"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/contrib/mhchem.js",
+    "bytes": 78835,
+    "sha256": "c8e407b2d012dfdc5bd94edc96d618ab00476e721ae9d02eca6e3b7933913d44"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/contrib/mhchem.min.js",
+    "bytes": 33730,
+    "sha256": "f0ca03df194b8c3d6017ff455db6a0ef98857905663fa311a6cded788b15340b"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/contrib/mhchem.mjs",
+    "bytes": 75577,
+    "sha256": "c5d4b68a7921c218ffdcf4d7c17900d783af7b48430513810cb14e791a54abb4"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/contrib/render-a11y-string.js",
+    "bytes": 24068,
+    "sha256": "b6e09e4ca9f2075430a50ee6cceb2ea47267614b3fd53c15004ff2f425b2b757"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/contrib/render-a11y-string.min.js",
+    "bytes": 8472,
+    "sha256": "0e4900f90287ca1e23772f52885d739b569c72e7400e2e2aff3f85076eeed379"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/contrib/render-a11y-string.mjs",
+    "bytes": 20283,
+    "sha256": "5df820dd9376bd23ef424e5cfc45505d57ae646fb0c5533758e7ad51e048893b"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_AMS-Regular.ttf",
+    "bytes": 63632,
+    "sha256": "68534840bcfdd2bffb6f0e8deb48684dd01e7f04ea2813267577afb906de1d13"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_AMS-Regular.woff",
+    "bytes": 33516,
+    "sha256": "30da91e84c893f875e252689faebdc590b2871145e8adc7f9a9d4dbd8ce0b251"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_AMS-Regular.woff2",
+    "bytes": 28076,
+    "sha256": "0cdd387c9590a1a9f9794560022dbb59654a7d86f187aa0c81495ad42d3a7308"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Caligraphic-Bold.ttf",
+    "bytes": 12368,
+    "sha256": "07d8e303ce4fc12b4bb54f1004170dd190a1f3db45d400fe68060df3e0897268"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff",
+    "bytes": 7716,
+    "sha256": "1ae6bd7475590e97e7f145a89e09ccde322f7a6bc0b91607b1c8b8ee28290fed"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff2",
+    "bytes": 6912,
+    "sha256": "de7701e42cf1f4cf0b766c03fb27977207eee2f4fd5d76fa82188406da43ea4c"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Caligraphic-Regular.ttf",
+    "bytes": 12344,
+    "sha256": "ed0b74372feefcbb9c0666b2e210da37b7e49fa7fbbf3eeb11db5f693dacfbb7"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff",
+    "bytes": 7656,
+    "sha256": "3398dd02302557a793f2863f88e02d96ce10df2abffa07c8e9fa90775116e65c"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff2",
+    "bytes": 6908,
+    "sha256": "5d53e70ad607c2352162dec9e0923fb54ecdafaccbf604cd8dcf7d00facb989b"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Fraktur-Bold.ttf",
+    "bytes": 19584,
+    "sha256": "9163df9c7122432e6495b4229fa9071cf9ae86a758ae5efc4924ec2e1a6dbce1"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Fraktur-Bold.woff",
+    "bytes": 13296,
+    "sha256": "9be7ceb88004ab8ad124082246fbfcca4091e36385d4ec6ed1df67375dad50fb"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Fraktur-Bold.woff2",
+    "bytes": 11348,
+    "sha256": "74444efd593c005e3f4573b44524704c0af0a937fe911cca9e94068d0d140d3f"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Fraktur-Regular.ttf",
+    "bytes": 19572,
+    "sha256": "1e6f9579e90e2cac37f8f60a597c436e075c114385652b7cbeb0dec0421291b3"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Fraktur-Regular.woff",
+    "bytes": 13208,
+    "sha256": "5e28753be717dac97f559f49bc10be9cf3c124ddcabda6659d11cb68febc6463"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Fraktur-Regular.woff2",
+    "bytes": 11316,
+    "sha256": "51814d270d06ff0255dba0799994fa4d8c84d11f09951d47595f4abb1f3602dc"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Main-Bold.ttf",
+    "bytes": 51336,
+    "sha256": "138ac28d1663b3037e9c5f52371fa5c63d8324f4a38d22cd573e6ea3a3fd0cf8"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Main-Bold.woff",
+    "bytes": 29912,
+    "sha256": "c76c5d696297d51b9cb1639c7da4334f0e7dec81b42b11213b5e25ef671bb822"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Main-Bold.woff2",
+    "bytes": 25324,
+    "sha256": "0f60d1b897938ec918c8ce073092411baf9438f6739465693ff18b0f9d20b021"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Main-BoldItalic.ttf",
+    "bytes": 32968,
+    "sha256": "70ee1f64a20f2048c21940ef46d0144fd215baa953ca69afd1e31e98544f708f"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Main-BoldItalic.woff",
+    "bytes": 19412,
+    "sha256": "a6f7ec0d846ac7ad975adb8959c37ed49b94acbc4ae436db9ce9e20287e4a64c"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Main-BoldItalic.woff2",
+    "bytes": 16780,
+    "sha256": "99cd42a3c072d918f2f44984a807cf7aa16e13545fd0875fc07c6c65f99e715b"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Main-Italic.ttf",
+    "bytes": 33580,
+    "sha256": "0d85ae7cc30f23790a7f1a58c4a112fdca8aae769b6ba11429af1d98b1b6cb3a"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Main-Italic.woff",
+    "bytes": 19676,
+    "sha256": "f1d6ef86f3b11a528bd5185199bd2443ecb2b0dead96d88674b5a2c12be24bdf"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Main-Italic.woff2",
+    "bytes": 16988,
+    "sha256": "97479ca6cce906abc961ecac96faa5f9ca2e61b8e7670d475826bcdee9a7c267"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Main-Regular.ttf",
+    "bytes": 53580,
+    "sha256": "d0332f52868370fd83ae7fa46470f90c8f2eab2fcf12bc4f88080b340c95a830"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Main-Regular.woff",
+    "bytes": 30772,
+    "sha256": "c6368d87e8a1a3a5d337623d83d8dc4b868f242a9ad476237d6f8d1e0f168cdc"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Main-Regular.woff2",
+    "bytes": 26272,
+    "sha256": "c2342cd8b869e01752a9321dc17213fc40d4d04c79688c1d43f2cf316abd7866"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Math-BoldItalic.ttf",
+    "bytes": 31196,
+    "sha256": "f9377ab0271cda59af24bcffbd46a4d0c8a3572ffafdbb38de2ad5ea7b0d5ee5"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Math-BoldItalic.woff",
+    "bytes": 18668,
+    "sha256": "850c0af5c2238497febaf5e461d880bf458c341f42f4f330f1b1ab5698b1998e"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Math-BoldItalic.woff2",
+    "bytes": 16400,
+    "sha256": "dc47344dbb6cb5b655c8460d561f4df5f501b90c804ad3c6cec65fe322351ab1"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Math-Italic.ttf",
+    "bytes": 31308,
+    "sha256": "08ce98e51b04d58945a301e639e02b6998af29fdfd61a7b8afdd07bbfc479d4a"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Math-Italic.woff",
+    "bytes": 18748,
+    "sha256": "8a8d244581371912b8f3f5a23e2437cb2a59cd9bcaebb0346e722c05737a2571"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Math-Italic.woff2",
+    "bytes": 16440,
+    "sha256": "7af58c5ec8f132a2ddde9027c6d7814decce4d3b822a11192a42a20e2e973264"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_SansSerif-Bold.ttf",
+    "bytes": 24504,
+    "sha256": "1ece03f79f95277d57dc7f6b435a74e1379b0d46104a8530286b60ff49369ea0"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_SansSerif-Bold.woff",
+    "bytes": 14408,
+    "sha256": "ece03cfd83e22c212cdef66feb8442d25a083beb988db3f1883f3f9738d750ba"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_SansSerif-Bold.woff2",
+    "bytes": 12216,
+    "sha256": "e99ae51144bf1232efcc1bfe5add36262c6866b0faab24fa75740e1b98577a62"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_SansSerif-Italic.ttf",
+    "bytes": 22364,
+    "sha256": "3931dd81faed86ba021bb2bbdc36f5bed9a38d6b4f4077aca59b265aa1b02083"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_SansSerif-Italic.woff",
+    "bytes": 14112,
+    "sha256": "91ee67500cc0129aa0ace3ac5c61ff1692102f0f31d02b69347fba35dcb75bf2"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_SansSerif-Italic.woff2",
+    "bytes": 12028,
+    "sha256": "00b26ac825e2095056396e0553b8ac26d3f8ad158c3826e28b4c45b385c4714a"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_SansSerif-Regular.ttf",
+    "bytes": 19436,
+    "sha256": "f36ea897e19f4a2e571d1e900e4e3710e438deb05a842486045ba0a3e616a4ad"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_SansSerif-Regular.woff",
+    "bytes": 12316,
+    "sha256": "11e4dc8a6471ff6d6ee561d53d10fde8f7489e798257ff449c5d37c197435605"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_SansSerif-Regular.woff2",
+    "bytes": 10344,
+    "sha256": "68e8c73ef42afd3ccec58bf0fba302cce448938e7fc020a5e31f8a952eee1342"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Script-Regular.ttf",
+    "bytes": 16648,
+    "sha256": "1c67f068fea8bb09bf099c088b1cf64bd27516a6e07f4684344873564bb66a67"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Script-Regular.woff",
+    "bytes": 10588,
+    "sha256": "d96cdf2b3bdd4d64a8fd5f74a4c467f123a8a73931cd435889f08ffaf9bf947a"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Script-Regular.woff2",
+    "bytes": 9644,
+    "sha256": "036d4e95149b69ff9bcc0cd55771efeb25ffa3947293e69acd78d5ac328c684b"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Size1-Regular.ttf",
+    "bytes": 12228,
+    "sha256": "95b6d2f1a50173bfedb8c63e1d1c99b10427d0a4df4201cb44513b226951a22b"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Size1-Regular.woff",
+    "bytes": 6496,
+    "sha256": "c943cc986384f59e86bea5fd7dc50a9c4dfe567a7c05eb40d6790720dead97c9"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Size1-Regular.woff2",
+    "bytes": 5468,
+    "sha256": "6b47c40166b6dbe21a5dfca7718413f2147fd2399be1ba605d8ad39cedf25dfe"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Size2-Regular.ttf",
+    "bytes": 11508,
+    "sha256": "a6b2099fb555c60e3a0db3a08842ebf1d732c6eb4e4bf44913613bed4fc4e39b"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Size2-Regular.woff",
+    "bytes": 6188,
+    "sha256": "2014c523c3210bcc166648c4d4cc57f05b747df07a24277bf71c51e67dc79e3d"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Size2-Regular.woff2",
+    "bytes": 5208,
+    "sha256": "d04c54219f9eaec6d4d4fd42dfb28785975a4794d6b2fc71e566b9cd6db842dd"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Size3-Regular.ttf",
+    "bytes": 7588,
+    "sha256": "500e04d54f0d51666332c9d2089aa803be22aa878eca539e59fa53c6e522b082"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Size3-Regular.woff",
+    "bytes": 4420,
+    "sha256": "6ab6b62e9b62dae2c00dd90f791bd10950be0ecc3490d7d6045f51c2e8fe0949"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Size3-Regular.woff2",
+    "bytes": 3624,
+    "sha256": "73d591271b1604960cb10bb90fee021670af7297017e0e98480b332d11f51995"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Size4-Regular.ttf",
+    "bytes": 10364,
+    "sha256": "c647367d1dd4e162468717d020e1fc0f1dc5c26ebfdffbe55261713bf88c5877"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Size4-Regular.woff",
+    "bytes": 5980,
+    "sha256": "99f9c6750b489c9462bf04900bd3f939df9b829339daaaaa99ef5495cdddea58"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Size4-Regular.woff2",
+    "bytes": 4928,
+    "sha256": "a4af7d414440a1c1790825cfb700cf9cf43b0f2c4b04f0ebc523011ad9853ec0"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Typewriter-Regular.ttf",
+    "bytes": 27556,
+    "sha256": "f01f3e87d9c6a61c0c081ceb577abd864eb00a612f7ac1620dd6915fad2ef5aa"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Typewriter-Regular.woff",
+    "bytes": 16028,
+    "sha256": "e14fed02b1aba7ce9f5afd5844b5d0321b22351febc720e0de8b8723527609f7"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/fonts/KaTeX_Typewriter-Regular.woff2",
+    "bytes": 13568,
+    "sha256": "71d517d67827787cfabdf186914cc3358eda539e37931941f2b2fd4a21f68c0b"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/katex.css",
+    "bytes": 31311,
+    "sha256": "9b166b8a2f96d4ca0ef5a07634551405a50d1afe77c79af5c14cb9b57548142e"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/katex.js",
+    "bytes": 619022,
+    "sha256": "e0cf1ac3508a85a439800821de03c9b77d1bedbdfb47dc70738dc417ea1b5cbe"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/katex.min.css",
+    "bytes": 23335,
+    "sha256": "717bc9ae7853b61f0f76455dddf0ecd4f527a783f42de2ac24684899c1c46258"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/katex.min.js",
+    "bytes": 275414,
+    "sha256": "e6bfe5deebd4c7ccd272055bab63bd3ab2c73b907b6e6a22d352740a81381fd4"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/katex.mjs",
+    "bytes": 606245,
+    "sha256": "3de582c88577c17a667658525d0387138a02467d822fda25cc00e5886ca496ef"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/LICENSE",
+    "bytes": 1107,
+    "sha256": "766ccc1f306c885aa45542a9846bbd0a505b27a0374f146778171c2254ce18e3"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/katex/README.md",
+    "bytes": 7268,
+    "sha256": "6ec1a1af148d754646a3ac9bac194608ffac61f3130adb9d9e5078b5d14e4ba1"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/manifest.json",
+    "bytes": 652,
+    "sha256": "cad4eb0902dbdb9c6057f9bf4920bab8ac03166db1770496413747b06b2117a8"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/marked/LICENSE.md",
+    "bytes": 2942,
+    "sha256": "8e3a3f82f59a60958f56ca08f445647c32a4733dc7ca6c2c46f6eb898471ab9c"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/marked/marked.min.js",
+    "bytes": 39055,
+    "sha256": "74c9f2e02c180c3e6caa09881a0b24032c86473af90acb1c87b6dc7255d491dd"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/three/build/three.module.js",
+    "bytes": 1272972,
+    "sha256": "76dea8151bc9352aef3528b4262e249b2604f62543828328db978d060d61a495"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/three/build/three.module.min.js",
+    "bytes": 670681,
+    "sha256": "3e690ac7d180b0aadf0891bea39eec643e29e2d3e75c99b18689518665f69ba6"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/three/examples/jsm/controls/OrbitControls.js",
+    "bytes": 29868,
+    "sha256": "5a44a9e86a2a0fb11933eed69bc2cd33c76a496854c1aed6ed776efa87d7b064"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/three/examples/jsm/lines/LineMaterial.js",
+    "bytes": 11281,
+    "sha256": "eed69bd471547ca0d15e0e87722530317d5d514f533585948086515c5f308234"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/three/examples/jsm/lines/LineSegments2.js",
+    "bytes": 9330,
+    "sha256": "5009e85ffbd09e86003509f7d1001642cfe7594d42192facdde516fcd4418d24"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/three/examples/jsm/lines/LineSegmentsGeometry.js",
+    "bytes": 4632,
+    "sha256": "59419cee5eccbaacfab5939871308ee262a63761815f72ff49cbd217fd84fdb7"
+  },
+  {
+    "path": "modules/ml-knowledge-graph/vendor/three/LICENSE",
+    "bytes": 1081,
+    "sha256": "852e0e8699169bf9f6fdc6bda3e682d078dcbc738b5d33e74df594721bff271d"
   },
   {
     "path": "modules/s_n_explorer_web/app.py",
-    "bytes": 16203,
-    "sha256": "74ac9b42e6389e35ada73dc2a25894f2e23589bd2f54340c10cf71ddc382129e"
+    "bytes": 16399,
+    "sha256": "d553a2fcef5eb3624c0efe15e1eb1fea3835b86292c6a97e8420a9fbb9f370b5"
+  },
+  {
+    "path": "modules/s_n_explorer_web/dihedral_visualization.py",
+    "bytes": 3040,
+    "sha256": "19149b5cb424bf49015e88d82fa9ce6de74f21c53e71cd6ec09a1715581c22aa"
   },
   {
     "path": "modules/s_n_explorer_web/PROJECT_ANALYSIS.md",
@@ -876,23 +1981,58 @@
   },
   {
     "path": "modules/s_n_explorer_web/static/app.js",
-    "bytes": 22222,
-    "sha256": "b684e113df810d4c9cdd5d5bb25fc4e62f27f6ea8b0070d3130fc03eab9b2b9b"
+    "bytes": 21625,
+    "sha256": "ba6cb5824494f40ee8a5de48134402dd887c212d466bf4eb38ce5fdfa9934707"
+  },
+  {
+    "path": "modules/s_n_explorer_web/static/dihedral-prism.js",
+    "bytes": 5575,
+    "sha256": "8bba60f3b3787f016ce1254fb3f214fd3f51aa5bfbfaa045b5559db33b8a228b"
+  },
+  {
+    "path": "modules/s_n_explorer_web/static/dihedral.js",
+    "bytes": 8909,
+    "sha256": "1867bf85446a25f180e71ef06ebae175cafcca75732f60a04a8569e456c6f693"
   },
   {
     "path": "modules/s_n_explorer_web/static/index.html",
-    "bytes": 11591,
-    "sha256": "ea6c8fbc67537ba41fb88b89c793a25a8da0e21bbd6b77f52662b820fb76959f"
+    "bytes": 14074,
+    "sha256": "e0817fd252c0aa1aa60959e1282d608c51e3b47cbd4424571bd1e4d182c00ac1"
   },
   {
     "path": "modules/s_n_explorer_web/static/styles.css",
-    "bytes": 15230,
-    "sha256": "2b3faf05c2c57bf9901cc8a15870a5cf1431ceffa53e345e3672b6cd3e344ee5"
+    "bytes": 18245,
+    "sha256": "ea6af8886d18f07a164ea3fc7c8fe149d9df090151518438c340231c9c4e227d"
+  },
+  {
+    "path": "modules/s_n_explorer_web/static/vendor/LICENSE",
+    "bytes": 1081,
+    "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601"
+  },
+  {
+    "path": "modules/s_n_explorer_web/static/vendor/OrbitControls.js",
+    "bytes": 38703,
+    "sha256": "b97879c748170baadeb3fb84cea1ffdf4674e283dc06042f34e2acb95a76042c"
+  },
+  {
+    "path": "modules/s_n_explorer_web/static/vendor/three.core.js",
+    "bytes": 1403455,
+    "sha256": "eb077d2417f61d3e6d9264c317cabc4ea35769ed6b0ab533067292a550784c20"
+  },
+  {
+    "path": "modules/s_n_explorer_web/static/vendor/three.module.js",
+    "bytes": 603113,
+    "sha256": "c8211c69345d2e9949dc7a8ac969380497aa0600a5a8ac6a459c8cd02dd9cb8a"
   },
   {
     "path": "modules/s_n_explorer_web/symmetric_group.py",
     "bytes": 12543,
     "sha256": "9b5c3401aaa7a5c858ea5cad44b69e633349229c5c647bff0e3b33f048fd6535"
+  },
+  {
+    "path": "modules/s_n_explorer_web/tests/test_dihedral.py",
+    "bytes": 3308,
+    "sha256": "1d7e333adc97f7046969f059e45d63dbaf502049512e8cc6e49c169fa6a7b24e"
   },
   {
     "path": "modules/s_n_explorer_web/tests/test_engine.py",

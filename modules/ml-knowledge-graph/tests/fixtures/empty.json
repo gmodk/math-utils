@@ -1,0 +1,311 @@
+{
+  "components": {
+    "groups": [],
+    "beta0": 0,
+    "beta1": 0,
+    "edges": 0
+  },
+  "weights": {
+    "strength": [],
+    "distance": []
+  },
+  "physics": [],
+  "filtration": {
+    "components": 0,
+    "beta1": 0,
+    "edgeCount": 0,
+    "mergeEdgeIds": [],
+    "cycleEdgeIds": [],
+    "rootByNode": {},
+    "componentSizes": {}
+  },
+  "faces": [],
+  "independent": [],
+  "persistence": [],
+  "analysis": {
+    "current": {
+      "components": 0,
+      "beta1": 0,
+      "edgeCount": 0,
+      "mergeEdgeIds": [],
+      "cycleEdgeIds": [],
+      "rootByNode": {},
+      "componentSizes": {}
+    },
+    "candidates": [],
+    "faces": [],
+    "activeFaces": [],
+    "intervals": [],
+    "h0": [],
+    "h1": [],
+    "h2": [],
+    "curves": [
+      {
+        "epsilon": 0,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.025,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.05,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.075,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.1,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.125,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.15,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.175,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.2,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.225,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.25,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.275,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.3,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.325,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.35,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.375,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.4,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.425,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.45,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.475,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.5,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.525,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.55,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.575,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.6,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.625,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.65,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.675,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.7,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.725,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.75,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.775,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.8,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.825,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.85,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.875,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.9,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.925,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.95,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 0.975,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      },
+      {
+        "epsilon": 1,
+        "beta0": 0,
+        "beta1": 0,
+        "beta2": 0
+      }
+    ],
+    "beta0": 0,
+    "beta1": 0,
+    "beta2": 0,
+    "euler": 0,
+    "largest": 0,
+    "componentColorByNode": {},
+    "componentIndexByNode": {}
+  },
+  "metrics": [],
+  "layouts": {
+    "semantic": {},
+    "hierarchical": {},
+    "cluster": {},
+    "radial": {
+      "undefined": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    }
+  }
+}

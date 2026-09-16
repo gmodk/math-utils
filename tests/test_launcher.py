@@ -16,10 +16,13 @@ def test_module_registry_is_complete_and_uses_distinct_ports() -> None:
         "memory-atlas",
         "markov",
         "symmetric-groups",
-        "statistical-geometry",
+        "ml-knowledge-graph",
     ]
     assert len({spec.port_offset for spec in specs}) == len(specs)
     assert all(spec.directory.is_dir() for spec in specs)
+    assert specs[3].port_offset == 4
+    assert specs[3].health_path == '/api/health'
+    assert specs[3].directory.name == 'ml-knowledge-graph'
 
 
 def test_landing_assets_are_present() -> None:
@@ -102,10 +105,8 @@ def test_complete_platform(tmp_path):
             for spec in launch.module_specs():
                 for path in ['/', spec.health_path]:
                     assert launch.is_ready('127.0.0.1', base + spec.port_offset, path)
-            explorers = list((launch.MODULES / 'regression_geometry_explorers').glob('explorer_*.html'))
-            assert len(explorers) == 11
-            for explorer in explorers:
-                assert launch.is_ready('127.0.0.1', base + 4, '/' + explorer.name)
+            for path in ['/api/health', '/constellation/', '/api/csv/templates/nodes.csv', '/api/csv/templates/edges.csv']:
+                assert launch.is_ready('127.0.0.1', base + 4, path)
             # An occupied range must reject a second launch without disturbing the first.
             second = subprocess.run([sys.executable, str(ROOT / 'launch.py'), '--no-browser', '--port', str(base)], capture_output=True, text=True, timeout=10)
             assert second.returncode != 0

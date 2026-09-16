@@ -1,67 +1,39 @@
-# Math Utils
+# Math Utils 1.2.0
 
-Math Utils gathers the existing mathematical explorer projects behind one local landing page while preserving every module's own interface, mathematics, routes, assets, and behavior.
+Four locally runnable mathematical applications, on independent ports:
 
-## Included applications
+1. **Distributed Memory Architecture Atlas** — the existing distributed-memory laboratories.
+2. **Markov Chain Explorer** — the existing Python engine and 2D/3D interface.
+3. **Sₙ Explorer WebUI** — the existing permutation and dihedral-group interface.
+4. **ML Knowledge Graph** — the supplied fork, with additive local CSV import, 2D/3D constellations, directed relations, graph/cellular persistent homology and export.
 
-1. **Distributed Memory Architecture Atlas 2.1.0** — the five distributed-memory approaches in one complete suite: combinatorial, spectral-hypergraph, probabilistic, sheaf-theoretic, and information-theoretic. The original geometry, graph/TDA, recovery, diagnostic, and cryptography laboratories are included.
-2. **Markov Chain Explorer — Python Edition 2.0.0** — the Python numerical backend, unchanged prebuilt JavaScript interface, CSV workflows, stochastic calculations, and interactive 2D/3D weighted hypergraphs.
-3. **Sₙ Explorer WebUI** — the Python group-theory engine and original web interface for permutations, dihedral groups, subgroups, quotients, Cayley tables, and conjugacy classes.
-4. **Correlation & Regression Explorers** — all eleven self-contained statistical-geometry explorers and their mathematical documentation.
+The first three modules are preserved byte-for-byte from the start of this integration, including pre-existing Sₙ work.
 
-The applications remain isolated under `modules/`. The root integration layer only launches them and provides navigation, so their original root-relative API and asset paths do not collide.
+## Start
 
-## Start the complete platform
+Requires Python 3.10+. Run `run-math-utils.bat` on Windows, `sh run-math-utils.sh` on macOS/Linux, or `python launch.py`.
 
-Requires Python 3.10 or newer.
-
-### Windows
-
-Double-click:
-
-```text
-run-math-utils.bat
-```
-
-### macOS or Linux
-
-```bash
-./run-math-utils.sh
-```
-
-Or on any platform:
-
-```bash
-python launch.py
-```
-
-The first launch creates one shared `.venv`, installs the numerical dependencies, starts every module, and opens the landing page at `http://127.0.0.1:8000`. Later launches reuse the environment.
-
-Internet access is required for initial installation and any later required dependency updates. Node.js and npm are not required at runtime.
-
-Stop the entire platform with `Ctrl+C` in the terminal that started it.
-
-## Ports
+The launcher creates/reuses the root `.venv` and checks requirements.txt. Initial dependency installation requires internet; installed applications require no hosted service. ML Knowledge Graph's browser libraries are included locally. Node is not required for interactive use. Stop with Ctrl+C.
 
 | Surface | Default URL |
-| --- | --- |
-| Math Utils landing page | `http://127.0.0.1:8000` |
-| Distributed Memory Architecture Atlas | `http://127.0.0.1:8001` |
-| Markov Chain Explorer | `http://127.0.0.1:8002` |
-| Sₙ Explorer WebUI | `http://127.0.0.1:8003` |
-| Correlation & Regression Explorers | `http://127.0.0.1:8004` |
+|---|---|
+| Landing | http://127.0.0.1:8000 |
+| Memory Atlas | http://127.0.0.1:8001 |
+| Markov | http://127.0.0.1:8002 |
+| Sₙ | http://127.0.0.1:8003 |
+| ML Knowledge Graph | http://127.0.0.1:8004 |
 
-To use another consecutive port range:
+Use `python launch.py --port 9000 --no-browser` for another consecutive range. `/api/status` on the landing origin lists four modules and readiness. ML exposes `/api/health`. `--skip-install` uses the current interpreter, useful for testing an extracted copy with an already-provisioned Python environment.
 
-```bash
-python launch.py --port 9000
-```
+## CSV and TDA
 
-This puts the landing page on `9000` and the four applications on `9001` through `9004`.
+Open **Settings → Import CSV / TDA**. **Download CSV template** provides a ZIP with `nodes.csv` and `edges.csv`. Select both, review mappings and diagnostics, and apply. Failed/canceled imports preserve the active graph. Single adjacency, node-only and edge-only CSVs are also supported.
 
-Use `python launch.py --no-browser` to start without opening a browser window. Use `--host 0.0.0.0` only when you deliberately want the services reachable from other devices on the same network.
+Relation, directedness, legacy weight, strength, confidence, distance, sign and evidence_count remain independent. Arbitrary properties, Notion IDs, URLs and supplied provenance are retained. Browser-local snapshots survive reload. Controls include 2D/3D layouts, adaptive labels, semantic axes, relation filters, recursive traversal, gravity, filtration, area filling, JSON export and PNG capture. **Open this graph in ML explorer** loads the same graph in the fork's original interface.
 
-## Project structure
+TDA implements the supplied graph filtration and independent quadrilateral 2-cells over F₂: persistence intervals, Betti curves and Euler characteristic. It is not general simplicial TDA. Read `modules/ml-knowledge-graph/docs/INTEGRATION.md` for compatibility decisions and bounds.
+
+## Structure
 
 ```text
 math-utils/
@@ -71,53 +43,38 @@ math-utils/
 │   ├── distributed-memory-architecture-atlas/
 │   ├── markov-chain-explorer-python-v2.0.0/
 │   ├── s_n_explorer_web/
-│   └── regression_geometry_explorers/
+│   └── ml-knowledge-graph/
+│       ├── app.py
+│       ├── backend/
+│       ├── js/
+│       ├── constellation/
+│       ├── reference/csv-importer/
+│       ├── vendor/
+│       ├── tests/
+│       └── UPSTREAM.md
 ├── tests/
+├── module-checksums.json
+├── protected-module-checksums.json
 ├── requirements.txt
-├── run-math-utils.bat
-├── run-math-utils.sh
-├── CHANGELOG.md
 └── VALIDATION.md
 ```
 
-Each module retains its own README and technical documentation.
+## Validate and package
 
-## Development validation
-
-From the project root:
-
-```bash
-python -m pip install -r requirements-dev.txt
-python -B -X utf8 -m pytest -q -p no:cacheprovider tests
-python -B tests/check_sources.py
-```
-
-The original test suites can also be run independently from their module directories.
-
-## Rebuilt integration (1.1.0)
-
-The launcher always uses this repository's shared `.venv`, even when invoked from another virtual environment. It installs runtime requirements only when a required distribution is missing or outside its declared version range. Dependency changes may require internet access on a later launch. `--skip-install` is an explicit validation-only bypass that uses the current interpreter.
-
-All five ports are checked before startup. Invalid base ports (outside 1–65531) are rejected. The isolated vendored servers support IPv4 addresses and hostnames; IPv6 binds are rejected. The console reports module readiness, fails after a 60-second health-check deadline, and shuts down the platform if any child exits. The landing page continues checking readiness every five seconds after startup.
-
-For a ZIP extraction on macOS/Linux, `sh run-math-utils.sh` works without changing executable permissions. Windows users can run `run-math-utils.bat`; it prefers `py -3` and falls back to `python`. All wrappers forward launcher arguments. Python 3.10+ must be installed and available to the wrapper. The first setup needs internet access; Node.js is used only for developer syntax checks, never for startup.
-
-### Reproduce validation
-
-After a normal first launch has created `.venv`, stop the platform. Use `.venv/Scripts/python.exe` on Windows or `.venv/bin/python` on macOS/Linux as `PYTHON` below (replace the word with the actual path). Run from the repository root:
+Use the root `.venv` Python and run suites separately to avoid vendored test-name collisions:
 
 ```text
-PYTHON -m pip install -r requirements-dev.txt
-PYTHON -B -X utf8 -m pytest -q -p no:cacheprovider tests
-PYTHON -B -X utf8 -m pytest -q -p no:cacheprovider modules/distributed-memory-architecture-atlas/tests
-PYTHON -B -X utf8 -m pytest -q -p no:cacheprovider modules/markov-chain-explorer-python-v2.0.0/tests
-PYTHON -B -X utf8 -m pytest -q -p no:cacheprovider modules/s_n_explorer_web/tests
-PYTHON -B tests/check_sources.py
-PYTHON -m pip check
-PYTHON -B tests/build_release.py
+python -B -X utf8 -m pytest -q -p no:cacheprovider tests/test_launcher.py
+python -B -X utf8 -m pytest -q -p no:cacheprovider modules/distributed-memory-architecture-atlas/tests
+python -B -X utf8 -m pytest -q -p no:cacheprovider modules/markov-chain-explorer-python-v2.0.0/tests
+python -B -X utf8 -m pytest -q -p no:cacheprovider modules/ml-knowledge-graph/tests
+node --test modules/ml-knowledge-graph/reference/csv-importer/tests/*.test.cjs
+python -B tests/check_sources.py
+python -B tests/build_release.py
 ```
 
-Run module suites separately to avoid identically named vendored test modules colliding. The live root test requires ports 8000–8004 to be free; set `MATH_UTILS_TEST_PORT` to choose another range. UTF-8 mode lets the unchanged Markov test read its UTF-8 JavaScript bundle on Windows. The source checker compiles Python in memory and checks external and inline JavaScript with Node; it writes nothing under `modules/`. The statistical bundle contains eleven standalone explorers and has no automated test suite.
+Run Sₙ tests **from `modules/s_n_explorer_web`**: `../../.venv/Scripts/python.exe -B -X utf8 -m pytest -q -p no:cacheprovider tests` on Windows; use `../../.venv/bin/python` on POSIX.
 
-`module-checksums.json` records every retained module file's original path, byte size and SHA-256. `validation-results/` contains the test XML, static-check counts and tested dependency versions. `tests/build_release.py` packages only the listed integration files and retained content, verifies archive CRCs and every member's bytes, and emits a checksum sidecar and `release-verification.json` outside the ZIP (avoiding a self-referential archive hash).
+The release is `math-utils-v1.2.0-ml-knowledge-graph.zip`, with an adjacent SHA-256 sidecar and release-verification.json. Environments, Git metadata, installed Node packages, caches, logs and validation artifacts are excluded. Golden fixtures are included. Windows is the validated host; other operating systems require their own runtime validation.
 
+The optional video CLI starts the Python backend automatically, accepts an existing backend via `--url`, and accepts `MATH_UTILS_PYTHON` to select Python. Its Node/browser/ffmpeg dependencies are optional developer tools.

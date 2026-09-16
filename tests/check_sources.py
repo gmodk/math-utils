@@ -4,6 +4,7 @@ import hashlib
 from html.parser import HTMLParser
 import json
 import subprocess
+from release_files import retained
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -30,9 +31,14 @@ class Scripts(HTMLParser):
 
 def main():
     baseline = json.loads((ROOT / 'module-checksums.json').read_text(encoding='utf-8-sig'))
-    actual = {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in (ROOT / 'modules').rglob('*') if p.is_file()}
+    actual = {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in (ROOT / 'modules').rglob('*') if p.is_file() and retained(p)}
     assert actual == {item['path']: item['sha256'] for item in baseline}, 'Module inventory or bytes changed'
-    files = [p for folder in ('modules', 'landing', 'tests') for p in (ROOT / folder).rglob('*') if p.is_file()]
+    protected = json.loads((ROOT / 'protected-module-checksums.json').read_text(encoding='utf-8'))
+    for folder, expected in protected.items():
+        module = ROOT / 'modules' / folder
+        current = {p.relative_to(module).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in module.rglob('*') if p.is_file() and not {'__pycache__','.pytest_cache'}.intersection(p.parts)}
+        assert current == expected, f'Protected module changed: {folder}'
+    files = [p for folder in ('modules', 'landing', 'tests') for p in (ROOT / folder).rglob('*') if p.is_file() and retained(p)]
     files.append(ROOT / 'launch.py')
     counts = dict(module_files=len(actual), python=0, javascript_files=0, inline_scripts=0)
     for path in files:
@@ -40,7 +46,7 @@ def main():
             compile(path.read_bytes(), str(path), 'exec')
             counts['python'] += 1
         sources = []
-        if path.suffix in ('.js', '.mjs'):
+        if path.suffix in ('.js', '.mjs', '.cjs'):
             sources = [path.read_text(encoding='utf-8')]
             counts['javascript_files'] += 1
         if path.suffix == '.html':
@@ -49,10 +55,11 @@ def main():
             sources = parser.scripts
             counts['inline_scripts'] += len(sources)
         for source in sources:
-            result = subprocess.run(['node', '--input-type=module', '--check'], input=source, text=True, encoding='utf-8', capture_output=True)
+            kind = 'commonjs' if path.suffix == '.cjs' else 'module'
+            result = subprocess.run(['node', '--input-type='+kind, '--check'], input=source, text=True, encoding='utf-8', capture_output=True)
             assert result.returncode == 0, f'{path}: {result.stderr}'
     print(json.dumps(counts, indent=2))
-    (ROOT / 'validation-results/static.json').write_text(json.dumps(counts, indent=2) + '\n')
+    (ROOT / 'validation-results/ml-integration/static.json').write_text(json.dumps(counts, indent=2) + '\n')
 
 if __name__ == '__main__':
     main()

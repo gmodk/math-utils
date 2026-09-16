@@ -1,79 +1,40 @@
-Math Utils repository instructions
-Project purpose
+# Math Utils integration rules
 
-Math Utils is a unified local platform that gathers several existing mathematical explorers behind one landing page and one Python launcher.
+## Scope
 
-Non-negotiable preservation rule
+- Replace only `modules/regression_geometry_explorers` with `modules/ml-knowledge-graph`.
+- Integrate the supplied Universal CSV 2D/3D Constellation importer into ML Knowledge Graph.
+- Changes to the root launcher, landing-page metadata, documentation, dependency files, packaging scripts, and tests are allowed only as required by this replacement.
+- Do not alter the Distributed Memory Architecture Atlas, Markov Chain Explorer, or S_n Explorer code, routes, assets, interfaces, or behavior.
 
-Treat everything under modules/ as vendored, immutable applications.
+## Preservation
 
-Do not redesign, refactor, rename, reorganize, translate, simplify, or rewrite their interfaces, mathematical engines, APIs, routes, static assets, examples, documentation, or behavior.
+- Preserve every existing ML Knowledge Graph feature and interface. CSV/TDA support must be additive.
+- Preserve all CSV-importer behavior proved by its source or tests: arbitrary node/connection tables, local/offline manual import, 2D/3D layouts, adaptive labels, semantic modules and bridges, directed traversal, persistent-homology controls and area filling, browser exploration, and export.
+- Preserve typed directed relations, weights, provenance, Notion IDs, and source URLs where the imported data supplies them. Never fabricate unsupported relations.
+- Keep `strength`, `confidence`, `distance`, `sign`, and `evidence_count` as separate semantics; never collapse them into a single weight.
+- Python is the mathematical source of truth. JavaScript may render and manage interaction, but must consume explicit local JSON/API results rather than reimplementing the mathematics.
+- Do not claim full simplicial TDA, Betti numbers, persistent cohomology, or circular coordinates unless those methods are present and working in the supplied importer source.
 
-If integration appears to require editing a module, stop and explain the conflict before changing it.
+## Fork and license integrity
 
-Included applications
-modules/distributed-memory-architecture-atlas
-Distributed Memory Architecture Atlas 2.1.
-Includes the combinatorial, spectral-hypergraph, probabilistic, sheaf-theoretic, and information-theoretic approaches.
-Preserve its geometry, graph/TDA, recovery, diagnostics, cryptography, and token-generation laboratories.
-modules/markov-chain-explorer-python-v2.0.0
-Python FastAPI numerical backend.
-Prebuilt JavaScript/Three.js interface.
-Preserve homogeneous and non-homogeneous chains, Poisson generation, CSV import, probability calculations, topology, layouts, and interactive 2D/3D hypergraphs.
-Node.js must not be required at runtime.
-modules/s_n_explorer_web
-Python group-theory engine with its existing HTML/CSS/JavaScript interface.
-Preserve permutations, cycles, composition, inverses, orders, signs, Cayley tables, dihedral groups, subgroups, normality, quotient groups, and conjugacy classes.
-modules/regression_geometry_explorers
-Preserve all eleven standalone correlation, covariance, PCA, regression, regularization, portfolio, multicollinearity, bias–variance, PCR, and Bayesian explorers.
-Integration architecture
+- Preserve the fork's license, notices, copyright headers, and attribution.
+- Add `modules/ml-knowledge-graph/UPSTREAM.md` recording the fork URL, upstream URL, imported commit/tag, import date, and integration changes.
+- Do not replace fork-specific behavior with upstream code.
 
-Keep the applications isolated on separate processes and ports:
+## Working method
 
-Landing page: 8000
-Distributed Memory Architecture Atlas: 8001
-Markov Chain Explorer: 8002
-S_n Explorer WebUI: 8003
-Correlation and Regression Explorers: 8004
+- Inspect before editing. First produce an inventory and integration map.
+- Reuse the fourth launcher slot (`port_offset=4`) for ML Knowledge Graph.
+- Use the fork's existing runtime and build approach unless a change is necessary and documented.
+- Avoid new production dependencies when an existing dependency can do the job.
+- Keep the application locally runnable; do not introduce a hosted service requirement.
+- Never delete the old module until the new module starts and the automated checks pass.
 
-The root launch.py must:
+## Validation
 
-Create and reuse one shared .venv.
-Install root runtime requirements only when necessary.
-Start all four applications.
-Serve the landing page.
-Report module readiness.
-Open the browser unless --no-browser is supplied.
-Accept --host and --port.
-Shut down every child process cleanly.
-Detect occupied ports before starting.
-
-Do not combine module APIs under one route prefix because their root-relative assets and endpoints must remain untouched.
-
-Landing page
-
-The landing page is the only interface that may be independently redesigned.
-
-It must provide direct access to all four applications and display their readiness. Do not embed or reproduce the module interfaces inside the landing page.
-
-Validation requirements
-
-Before completing any integration change:
-
-Run the root integration tests.
-Run the Atlas tests.
-Run the Markov tests.
-Run the S_n tests.
-Compile-check all Python files.
-Syntax-check the relevant JavaScript files.
-Start the complete platform and verify HTTP 200 responses from the landing page and every module.
-Confirm that all four readiness states are true.
-Confirm that no retained file under modules/ changed unless the user explicitly authorized it.
-Remove .venv, node_modules, caches, compiled Python files, Git metadata, and temporary files from release archives.
-Documentation and delivery
-
-Update README.md, CHANGELOG.md, and VALIDATION.md whenever integration behavior changes.
-
-A completed delivery must include a clean ZIP archive, its byte size, SHA-256 checksum, validation results, and exact startup instructions.
-
-Do not stop after planning. Implement, test, validate, and package the requested result.
+- Run the existing root tests and all relevant source-project tests.
+- Add tests for launcher registration, health/readiness, CSV template download, template round-trip import, malformed CSV errors, preservation of relation semantics/provenance, and TDA parity with the original importer.
+- Compare deterministic original-importer outputs against the integrated outputs with golden fixtures.
+- Run a browser smoke test for the complete CSV-to-graph-to-TDA-to-export workflow.
+- Report every changed file, command run, test result, known limitation, and unverified assumption.
