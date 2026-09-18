@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — three-module platform (2026-09-18)
+
+- Intentionally remove the Correlation & Regression Explorers application, its tests, fixtures, and release artifacts without replacing it.
+- Keep Atlas, Markov, and Sₙ in their existing order on ports 8001–8003; the landing page remains on 8000.
+- Update launcher, landing copy, protected-file checks, tests, and release packaging for exactly three modules.
+
 ## Unreleased — Sₙ composition animation (2026-09-18)
 
 - Add a Python-computed, one-based `i → τ(i) → σ(τ(i))` trace to the existing composition response.

@@ -110,16 +110,6 @@ def module_specs() -> tuple[ModuleSpec, ...]:
                 PORT=str(port),
             ),
         ),
-        ModuleSpec(
-            id="statistical-geometry",
-            title="Correlation & Regression Explorers",
-            description="Four Python-powered laboratories for correlation geometry, multiple regression, bias–variance, and Bayesian posterior geometry.",
-            port_offset=4,
-            directory=MODULES / "regression_geometry_explorers",
-            health_path="/api/health",
-            command=lambda _host, _port: python_command("app.py"),
-            environment=lambda host, port: inherited_environment(HOST=host, PORT=str(port)),
-        ),
     )
 
 
@@ -163,13 +153,6 @@ def ensure_project_layout() -> None:
     for spec in module_specs():
         required.append(spec.directory)
         required.append(spec.directory / "app.py")
-        if spec.port_offset == 4:
-            required.extend(spec.directory / name for name in (
-                "index.html", "engines.py", "contracts.py", "static/api.js", "static/styles.css",
-                "correlation_geometry_interactive_explorer.html",
-                "explorer_6_multiple_regression_projection_subspace.html",
-                "explorer_9_bias_variance_polynomial_complexity.html",
-                "explorer_11_bayesian_linear_regression_posterior_geometry.html"))
     required.append(MODULES / "markov-chain-explorer-python-v2.0.0/frontend_dist/index.html")
     missing = [str(path.relative_to(ROOT)) for path in required if not path.exists()]
     if missing:
@@ -300,7 +283,7 @@ def main() -> None:
         "--port",
         type=int,
         default=int(os.getenv("MATH_UTILS_PORT", "8000")),
-        help="Landing-page port; module ports use the next four consecutive values.",
+        help="Landing-page port; module ports use the next three consecutive values.",
     )
     parser.add_argument("--no-browser", action="store_true", help="Do not open the landing page automatically.")
     parser.add_argument(
@@ -310,13 +293,13 @@ def main() -> None:
     )
     arguments = parser.parse_args()
 
-    if not 1 <= arguments.port <= 65531:
-        parser.error("--port must be between 1 and 65531 (five consecutive ports are required)")
+    if not 1 <= arguments.port <= 65532:
+        parser.error("--port must be between 1 and 65532 (four consecutive ports are required)")
     if ":" in arguments.host:
         parser.error("Use an IPv4 address or hostname; the vendored servers require IPv4")
 
     ensure_project_layout()
-    ports = [arguments.port + offset for offset in range(5)]
+    ports = [arguments.port + offset for offset in range(4)]
     ensure_ports_available(arguments.host, ports)
     ensure_environment(arguments.skip_install)
 

@@ -4,52 +4,20 @@
     "sha256": "4ba859c0b25cbb1709b401dd85682d4445f38e7d9237a9b90cf3f9fca642f00e"
   },
   {
-    "path": "modules/distributed-memory-architecture-atlas/app.py",
-    "sha256": "2a2fdfa6015494c2c2063e6cf5c6e14918842f2a11e5471862fc3b7685a08f08"
-  },
-  {
     "path": "modules/distributed-memory-architecture-atlas/CHANGELOG.md",
     "sha256": "b805f248e1e6b60c49d7c83ba2058356b06fee40dcc97e08f4fa6523646a506b"
-  },
-  {
-    "path": "modules/distributed-memory-architecture-atlas/pyproject.toml",
-    "sha256": "972e0e5943f7795ec26aaeb712ba6d52f681b135e9f2b628c86ecc15059f75a4"
   },
   {
     "path": "modules/distributed-memory-architecture-atlas/README.md",
     "sha256": "23c05575e793b2e6dd0a21d3e60748f5e03236c904a7c35d151733d9b9117866"
   },
   {
-    "path": "modules/distributed-memory-architecture-atlas/requirements-dev.txt",
-    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  },
-  {
-    "path": "modules/distributed-memory-architecture-atlas/requirements.txt",
-    "sha256": "6a7fa9fa1b54d75962541714ddbe1e23bc2a9b4f3a1f5734501ae33a7022c028"
-  },
-  {
-    "path": "modules/distributed-memory-architecture-atlas/setup_env.bat",
-    "sha256": "590b8e4334f2bb32e40c854cb1d13d1f81b4592b51aa341337fddc99c936f104"
-  },
-  {
-    "path": "modules/distributed-memory-architecture-atlas/setup_env.sh",
-    "sha256": "2d7d7f027e636854360046e85c28bbb6c53f91aca9d3106b9b42178ccd4578cb"
-  },
-  {
     "path": "modules/distributed-memory-architecture-atlas/VALIDATION.md",
     "sha256": "aeb768cfa881908ad2a7aae5087f8fce088b13819e6283b46f4f21568e049d36"
   },
   {
-    "path": "modules/distributed-memory-architecture-atlas/docs/ARCHITECTURE.md",
-    "sha256": "7915ff1733555940cdab1dc4c981ce09bce41eb9f055128d7db7c427aea1c6cb"
-  },
-  {
-    "path": "modules/distributed-memory-architecture-atlas/docs/MIGRATION_MAP.md",
-    "sha256": "a823b64506c9936451667c8643487707963808ca8c6f1494601c3e5d3b6b8f02"
-  },
-  {
-    "path": "modules/distributed-memory-architecture-atlas/docs/SECURITY_MODEL.md",
-    "sha256": "ba5facc3dbe939aeb93962be37cff4054fbf3674eb46bbb6ab42ca77f5dc19c8"
+    "path": "modules/distributed-memory-architecture-atlas/app.py",
+    "sha256": "2a2fdfa6015494c2c2063e6cf5c6e14918842f2a11e5471862fc3b7685a08f08"
   },
   {
     "path": "modules/distributed-memory-architecture-atlas/docs/foundations/FOUNDATIONAL_MATHEMATICS.md",
@@ -74,6 +42,26 @@
   {
     "path": "modules/distributed-memory-architecture-atlas/examples/s4_permutation_token.json",
     "sha256": "f8b8b1dc842dcf661e5ee83cc0418b0e5ff5269f54ec058c688faef29514e83f"
+  },
+  {
+    "path": "modules/distributed-memory-architecture-atlas/pyproject.toml",
+    "sha256": "972e0e5943f7795ec26aaeb712ba6d52f681b135e9f2b628c86ecc15059f75a4"
+  },
+  {
+    "path": "modules/distributed-memory-architecture-atlas/requirements-dev.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "modules/distributed-memory-architecture-atlas/requirements.txt",
+    "sha256": "6a7fa9fa1b54d75962541714ddbe1e23bc2a9b4f3a1f5734501ae33a7022c028"
+  },
+  {
+    "path": "modules/distributed-memory-architecture-atlas/setup_env.bat",
+    "sha256": "590b8e4334f2bb32e40c854cb1d13d1f81b4592b51aa341337fddc99c936f104"
+  },
+  {
+    "path": "modules/distributed-memory-architecture-atlas/setup_env.sh",
+    "sha256": "2d7d7f027e636854360046e85c28bbb6c53f91aca9d3106b9b42178ccd4578cb"
   },
   {
     "path": "modules/distributed-memory-architecture-atlas/src/distributed_memory_atlas/__init__.py",
@@ -176,40 +164,20 @@
     "sha256": "930be497cef3b0a84443e82216e5e619209418c92bfb1b8b6953f1c92dd656b6"
   },
   {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/app.py",
-    "sha256": "558d43eb091e364a0095ebac0a859766313451b56c02156da59307aba6dbcabe"
-  },
-  {
     "path": "modules/markov-chain-explorer-python-v2.0.0/CHANGELOG.md",
     "sha256": "c5c10150ce7cf3bf9b92c359e249bcbc9188f6d1509165b9d4bace637d01e5e4"
-  },
-  {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/launch.py",
-    "sha256": "d1dbda1eb73fc3d01a2570e85bc07735dfcf8766bed6f4eac36b9a29f611fac9"
   },
   {
     "path": "modules/markov-chain-explorer-python-v2.0.0/README.md",
     "sha256": "28530c5bcf4bf430d558f4197b9785c0f36100ce442b1a3f61c55f6c0b3d34b2"
   },
   {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/requirements-dev.txt",
-    "sha256": "d4cc108e8dfee07a65103f68671d4ea79309fb1f5604309b8c9b11896d471c5d"
-  },
-  {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/requirements.txt",
-    "sha256": "198a476ad099119557d87cc9b059025bbf1245b592fbcd149070c89f7e5909ca"
-  },
-  {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/run-markov-explorer.bat",
-    "sha256": "0edfe295f5e58fe3f9813717cd2a154dfaa8915c1911322b1b1db2a6c00c66ea"
-  },
-  {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/run-markov-explorer.sh",
-    "sha256": "208f7b4049be756d8a9ff32f1190f19754c894da65d7a71ef6ddc07bb4a0f2cb"
-  },
-  {
     "path": "modules/markov-chain-explorer-python-v2.0.0/VALIDATION.md",
     "sha256": "bf2255211ef7d2ab4fdd378f30f8a31d84536bf1d2a90c4e62adb085af5537be"
+  },
+  {
+    "path": "modules/markov-chain-explorer-python-v2.0.0/app.py",
+    "sha256": "558d43eb091e364a0095ebac0a859766313451b56c02156da59307aba6dbcabe"
   },
   {
     "path": "modules/markov-chain-explorer-python-v2.0.0/backend/__init__.py",
@@ -232,16 +200,8 @@
     "sha256": "0a32056b3759e6f5729a567af23d7667452f5d34119bef236dc2b9247e350200"
   },
   {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/docs/PYTHON_ARCHITECTURE.md",
-    "sha256": "a287bf4614db6393427b3a9a58f7670e75908ffb78628732385d4f2ebb66df47"
-  },
-  {
     "path": "modules/markov-chain-explorer-python-v2.0.0/docs/THEORY.md",
     "sha256": "19271e34189ae811bf21e1fe07e77a62779fa29421695c960a97b6b9b705531a"
-  },
-  {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/docs/UNIVERSAL_IMPORTER_ADAPTATION.md",
-    "sha256": "8e270078f5570aa0dfa2a4a50b21719995e78898fb4ec1090c6455a8a998eb86"
   },
   {
     "path": "modules/markov-chain-explorer-python-v2.0.0/examples/homogeneous-system-chain.csv",
@@ -252,12 +212,8 @@
     "sha256": "0d90d0c29f817ce046aa54f0b0a21739ba8b674bf47218fa044455d42942f662"
   },
   {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_dist/favicon.svg",
-    "sha256": "5a7e6e95b26eed9dba42b9b085f3a25bc21e34904110cfa0073337a346890fc8"
-  },
-  {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_dist/index.html",
-    "sha256": "a74fd47133184afc60297bddc469fc1ce63f1cc88c3a47cfb2ad0262f3e8a430"
+    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_dist/assets/index-DmnUkIer.css",
+    "sha256": "511c0f598fbd3e83cda83c9aa9174faf1841b7e5459588c084539ac2dd540db5"
   },
   {
     "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_dist/assets/index-bhKWgS23.js",
@@ -268,44 +224,16 @@
     "sha256": "089a4fafd39fe6f8abdf0064225d86bf18292e4eaa446aedc7c07c5c019552a0"
   },
   {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_dist/assets/index-DmnUkIer.css",
-    "sha256": "511c0f598fbd3e83cda83c9aa9174faf1841b7e5459588c084539ac2dd540db5"
+    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_dist/favicon.svg",
+    "sha256": "5a7e6e95b26eed9dba42b9b085f3a25bc21e34904110cfa0073337a346890fc8"
+  },
+  {
+    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_dist/index.html",
+    "sha256": "a74fd47133184afc60297bddc469fc1ce63f1cc88c3a47cfb2ad0262f3e8a430"
   },
   {
     "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/components.json",
     "sha256": "31f4ca67a4a62572571003d3d5aac85ee6fbfca67a192924bac6b168d95e98fd"
-  },
-  {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/frontend-main.tsx",
-    "sha256": "06e08ef232764adb0d3d0b89081c844338b90e4ee342635ca883e5345b6cd26b"
-  },
-  {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/index.html",
-    "sha256": "d878e60bab33215949ec58c60a506cae2dc894fc18ac7050c736bdc8e9dba135"
-  },
-  {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/package.json",
-    "sha256": "933c5387a5dd486e1ce1f0db0a286fc50907e3c2e9a32c52a421f7d8c5a61394"
-  },
-  {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/pnpm-lock.yaml",
-    "sha256": "7b1e9ebecbd2e5c04d8c4f0af8ac4fbcbef5352e13992279abfca25ec13a764a"
-  },
-  {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/pnpm-workspace.yaml",
-    "sha256": "a054fd9884436f417b7d804c19615ad6048999e94438cd3f7e74fdef2d300c8f"
-  },
-  {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/postcss.config.mjs",
-    "sha256": "dfac7ac2d86d326a0e5adb024e7943c181393ed17a5fcb8f0315b24c7da6ddde"
-  },
-  {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/tsconfig.json",
-    "sha256": "5e96f4baff03b05f314a708a0adb4c0855dff439ea8b18f5253f0f7e967d83ba"
-  },
-  {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/vite.static.config.ts",
-    "sha256": "5bd84779f9ff68cc7876c1fb193f2e2fbf52736749887c35056d1d4be0118f29"
   },
   {
     "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/components/markov-3d-graph.tsx",
@@ -564,8 +492,16 @@
     "sha256": "a0784eb77831a799fad7991df4f1b666f876201565a80175e1aa68733574a2e4"
   },
   {
+    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/frontend-main.tsx",
+    "sha256": "06e08ef232764adb0d3d0b89081c844338b90e4ee342635ca883e5345b6cd26b"
+  },
+  {
     "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/hooks/use-mobile.ts",
     "sha256": "ad0936f84f1df79d3697bfbff9c18f8ad58431c1cbaf2359c6a853b0fcc9f28b"
+  },
+  {
+    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/index.html",
+    "sha256": "d878e60bab33215949ec58c60a506cae2dc894fc18ac7050c736bdc8e9dba135"
   },
   {
     "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/lib/api.ts",
@@ -584,6 +520,22 @@
     "sha256": "53f3d3d070f0a9082934da25b875f9499855c2b0693868dd28be8c23d8730f68"
   },
   {
+    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/package.json",
+    "sha256": "933c5387a5dd486e1ce1f0db0a286fc50907e3c2e9a32c52a421f7d8c5a61394"
+  },
+  {
+    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/pnpm-lock.yaml",
+    "sha256": "7b1e9ebecbd2e5c04d8c4f0af8ac4fbcbef5352e13992279abfca25ec13a764a"
+  },
+  {
+    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/pnpm-workspace.yaml",
+    "sha256": "a054fd9884436f417b7d804c19615ad6048999e94438cd3f7e74fdef2d300c8f"
+  },
+  {
+    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/postcss.config.mjs",
+    "sha256": "dfac7ac2d86d326a0e5adb024e7943c181393ed17a5fcb8f0315b24c7da6ddde"
+  },
+  {
     "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/public/favicon.svg",
     "sha256": "5a7e6e95b26eed9dba42b9b085f3a25bc21e34904110cfa0073337a346890fc8"
   },
@@ -592,16 +544,44 @@
     "sha256": "498b11303b724977a3df09f2754a238bcfc4f6278c975ec468c7c284c3c02364"
   },
   {
+    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/tsconfig.json",
+    "sha256": "5e96f4baff03b05f314a708a0adb4c0855dff439ea8b18f5253f0f7e967d83ba"
+  },
+  {
     "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/types/webmcp.d.ts",
     "sha256": "f9c6837778d01f17d1e1222e200138c1e21fe1828ad73e367058c0feb93923f2"
+  },
+  {
+    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/vendor/shadcn-tailwind-4.13.0.LICENSE.md",
+    "sha256": "1564074e13439397221ffd522e2e504d56561994a23d371aa5e3ad43e4f5423f"
   },
   {
     "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/vendor/shadcn-tailwind-4.13.0.css",
     "sha256": "bc7d83425702955b4cb67cb14ede9d603f9d912376d57a2d81d661094d2a782a"
   },
   {
-    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/vendor/shadcn-tailwind-4.13.0.LICENSE.md",
-    "sha256": "1564074e13439397221ffd522e2e504d56561994a23d371aa5e3ad43e4f5423f"
+    "path": "modules/markov-chain-explorer-python-v2.0.0/frontend_source/vite.static.config.ts",
+    "sha256": "5bd84779f9ff68cc7876c1fb193f2e2fbf52736749887c35056d1d4be0118f29"
+  },
+  {
+    "path": "modules/markov-chain-explorer-python-v2.0.0/launch.py",
+    "sha256": "d1dbda1eb73fc3d01a2570e85bc07735dfcf8766bed6f4eac36b9a29f611fac9"
+  },
+  {
+    "path": "modules/markov-chain-explorer-python-v2.0.0/requirements-dev.txt",
+    "sha256": "d4cc108e8dfee07a65103f68671d4ea79309fb1f5604309b8c9b11896d471c5d"
+  },
+  {
+    "path": "modules/markov-chain-explorer-python-v2.0.0/requirements.txt",
+    "sha256": "198a476ad099119557d87cc9b059025bbf1245b592fbcd149070c89f7e5909ca"
+  },
+  {
+    "path": "modules/markov-chain-explorer-python-v2.0.0/run-markov-explorer.bat",
+    "sha256": "0edfe295f5e58fe3f9813717cd2a154dfaa8915c1911322b1b1db2a6c00c66ea"
+  },
+  {
+    "path": "modules/markov-chain-explorer-python-v2.0.0/run-markov-explorer.sh",
+    "sha256": "208f7b4049be756d8a9ff32f1190f19754c894da65d7a71ef6ddc07bb4a0f2cb"
   },
   {
     "path": "modules/markov-chain-explorer-python-v2.0.0/tests/__init__.py",
@@ -620,20 +600,20 @@
     "sha256": "9c09f0c2972981b678724c1e51a16109220d5a0c616acef81b03a81afb7a0fff"
   },
   {
+    "path": "modules/s_n_explorer_web/AGENTS.md",
+    "sha256": "63423c182bb614c8a780ce158ef52d6ee515e47499618413cc093f597fbf76a1"
+  },
+  {
+    "path": "modules/s_n_explorer_web/README.md",
+    "sha256": "52587ebcf416fff978a9436a9fc51b51340f8da47d21ba1ae31fa4703d7c579f"
+  },
+  {
     "path": "modules/s_n_explorer_web/app.py",
-    "sha256": "d553a2fcef5eb3624c0efe15e1eb1fea3835b86292c6a97e8420a9fbb9f370b5"
+    "sha256": "12c683e8a3ef312470530374b10d89fdad91a4fd62755a3c0360dbb7ec89483a"
   },
   {
     "path": "modules/s_n_explorer_web/dihedral_visualization.py",
     "sha256": "19149b5cb424bf49015e88d82fa9ce6de74f21c53e71cd6ec09a1715581c22aa"
-  },
-  {
-    "path": "modules/s_n_explorer_web/PROJECT_ANALYSIS.md",
-    "sha256": "4461c7380886b5c269dc8f8d4410ef73d0066b824e022eadd40b9b5e6a1ea735"
-  },
-  {
-    "path": "modules/s_n_explorer_web/README.md",
-    "sha256": "b57753650fc08fb70512d51ae158ac0e3ff4aa71a2d249a7350bb73ffc254db3"
   },
   {
     "path": "modules/s_n_explorer_web/requirements.txt",
@@ -644,12 +624,8 @@
     "sha256": "9566be0f514cfebc675f933b0f472426d1b43ac21a30c2d395e03ad69f1bc65f"
   },
   {
-    "path": "modules/s_n_explorer_web/symmetric_group.py",
-    "sha256": "9b5c3401aaa7a5c858ea5cad44b69e633349229c5c647bff0e3b33f048fd6535"
-  },
-  {
     "path": "modules/s_n_explorer_web/static/app.js",
-    "sha256": "ba6cb5824494f40ee8a5de48134402dd887c212d466bf4eb38ce5fdfa9934707"
+    "sha256": "01553c8413faed7f077cd8ea48deb10ac6e311bb476b3ff2791ac8a24b6952c9"
   },
   {
     "path": "modules/s_n_explorer_web/static/dihedral-prism.js",
@@ -661,11 +637,11 @@
   },
   {
     "path": "modules/s_n_explorer_web/static/index.html",
-    "sha256": "e0817fd252c0aa1aa60959e1282d608c51e3b47cbd4424571bd1e4d182c00ac1"
+    "sha256": "57ab7d8be428597e455bf7aef004c649bbd77310da343bd8bd22e1e541692207"
   },
   {
     "path": "modules/s_n_explorer_web/static/styles.css",
-    "sha256": "ea6af8886d18f07a164ea3fc7c8fe149d9df090151518438c340231c9c4e227d"
+    "sha256": "4a0688d62a957c97a6ffc75c259040e005473fbc9aeb5e0e0c5d5be93ede56dc"
   },
   {
     "path": "modules/s_n_explorer_web/static/vendor/LICENSE",
@@ -684,11 +660,23 @@
     "sha256": "c8211c69345d2e9949dc7a8ac969380497aa0600a5a8ac6a459c8cd02dd9cb8a"
   },
   {
+    "path": "modules/s_n_explorer_web/symmetric_group.py",
+    "sha256": "f494c107a97bf9b3c8a1a306cd3e5ead0326b5d785ac506cdd448f36b0a6b639"
+  },
+  {
+    "path": "modules/s_n_explorer_web/tests/conftest.py",
+    "sha256": "5439b0be883057d1c205d81a166fa4bc75a7109ee2d1e8dadc0124609eb04650"
+  },
+  {
+    "path": "modules/s_n_explorer_web/tests/test_composition_api.py",
+    "sha256": "895bc413471a92b5da8c90f358ec3144f4a3a180442f63b95da68d0eb897ad3f"
+  },
+  {
     "path": "modules/s_n_explorer_web/tests/test_dihedral.py",
-    "sha256": "1d7e333adc97f7046969f059e45d63dbaf502049512e8cc6e49c169fa6a7b24e"
+    "sha256": "fcdca60b77652ec76890250389ac02756564ff2d3ab927f18eca5273c324010d"
   },
   {
     "path": "modules/s_n_explorer_web/tests/test_engine.py",
-    "sha256": "a43bd68ae060daf992f1511d5ec0f6bd9816b655436dc8494f92aa0a35a72ead"
+    "sha256": "f8b1b2968d4d48585cba0c31f1cbc0d4c322920307520df1217b9b537796b5ee"
   }
 ]

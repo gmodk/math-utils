@@ -1,7 +1,6 @@
-"""Compile Python in memory and verify the protected module sources, without a JS runtime.
+"""Compile Python in memory and verify all retained module paths and bytes.
 
-JavaScript syntax and behavior are verified by loading the six local ES modules in
-browser validation. This command does not claim to parse JavaScript.
+JavaScript syntax and behavior are verified separately in the browser.
 """
 from pathlib import Path
 import hashlib
@@ -12,11 +11,13 @@ SKIP = {'__pycache__', '.pytest_cache', '.venv', 'node_modules'}
 
 
 def main():
-    baseline = json.loads((ROOT / 'tests/fixtures/regression-protected-files.json').read_text(encoding='utf-8'))
+    baseline = json.loads((ROOT / 'tests/fixtures/protected-module-files.json').read_text(encoding='utf-8'))
     expected = {item['path']: item['sha256'] for item in baseline}
+    assert len(expected) == len(baseline), 'Duplicate protected path'
     actual = {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
-              for directory in (ROOT / 'modules').iterdir() if directory.name != 'regression_geometry_explorers'
-              for p in directory.rglob('*') if p.is_file() and not SKIP.intersection(p.parts) and p.suffix not in ('.pyc', '.pyo')}
+              for p in (ROOT / 'modules').rglob('*')
+              if p.is_file() and not SKIP.intersection(p.relative_to(ROOT).parts)
+              and p.suffix not in ('.pyc', '.pyo')}
     assert actual == expected, 'A protected module source or path changed'
     files = [p for folder in ('modules', 'landing', 'tests') for p in (ROOT / folder).rglob('*')
              if p.is_file() and not SKIP.intersection(p.parts)] + [ROOT / 'launch.py']

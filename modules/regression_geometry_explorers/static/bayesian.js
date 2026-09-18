@@ -1,6 +1,0 @@
-import {colors,fmt,text,canvas,line,dot,label,axes} from './rendering.js';
-export function draw(r){for(const [id,value] of Object.entries({pa:r.mean[0],pb:r.mean[1],sda:r.standard_deviations[0],sdb:r.standard_deviations[1],olsb:r.ols[1],predsd:r.predictive_sd}))text(id,fmt(value));text('cib',`[${fmt(r.beta_interval[0],2)}, ${fmt(r.beta_interval[1],2)}]`);
- {const {ctx,W,H}=canvas('ell'),m=r.ellipse_extent,{X,Y}=axes(ctx,W,H,[-m,m],[-m,m],'α','β');for(const [name,color,mu] of [['prior',colors.violet,[0,0]],['likelihood',colors.gold,r.ols],['posterior',colors.cyan,r.mean]]){line(ctx,r.ellipses[name].map(p=>[X(p[0]),Y(p[1])]),color);dot(ctx,[X(mu[0]),Y(mu[1])],color,2);}
- label(ctx,'prior',65,38,colors.violet);label(ctx,'likelihood / OLS',160,38,colors.gold);label(ctx,'posterior',330,38,colors.cyan);}
- {const {ctx,W,H}=canvas('pred'),{X,Y}=axes(ctx,W,H,[-3,3],r.predictive_bounds,'x','y');r.x.forEach((x,i)=>dot(ctx,[X(x),Y(r.y[i])],'#7aa7ff88'));line(ctx,r.curve.map(p=>[X(p[0]),Y(p[2])]),colors.violet);line(ctx,r.curve.map(p=>[X(p[0]),Y(p[3])]),colors.violet);line(ctx,r.curve.map(p=>[X(p[0]),Y(p[1])]),colors.cyan);label(ctx,'cyan: posterior mean · violet: ~95% predictive band',48,18);}
-}

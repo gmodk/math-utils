@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 FILES = ('AGENTS.md', 'README.md', 'CHANGELOG.md', 'VALIDATION.md', 'launch.py',
          'requirements.txt', 'requirements-dev.txt', 'run-math-utils.bat',
          'run-math-utils.sh', 'module-checksums.json')
-FOLDERS = ('landing', 'modules', 'tests', 'validation-results')
+FOLDERS = ('landing', 'modules', 'tests')
 EXCLUDED = {'.git', '.venv', 'venv', 'env', 'node_modules', '__pycache__', '.pytest_cache', '.mypy_cache', '.ruff_cache', '.cache', '.codex', '.agents'}
 
 
@@ -32,6 +32,10 @@ def main():
         for path in files:
             assert bundle.read('math-utils/' + path.relative_to(ROOT).as_posix()) == path.read_bytes()
         baseline = json.loads((ROOT / 'module-checksums.json').read_text(encoding='utf-8-sig'))
+        assert len({item['path'] for item in baseline}) == len(baseline), 'Duplicate module checksum path'
+        archived_modules = {name.removeprefix('math-utils/') for name in bundle.namelist()
+                            if name.startswith('math-utils/modules/')}
+        assert archived_modules == {item['path'] for item in baseline}, 'Module checksum path set differs from archive'
         for item in baseline:
             assert hashlib.sha256(bundle.read('math-utils/' + item['path'])).hexdigest() == item['sha256']
     result = {'file': archive.name, 'bytes': archive.stat().st_size,

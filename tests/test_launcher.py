@@ -16,9 +16,8 @@ def test_module_registry_is_complete_and_uses_distinct_ports() -> None:
         "memory-atlas",
         "markov",
         "symmetric-groups",
-        "statistical-geometry",
     ]
-    assert len({spec.port_offset for spec in specs}) == len(specs)
+    assert [spec.port_offset for spec in specs] == [1, 2, 3]
     assert all(spec.directory.is_dir() for spec in specs)
 
 
@@ -27,6 +26,8 @@ def test_landing_assets_are_present() -> None:
     assert (launch.LANDING / "styles.css").is_file()
     assert (launch.LANDING / "app.js").is_file()
     assert (launch.LANDING / "favicon.svg").is_file()
+    html = (launch.LANDING / "index.html").read_text(encoding="utf-8")
+    assert html.count('class="module-card skeleton"') == 3
 
 import json
 import os
@@ -68,16 +69,16 @@ def test_shared_environment_is_ready():
     assert launch.requirements_satisfied()
 
 
-@pytest.mark.parametrize('port', ['0', '65532', '-1'])
+@pytest.mark.parametrize('port', ['0', '65533', '-1'])
 def test_invalid_port_fails_before_startup(port):
     result = subprocess.run([sys.executable, str(ROOT / 'launch.py'), '--port', port], capture_output=True, text=True)
     assert result.returncode == 2
-    assert 'five consecutive ports' in result.stderr
+    assert 'four consecutive ports' in result.stderr
 
 
 def test_complete_platform(tmp_path):
     base = int(os.environ.get('MATH_UTILS_TEST_PORT', '8000'))
-    launch.ensure_ports_available('127.0.0.1', list(range(base, base + 5)))
+    launch.ensure_ports_available('127.0.0.1', list(range(base, base + 4)))
     flags = subprocess.CREATE_NEW_PROCESS_GROUP if os.name == 'nt' else 0
     env = dict(os.environ, PYTHONDONTWRITEBYTECODE='1', PYTHONIOENCODING='utf-8')
     with (tmp_path / 'platform.log').open('w+', encoding='utf-8') as log:
@@ -97,16 +98,14 @@ def test_complete_platform(tmp_path):
                     assert response.status == 200
             with urlopen(f'http://127.0.0.1:{base}/api/status') as response:
                 status = json.load(response)
-            assert len(status['modules']) == 4
+            assert [item['id'] for item in status['modules']] == [
+                'memory-atlas', 'markov', 'symmetric-groups',
+            ]
+            assert [item['port'] for item in status['modules']] == [base + 1, base + 2, base + 3]
             assert all(item['ready'] for item in status['modules'])
             for spec in launch.module_specs():
                 for path in ['/', spec.health_path]:
                     assert launch.is_ready('127.0.0.1', base + spec.port_offset, path)
-            with urlopen(f'http://127.0.0.1:{base+4}/api/catalog') as response:
-                explorers = json.load(response)
-            assert [item['id'] for item in explorers] == ['correlation', 'multiple-regression', 'bias-variance', 'bayesian']
-            for explorer in explorers:
-                assert launch.is_ready('127.0.0.1', base + 4, explorer['path'])
             # An occupied range must reject a second launch without disturbing the first.
             second = subprocess.run([sys.executable, str(ROOT / 'launch.py'), '--no-browser', '--port', str(base)], capture_output=True, text=True, timeout=10)
             assert second.returncode != 0
@@ -117,15 +116,4 @@ def test_complete_platform(tmp_path):
                 process.send_signal(signal.CTRL_BREAK_EVENT if os.name == 'nt' else signal.SIGTERM)
                 process.wait(timeout=15)
         assert process.returncode == 0
-    launch.ensure_ports_available('127.0.0.1', list(range(base, base + 5)))
-
-
-def test_statistical_python_server_contract():
-    spec = launch.module_specs()[3]
-    assert spec.id == 'statistical-geometry'
-    assert spec.title == 'Correlation & Regression Explorers'
-    assert spec.port_offset == 4
-    assert spec.health_path == '/api/health'
-    assert spec.command('127.0.0.1', 9004)[1:] == ['app.py']
-    assert spec.environment('127.0.0.1', 9004)['HOST'] == '127.0.0.1'
-    assert spec.environment('127.0.0.1', 9004)['PORT'] == '9004'
+    launch.ensure_ports_available('127.0.0.1', list(range(base, base + 4)))
