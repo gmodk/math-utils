@@ -5,6 +5,7 @@ from symmetric_group import (
     build_dihedral_group,
     cayley_table,
     compose,
+    composition_trace,
     conjugacy_class_summaries,
     generate_permutations,
     inverse,
@@ -25,6 +26,39 @@ def test_composition_convention_and_inverse():
     assert compose(sigma, tau) == [0, 2, 1]
     assert compose(sigma, inverse(sigma)) == [0, 1, 2]
     assert compose(tau, inverse(tau)) == [0, 1, 2]
+
+
+def test_composition_trace_matches_cauchy_one_line_example():
+    sigma = [1, 2, 0]  # (231)
+    tau = [0, 2, 1]    # (132)
+    assert compose(sigma, tau) == [1, 0, 2]  # (213)
+    assert composition_trace(sigma, tau) == [
+        {"input": 1, "after_tau": 1, "result": 2},
+        {"input": 2, "after_tau": 3, "result": 1},
+        {"input": 3, "after_tau": 2, "result": 3},
+    ]
+
+
+def test_every_trace_row_agrees_with_composition_and_is_one_based():
+    for n in range(1, 5):
+        elements = generate_permutations(n)
+        for sigma in elements:
+            for tau in elements:
+                result = compose(sigma, tau)
+                trace = composition_trace(sigma, tau)
+                assert len(trace) == n
+                assert trace == [
+                    {"input": i + 1, "after_tau": tau[i] + 1, "result": result[i] + 1}
+                    for i in range(n)
+                ]
+                assert all(1 <= row[key] <= n for row in trace for key in row)
+
+
+def test_composition_trace_rejects_different_degrees():
+    import pytest
+
+    with pytest.raises(ValueError, match="same n"):
+        composition_trace([0], [0, 1])
 
 
 def test_order_and_sign():

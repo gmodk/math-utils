@@ -253,3 +253,78 @@ tbody tr:hover { background: #12263a; }
 #view-dihedral .target-index { fill:#9eb2cd; font:12px var(--mono); text-anchor:middle; }
 @media(max-width:1100px) { #view-dihedral .dihedral-layout { grid-template-columns:1fr; } }
 @media(max-width:700px) { #view-dihedral #dihedral-stage { height:290px; } #view-dihedral .dihedral-controls { padding:10px; } }
+
+/* Composition trace animation */
+.compose-heading { display:flex; justify-content:space-between; gap:18px; align-items:flex-start; margin-bottom:16px; }
+.compose-heading h2 { margin-bottom:5px; }
+.compose-heading .note { margin:0; max-width:780px; }
+#compose-example { white-space:nowrap; }
+.composition-animation-panel { margin-top:14px; padding:18px; overflow:hidden; }
+.composition-animation-header { display:flex; justify-content:space-between; gap:22px; align-items:flex-start; }
+.composition-animation-header h2 { margin:2px 0 4px; font-size:24px; }
+.composition-animation-header .muted { margin:0; }
+.composition-controls { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px; align-items:end; }
+.speed-control { display:grid; gap:4px; color:var(--muted); font:11px system-ui,sans-serif; text-transform:uppercase; letter-spacing:.06em; }
+.speed-control select { height:36px; min-width:90px; }
+.composition-notation-row { display:flex; flex-wrap:wrap; align-items:center; gap:14px; margin:18px 0 14px; padding:13px 16px; border:1px solid #263b51; border-radius:6px; background:rgba(8,17,26,.55); }
+.cauchy-block { display:flex; align-items:center; gap:7px; color:#e5eefb; }
+.cauchy-symbol { min-width:42px; color:#bcd4f6; font:700 16px var(--serif); text-align:right; }
+.cauchy-paren { color:#8098b7; font:36px/1 var(--serif); transform:scaleY(1.45); }
+.cauchy-grid { display:grid; grid-template-columns:repeat(var(--n), minmax(22px,auto)); gap:1px 8px; font:14px/1.3 var(--mono); text-align:center; }
+.cauchy-top { color:#8298b3; }
+.cauchy-bottom { color:#dbe7f8; }
+.notation-arrow { color:#7088a5; font:12px system-ui,sans-serif; text-transform:uppercase; letter-spacing:.08em; }
+.composition-stage-shell { overflow:auto; border:1px solid #263b51; border-radius:7px; background:radial-gradient(circle at 50% 40%, rgba(45,89,135,.12), transparent 44%), #09141e; }
+#composition-trace-svg { display:block; width:100%; min-width:720px; min-height:350px; }
+.composition-lane-title { fill:#e2ebf8; font:700 17px var(--serif); text-anchor:middle; }
+.composition-lane-subtitle { fill:#7f96b3; font:13px var(--mono); text-anchor:middle; }
+.composition-lane-line { stroke:#20364a; stroke-width:1; stroke-dasharray:4 8; }
+.composition-map-label { font:700 18px var(--serif); text-anchor:middle; }
+.composition-map-label.tau { fill:var(--blue); }
+.composition-map-label.sigma { fill:var(--violet); }
+.composition-node { fill:#102233; stroke:#45627f; stroke-width:1.5; transition:.2s ease; }
+.composition-node-group.target .composition-node { fill:#173b65; stroke:#8cbcff; stroke-width:2; filter:drop-shadow(0 0 7px rgba(94,160,255,.25)); }
+.composition-node-label { fill:#dce8f8; font:700 15px var(--serif); text-anchor:middle; dominant-baseline:middle; }
+.composition-path { fill:none; stroke-width:3.2; opacity:.95; }
+.composition-path.tau { stroke:var(--blue); marker-end:url(#composition-arrow-blue); }
+.composition-path.sigma { stroke:var(--violet); marker-end:url(#composition-arrow-violet); }
+.composition-path.animating { filter:url(#composition-glow); }
+.composition-token { fill:#f1f6ff; stroke:#7fb5ff; stroke-width:3; filter:url(#composition-glow); }
+.composition-trace-footer { display:grid; grid-template-columns:minmax(260px,.85fr) minmax(420px,1.5fr); gap:14px; margin-top:14px; }
+.trace-readout { min-height:92px; padding:13px 15px; border:1px solid #263b51; border-radius:6px; background:#0a1620; }
+.trace-counter { display:block; margin-bottom:4px; color:#7189a6; font:10px system-ui,sans-serif; text-transform:uppercase; letter-spacing:.08em; }
+.trace-expression { min-height:31px; color:#e7eef9; font:700 24px var(--mono); }
+.trace-expression .trace-tau { color:var(--blue); }
+.trace-expression .trace-sigma { color:var(--violet); }
+.trace-explanation { margin-top:5px; color:#a9bed9; font-size:14px; }
+.trace-chip-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:8px; align-content:start; }
+.trace-chip { min-height:59px; padding:8px 10px; border:1px solid #294057; border-radius:6px; background:#0c1925; color:#a9bdd6; cursor:pointer; text-align:left; }
+.trace-chip:hover { border-color:#58789a; background:#102235; }
+.trace-chip span { display:block; color:#738da9; font:10px system-ui,sans-serif; text-transform:uppercase; letter-spacing:.06em; }
+.trace-chip strong { display:block; margin-top:3px; color:#c9d8eb; font:13px var(--mono); }
+.trace-chip.active { border-color:var(--blue); background:linear-gradient(145deg,#123152,#10243a); box-shadow:inset 0 0 0 1px rgba(94,160,255,.08); }
+.trace-chip.complete strong { color:#d8e7fa; }
+.composition-legend { display:flex; flex-wrap:wrap; gap:18px; margin-top:12px; color:#7f96b1; font:11px system-ui,sans-serif; }
+.composition-legend span { display:flex; align-items:center; gap:7px; }
+.legend-dot { width:10px; height:10px; border-radius:50%; background:#f1f6ff; box-shadow:0 0 0 2px #7fb5ff; }
+.legend-line { width:23px; height:3px; border-radius:3px; }
+.legend-line.tau { background:var(--blue); }
+.legend-line.sigma { background:var(--violet); }
+
+@media (max-width: 1050px) {
+  .composition-animation-header { flex-direction:column; }
+  .composition-controls { justify-content:flex-start; }
+  .composition-trace-footer { grid-template-columns:1fr; }
+}
+@media (max-width: 700px) {
+  .compose-heading { flex-direction:column; }
+  #compose-example { white-space:normal; }
+  .composition-animation-panel { padding:12px; }
+  .composition-controls { display:grid; grid-template-columns:1fr 1fr; width:100%; }
+  .speed-control { grid-column:1 / -1; }
+  .composition-notation-row { align-items:flex-start; }
+  .notation-arrow { width:100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #view-compose .composition-node, #view-compose .trace-chip { transition:none; }
+}

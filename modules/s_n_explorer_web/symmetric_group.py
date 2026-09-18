@@ -46,6 +46,15 @@ def compose(sigma: Sequence[int], tau: Sequence[int]) -> Permutation:
     return [sigma[tau[i]] for i in range(len(sigma))]
 
 
+def composition_trace(sigma: Sequence[int], tau: Sequence[int]) -> List[dict]:
+    """Trace sigma after tau for each input, with one-based display values."""
+    _validate_same_degree(sigma, tau)
+    return [
+        {"input": i + 1, "after_tau": tau[i] + 1, "result": sigma[tau[i]] + 1}
+        for i in range(len(sigma))
+    ]
+
+
 def identity(n: int) -> Permutation:
     return list(range(n))
 

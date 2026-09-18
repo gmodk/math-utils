@@ -117,6 +117,8 @@ async function loadGroup() {
   $$(".dynamic-n").forEach(el => el.textContent = state.n);
   $("#sigma-index").max = state.order;
   $("#tau-index").max = state.order;
+  if (Number($("#sigma-index").value) > state.order) $("#sigma-index").value = 1;
+  if (Number($("#tau-index").value) > state.order) $("#tau-index").value = 1;
   $("#overview-index").max = state.order;
   state.page = 1;
   state.overviewPage = 1;
@@ -268,14 +270,311 @@ async function inspectPermutation(index) {
   }
 }
 
+const compositionAnimation = {
+  data: null,
+  index: 0,
+  runId: 0,
+  playing: false,
+  autoplayTimer: null,
+  requestId: 0,
+};
+
+function oneLineDigits(p) {
+  return p.permutation.map(value => value + 1);
+}
+
+function cauchyMatrixHtml(p, label) {
+  const top = Array.from({ length: p.permutation.length }, (_, i) => i + 1);
+  const bottom = oneLineDigits(p);
+  return `
+    <div class="cauchy-block">
+      <div class="cauchy-symbol">${label}</div>
+      <div class="cauchy-paren">(</div>
+      <div class="cauchy-grid" style="--n:${top.length}">
+        ${top.map(v => `<span class="cauchy-top">${v}</span>`).join("")}
+        ${bottom.map(v => `<span class="cauchy-bottom">${v}</span>`).join("")}
+      </div>
+      <div class="cauchy-paren">)</div>
+    </div>`;
+}
+
+function cancelCompositionAnimation() {
+  compositionAnimation.runId += 1;
+  compositionAnimation.playing = false;
+  clearTimeout(compositionAnimation.autoplayTimer);
+  compositionAnimation.autoplayTimer = null;
+  $$("#composition-trace-svg .composition-path.animating").forEach(path => path.classList.remove("animating"));
+  const play = $("#composition-play-all");
+  if (play) play.textContent = "Play all traces";
+}
+
+function compositionGeometry(n) {
+  const width = 900;
+  const top = 92;
+  const step = n <= 4 ? 64 : n <= 6 ? 52 : 45;
+  const height = Math.max(350, top + (n - 1) * step + 88);
+  const xs = [120, 450, 780];
+  const y = value => top + (value - 1) * step;
+  return { width, height, xs, y };
+}
+
+function tracePathD(x1, y1, x2, y2) {
+  const bend = Math.max(80, Math.abs(x2 - x1) * 0.34);
+  return `M ${x1} ${y1} C ${x1 + bend} ${y1}, ${x2 - bend} ${y2}, ${x2} ${y2}`;
+}
+
+function renderCompositionDiagram(index = 0) {
+  const data = compositionAnimation.data;
+  const svg = $("#composition-trace-svg");
+  if (!data || !svg) return;
+  const n = data.n;
+  const trace = data.trace[index];
+  const { width, height, xs, y } = compositionGeometry(n);
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+
+  const laneLabels = [
+    ["Input", "i"],
+    ["After τ", "τ(i)"],
+    ["After σ", "σ(τ(i))"],
+  ];
+  const headers = laneLabels.map(([a,b], lane) => `
+    <text class="composition-lane-title" x="${xs[lane]}" y="30">${a}</text>
+    <text class="composition-lane-subtitle" x="${xs[lane]}" y="52">${b}</text>`).join("");
+
+  const laneLines = xs.map(x => `<line class="composition-lane-line" x1="${x}" y1="68" x2="${x}" y2="${height - 36}"/>`).join("");
+  const nodes = xs.map((x, lane) => Array.from({ length: n }, (_, k) => {
+    const value = k + 1;
+    const active = (lane === 0 && value === trace.input) ||
+      (lane === 1 && value === trace.after_tau) ||
+      (lane === 2 && value === trace.result);
+    return `<g class="composition-node-group ${active ? "target" : ""}" data-lane="${lane}" data-value="${value}">
+      <circle class="composition-node" cx="${x}" cy="${y(value)}" r="20"/>
+      <text class="composition-node-label" x="${x}" y="${y(value) + 1}">${value}</text>
+    </g>`;
+  }).join("")).join("");
+
+  const p1 = tracePathD(xs[0] + 22, y(trace.input), xs[1] - 22, y(trace.after_tau));
+  const p2 = tracePathD(xs[1] + 22, y(trace.after_tau), xs[2] - 22, y(trace.result));
+  svg.innerHTML = `
+    <defs>
+      <marker id="composition-arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#5ea0ff"/></marker>
+      <marker id="composition-arrow-violet" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#a477ff"/></marker>
+      <filter id="composition-glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    ${headers}${laneLines}
+    <text class="composition-map-label tau" x="285" y="73">τ</text>
+    <text class="composition-map-label sigma" x="615" y="73">σ</text>
+    <path id="composition-path-tau" class="composition-path tau" d="${p1}"/>
+    <path id="composition-path-sigma" class="composition-path sigma" d="${p2}"/>
+    ${nodes}
+    <circle id="composition-token" class="composition-token" cx="${xs[0]}" cy="${y(trace.input)}" r="10"/>
+  `;
+  updateCompositionReadout(index, 0);
+}
+
+function updateCompositionReadout(index, phase = 0) {
+  const data = compositionAnimation.data;
+  if (!data) return;
+  compositionAnimation.index = index;
+  const t = data.trace[index];
+  const readout = $("#composition-current-trace");
+  if (readout) {
+    const first = phase >= 1 ? `<strong class="trace-tau">${t.input} → ${t.after_tau}</strong>` : `<strong>${t.input}</strong>`;
+    const second = phase >= 2 ? `<strong class="trace-sigma"> → ${t.result}</strong>` : "";
+    const explanation = phase === 0
+      ? `Start with i = ${t.input}.`
+      : phase === 1
+      ? `First apply τ: τ(${t.input}) = ${t.after_tau}.`
+      : `Then apply σ: σ(${t.after_tau}) = ${t.result}. Therefore (σ ∘ τ)(${t.input}) = ${t.result}.`;
+    readout.innerHTML = `<div class="trace-expression">${first}${second}</div><div class="trace-explanation">${explanation}</div>`;
+  }
+  $$(".trace-chip").forEach((chip, i) => {
+    chip.classList.toggle("active", i === index);
+    chip.classList.toggle("complete", i < index || (i === index && phase >= 2));
+  });
+  const counter = $("#composition-trace-counter");
+  if (counter) counter.textContent = `trace ${index + 1} of ${data.trace.length}`;
+}
+
+function setPathProgress(path, progress) {
+  if (!path) return;
+  const length = path.getTotalLength();
+  path.style.strokeDasharray = `${length}`;
+  path.style.strokeDashoffset = `${length * (1 - progress)}`;
+}
+
+function animateSvgPath(path, token, duration, runId) {
+  return new Promise(resolve => {
+    const length = path.getTotalLength();
+    const start = performance.now();
+    path.classList.add("animating");
+    const frame = now => {
+      if (runId !== compositionAnimation.runId) { resolve(false); return; }
+      const raw = Math.min(1, (now - start) / duration);
+      const eased = raw < 0.5 ? 2 * raw * raw : 1 - Math.pow(-2 * raw + 2, 2) / 2;
+      setPathProgress(path, eased);
+      const pt = path.getPointAtLength(length * eased);
+      token.setAttribute("cx", pt.x);
+      token.setAttribute("cy", pt.y);
+      if (raw < 1) requestAnimationFrame(frame);
+      else { path.classList.remove("animating"); resolve(true); }
+    };
+    requestAnimationFrame(frame);
+  });
+}
+
+function animationDuration() {
+  const speed = Number($("#composition-speed")?.value || 1);
+  return 720 / speed;
+}
+
+async function animateCompositionTrace(index, runId = null) {
+  if (!compositionAnimation.data) return false;
+  if (runId === null) {
+    cancelCompositionAnimation();
+    runId = compositionAnimation.runId;
+  }
+  compositionAnimation.index = index;
+  renderCompositionDiagram(index);
+  const path1 = $("#composition-path-tau");
+  const path2 = $("#composition-path-sigma");
+  const token = $("#composition-token");
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    setPathProgress(path1, 1);
+    setPathProgress(path2, 1);
+    const end = path2.getPointAtLength(path2.getTotalLength());
+    token.setAttribute("cx", end.x);
+    token.setAttribute("cy", end.y);
+    updateCompositionReadout(index, 2);
+    return true;
+  }
+  setPathProgress(path1, 0);
+  setPathProgress(path2, 0);
+
+  updateCompositionReadout(index, 0);
+  let ok = await animateSvgPath(path1, token, animationDuration(), runId);
+  if (!ok) return false;
+  updateCompositionReadout(index, 1);
+  await new Promise(resolve => setTimeout(resolve, 180));
+  if (runId !== compositionAnimation.runId) return false;
+
+  ok = await animateSvgPath(path2, token, animationDuration(), runId);
+  if (!ok) return false;
+  updateCompositionReadout(index, 2);
+  return true;
+}
+
+async function playAllCompositionTraces() {
+  if (!compositionAnimation.data) return;
+  cancelCompositionAnimation();
+  const runId = compositionAnimation.runId;
+  compositionAnimation.playing = true;
+  const play = $("#composition-play-all");
+  if (play) play.textContent = "Stop";
+  for (let i = 0; i < compositionAnimation.data.trace.length; i += 1) {
+    if (runId !== compositionAnimation.runId) break;
+    const ok = await animateCompositionTrace(i, runId);
+    if (!ok) break;
+    if (i < compositionAnimation.data.trace.length - 1) {
+      await new Promise(resolve => setTimeout(resolve, 260));
+    }
+  }
+  if (runId === compositionAnimation.runId) {
+    compositionAnimation.playing = false;
+    if (play) play.textContent = "Play all traces";
+  }
+}
+
+function compositionStep(delta) {
+  if (!compositionAnimation.data) return;
+  const n = compositionAnimation.data.trace.length;
+  const next = Math.max(0, Math.min(n - 1, compositionAnimation.index + delta));
+  animateCompositionTrace(next);
+}
+
+function renderCompositionAnimation(data) {
+  compositionAnimation.data = data;
+  compositionAnimation.index = 0;
+  const root = $("#composition-animation-root");
+  const traceChips = data.trace.map((t, i) => `
+    <button class="trace-chip ${i === 0 ? "active" : ""}" data-trace-index="${i}" type="button">
+      <span>i = ${t.input}</span><strong>${t.input} → ${t.after_tau} → ${t.result}</strong>
+    </button>`).join("");
+  root.innerHTML = `
+    <article class="panel composition-animation-panel">
+      <header class="composition-animation-header">
+        <div>
+          <p class="eyebrow">COMPOSITION TRACE</p>
+          <h2>Watch σ ∘ τ act on every element</h2>
+          <p class="muted">Each trace moves through the intermediate value τ(i) before reaching σ(τ(i)).</p>
+        </div>
+        <div class="composition-controls">
+          <button id="composition-prev" class="button" type="button">Previous</button>
+          <button id="composition-replay" class="button" type="button">Replay trace</button>
+          <button id="composition-next" class="button" type="button">Next</button>
+          <button id="composition-play-all" class="button primary" type="button">Play all traces</button>
+          <label class="speed-control">Speed
+            <select id="composition-speed"><option value="0.65">slow</option><option value="1" selected>normal</option><option value="1.65">fast</option></select>
+          </label>
+        </div>
+      </header>
+      <div class="composition-notation-row">
+        ${cauchyMatrixHtml(data.tau, "τ")}
+        <div class="notation-arrow">then</div>
+        ${cauchyMatrixHtml(data.sigma, "σ")}
+        <div class="notation-arrow">gives</div>
+        ${cauchyMatrixHtml(data.result, "σ ∘ τ")}
+      </div>
+      <div class="composition-stage-shell">
+        <svg id="composition-trace-svg" role="img" aria-label="Animated element-by-element permutation composition"></svg>
+      </div>
+      <div class="composition-trace-footer">
+        <div class="trace-readout">
+          <span id="composition-trace-counter" class="trace-counter"></span>
+          <div id="composition-current-trace"></div>
+        </div>
+        <div class="trace-chip-list">${traceChips}</div>
+      </div>
+      <div class="composition-legend">
+        <span><i class="legend-dot input"></i> input</span>
+        <span><i class="legend-line tau"></i> first movement under τ</span>
+        <span><i class="legend-line sigma"></i> second movement under σ</span>
+      </div>
+    </article>`;
+
+  $("#composition-prev").addEventListener("click", () => compositionStep(-1));
+  $("#composition-next").addEventListener("click", () => compositionStep(1));
+  $("#composition-replay").addEventListener("click", () => animateCompositionTrace(compositionAnimation.index));
+  $("#composition-play-all").addEventListener("click", () => {
+    if (compositionAnimation.playing) cancelCompositionAnimation();
+    else playAllCompositionTraces();
+  });
+  $$(".trace-chip").forEach(chip => chip.addEventListener("click", () => animateCompositionTrace(Number(chip.dataset.traceIndex))));
+  renderCompositionDiagram(0);
+
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const runId = compositionAnimation.runId;
+    compositionAnimation.autoplayTimer = setTimeout(() => {
+      compositionAnimation.autoplayTimer = null;
+      if (runId === compositionAnimation.runId) playAllCompositionTraces();
+    }, 250);
+  } else {
+    animateCompositionTrace(0);
+  }
+}
+
 async function composeSelected() {
+  cancelCompositionAnimation();
+  const requestId = ++compositionAnimation.requestId;
   const sigma = Number($("#sigma-index").value);
   const tau = Number($("#tau-index").value);
+  const n = state.n;
   try {
     const data = await api("/api/compose", {
       method: "POST",
-      body: JSON.stringify({ n: state.n, sigma, tau }),
+      body: JSON.stringify({ n, sigma, tau }),
     });
+    if (requestId !== compositionAnimation.requestId || n !== state.n) return;
     const card = (symbol, p, result = false) => `
       <article class="card perm-card ${result ? "result" : ""}">
         <div class="symbol">${symbol} · element #${p.index}</div>
@@ -284,8 +583,11 @@ async function composeSelected() {
         <div class="fact-grid"><div class="fact"><span>order</span><strong>${p.order}</strong></div><div class="fact"><span>parity</span><strong>${p.parity}</strong></div></div>
       </article>`;
     $("#compose-result").innerHTML = card("σ", data.sigma) + card("τ", data.tau) + card("σ ∘ τ", data.result, true);
+    renderCompositionAnimation(data);
   } catch (error) {
+    if (requestId !== compositionAnimation.requestId) return;
     $("#compose-result").innerHTML = `<div class="error-box">${escapeHtml(error.message)}</div>`;
+    $("#composition-animation-root").innerHTML = "";
   }
 }
 
@@ -383,9 +685,13 @@ $$(".nav-item").forEach(btn => btn.addEventListener("click", () => showView(btn.
 $("#apply-n").addEventListener("click", async () => {
   const n = Number($("#n-input").value);
   if (!Number.isInteger(n) || n < 1 || n > 8) { setStatus("n must be 1–8", "error"); return; }
+  cancelCompositionAnimation();
+  compositionAnimation.requestId += 1;
+  compositionAnimation.data = null;
   state.n = n;
-  await loadGroup();
   $("#compose-result").innerHTML = "";
+  $("#composition-animation-root").innerHTML = "";
+  await loadGroup();
   $("#cayley-output").innerHTML = "";
   $("#subgroups-output").innerHTML = "";
   $("#quotient-output").innerHTML = "";
@@ -403,6 +709,21 @@ $("#page-size").addEventListener("change", async (e) => { state.pageSize = Numbe
 $("#prev-page").addEventListener("click", async () => { if (state.page > 1) { state.page -= 1; await loadElements(); } });
 $("#next-page").addEventListener("click", async () => { if (state.page < state.pages) { state.page += 1; await loadElements(); } });
 $("#compose-button").addEventListener("click", composeSelected);
+$("#compose-example").addEventListener("click", async () => {
+  cancelCompositionAnimation();
+  const requestId = ++compositionAnimation.requestId;
+  compositionAnimation.data = null;
+  if (state.n !== 3) {
+    state.n = 3;
+    $("#n-input").value = 3;
+    await loadGroup();
+  }
+  if (requestId !== compositionAnimation.requestId || state.n !== 3) return;
+  // Lexicographic S3 indices: (231) is #4 and (132) is #2.
+  $("#sigma-index").value = 4;
+  $("#tau-index").value = 2;
+  await composeSelected();
+});
 $("#load-cayley").addEventListener("click", loadCayley);
 $("#load-dihedral").addEventListener("click", loadDihedral);
 $("#generate-subgroup").addEventListener("click", generateSubgroup);

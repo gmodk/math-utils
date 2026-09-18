@@ -22,6 +22,7 @@ from symmetric_group import (
     build_dihedral_group,
     cayley_table,
     compose,
+    composition_trace,
     conjugacy_class_summaries,
     cycle_notation,
     generate_permutations,
@@ -381,6 +382,7 @@ class ExplorerHandler(BaseHTTPRequestHandler):
                     "sigma": permutation_record(sigma_idx, sigma),
                     "tau": permutation_record(tau_idx, tau),
                     "result": permutation_record(result_index, result),
+                    "trace": composition_trace(sigma, tau),
                     "reading": "apply tau first, then sigma",
                 }
             )

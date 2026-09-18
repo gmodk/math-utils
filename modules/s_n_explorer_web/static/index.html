@@ -140,8 +140,12 @@
       </section>
 
       <section class="view" id="view-compose">
-        <div class="panel compose-lab"><div class="compose-inputs"><label>σ index<input id="sigma-index" type="number" min="1" value="2" /></label><div class="operator">∘</div><label>τ index<input id="tau-index" type="number" min="1" value="3" /></label><button id="compose-button" class="button primary">Compose</button></div><p class="note">Convention: σ ∘ τ applies τ first, then σ.</p></div>
+        <div class="panel compose-lab">
+          <div class="compose-heading"><div><h2>Composition Lab</h2><p class="note">Convention: σ ∘ τ applies τ first, then σ. Follow each input through τ(i) and σ(τ(i)).</p></div><button id="compose-example" class="button ghost" type="button">Load example: (231) ∘ (132)</button></div>
+          <div class="compose-inputs"><label>σ index<input id="sigma-index" type="number" min="1" value="2" /></label><div class="operator">∘</div><label>τ index<input id="tau-index" type="number" min="1" value="3" /></label><button id="compose-button" class="button primary">Compose</button></div>
+        </div>
         <div id="compose-result" class="compose-result"></div>
+        <div id="composition-animation-root"></div>
       </section>
 
       <section class="view" id="view-cayley">

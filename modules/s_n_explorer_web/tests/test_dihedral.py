@@ -2,7 +2,7 @@
 import math
 import pytest
 from symmetric_group import build_dihedral_group, compose, inverse, identity
-from app import serialize_dihedral
+from modules.s_n_explorer_web.app import serialize_dihedral
 from dihedral_visualization import geometry
 
 

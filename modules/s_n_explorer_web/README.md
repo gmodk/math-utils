@@ -23,6 +23,7 @@ The UI is rebuilt around the generated dark mathematical-workbench reference: fi
 - Inspect each permutation in one-line and cycle notation.
 - Compute inverse, order, parity, cycle type and self-inverse status.
 - Compose `sigma o tau` using the original convention: apply `tau` first, then `sigma`.
+- Follow each composition input through a three-lane SVG trace, `i → τ(i) → σ(τ(i))`, with Cauchy notation, Previous/Replay/Next, Play all/Stop, and speed controls. The example `(231) ∘ (132)` produces `(213)`. Reduced-motion preference shows the completed trace without autoplay.
 - Render Cayley tables for `n <= 4`.
 - Construct `D_m <= S_m` for `3 <= m <= 24` and render the regular polygon as SVG.
 - Generate a subgroup from chosen permutation indices for `n <= 7`.
@@ -59,7 +60,7 @@ If `pytest` is available:
 pytest -q
 ```
 
-The tests check composition convention, inverses, element orders and signs, the subgroup lattice size of `S_3`, normal subgroups of `S_3`, the quotient `S_3/A_3`, Cayley-table Latin-square structure, a defining dihedral relation, and `S_3` conjugacy-class sizes.
+The tests check composition convention and trace/API payloads, inverses, element orders and signs, the subgroup lattice size of `S_3`, normal subgroups of `S_3`, the quotient `S_3/A_3`, Cayley-table Latin-square structure, dihedral geometry and actions, and `S_3` conjugacy-class sizes.
 
 ## Computational limits
 

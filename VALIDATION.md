@@ -1,5 +1,29 @@
 # Validation — Four-explorer rebuild
 
+## Sₙ composition merge — 2026-09-18
+
+The module-local Sₙ suite passed **53 tests**. Atlas passed **23 tests**; Markov passed **11 tests** with two existing dependency deprecation warnings. In-memory compilation passed for **48 Python sources**. The root suite ran **99 tests: 97 passed, 2 failed**. One failure is the pre-existing small-scale full-rank predictor check in the unrelated regression engine; the other is the historical protected-file baseline, which already lists six absent documents and omits the untracked Sₙ `AGENTS.md`, and now also detects the intentional composition edits. Neither test nor unrelated module was changed to hide those failures.
+
+`tests/check_sources.py` fails on that same historical protected-file comparison. A module-local `conftest.py` fixes `symmetric_group` discovery from the root, and qualified test imports avoid the regression application's `app` module-name collision. Root and Sₙ tests now collect together (**152 tests**); the suites remain independently runnable as documented.
+
+The complete platform started on ports 9100–9104. The landing page, status endpoint, and all four module roots returned HTTP 200; all four readiness flags were true. Through port 9103, `/api/compose` returned `(213)` and the three expected one-based rows for `(231) ∘ (132)`. Browser checks exercised the example, Previous, Replay, Next, Play all/Stop, Fast speed, direct trace selection, repeated Compose clicks, and changing `n` during playback. The dihedral browser checks exercised polygon choice, 2D/3D mode, zoom in/out/reset, numeric/Greek labels, rotation/replay, and reflection selection; no browser warnings or errors were reported. Reduced-motion behavior is implemented but still requires a browser session with that preference enabled for a manual check.
+
+A clean `math-utils-composition-animation.zip` was built from the launcher, landing page, modules, tests, and documentation, with CRC and byte-for-byte entry verification. It excludes Git metadata, `.venv`, `node_modules`, caches, compiled Python, backups, the reference ZIP, and temporary validation outputs. The historical `tests/build_release.py` cannot verify this checkout until `module-checksums.json` is reconciled, so the archive's integrity is reported by its separate SHA-256 sidecar rather than by the stale module manifest.
+
+Commands run from the repository root, except the indicated module command:
+
+```powershell
+Push-Location modules/s_n_explorer_web
+../../.venv/Scripts/python.exe -B -X utf8 -m pytest -q -p no:cacheprovider tests
+Pop-Location
+$env:MATH_UTILS_TEST_PORT='9100'
+.venv/Scripts/python.exe -B -X utf8 -m pytest -q -p no:cacheprovider --basetemp=validation-results/pytest-root-composition-1 tests
+.venv/Scripts/python.exe -B -X utf8 -m pytest -q -p no:cacheprovider --basetemp=validation-results/pytest-atlas-composition-1 modules/distributed-memory-architecture-atlas/tests
+.venv/Scripts/python.exe -B -X utf8 -m pytest -q -p no:cacheprovider --basetemp=validation-results/pytest-markov-composition-1 modules/markov-chain-explorer-python-v2.0.0/tests
+.venv/Scripts/python.exe -u -B -X utf8 launch.py --no-browser --port 9100
+```
+
+
 Date: 2026-09-16. Branch: `regression-exploerers-alignment`. Starting HEAD: `c19b3f97cf564f9c9dc199b1dc4294f980d3b28a`. No commit or archive created.
 
 ## Validated results

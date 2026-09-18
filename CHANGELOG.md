@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — Sₙ composition animation (2026-09-18)
+
+- Add a Python-computed, one-based `i → τ(i) → σ(τ(i))` trace to the existing composition response.
+- Add three-lane SVG playback, Cauchy notation, live trace text, example, speed, step, replay, and stop controls in the existing Composition view.
+- Preserve current dihedral 2D/3D geometry, polygon selection, camera and label controls, and rotation/reflection animation.
+- Add algebraic and HTTP tests for the composition trace and a module-local pytest import path fix.
+
 ## Unreleased — four-explorer statistical geometry rebuild (2026-09-16)
 
 - Replace the fourth static server with one FastAPI application on the same port offset, using HOST/PORT and `/api/health`.

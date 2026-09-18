@@ -7,7 +7,7 @@ Math Utils launches four isolated mathematical applications from one local landi
 3. Sₙ Explorer WebUI.
 4. Correlation & Regression Explorers: **Correlation as Geometry**, **Multiple Regression as Projection onto a Subspace**, **Bias–Variance Tradeoff and Polynomial Complexity**, and **Bayesian Linear Regression Posterior Geometry**.
 
-The first three applications retain their existing implementation files. Statistical geometry now uses one FastAPI application with Python numerical engines and a local HTML/CSS/vanilla-JavaScript interface. Each application keeps a separate process and origin.
+Atlas and Markov retain their existing implementation files. The Sₙ module adds an animated permutation-composition trace while preserving its dihedral explorer. Statistical geometry uses one FastAPI application with Python numerical engines and a local HTML/CSS/vanilla-JavaScript interface. Each application keeps a separate process and origin.
 
 ## Startup
 
@@ -42,6 +42,10 @@ The fourth module keeps ID `statistical-geometry`, title `Correlation & Regressi
 
 The four original control definitions, metrics, chart surfaces, and explanatory sections are preserved. See [module README](modules/regression_geometry_explorers/README.md) for the seed protocol, mathematical conventions, and deliberate differences. The theory Markdown and Word documents are retained as historical broader references; they do not introduce additional explorer experiences.
 
+## Sₙ composition animation
+
+The Composition view shows `σ ∘ τ` as `i → τ(i) → σ(τ(i))`. Python computes the one-based trace and adds it to the existing `/api/compose` response. Vanilla browser JavaScript draws and animates the three-lane diagram, with a worked `(231) ∘ (132) = (213)` example and playback controls. The separate dihedral 2D/3D diagrams and controls remain available.
+
 ## Validation
 
 Use `.venv/Scripts/python.exe` on Windows or `.venv/bin/python` on macOS/Linux. Install development requirements with that interpreter and `-m pip install -r requirements-dev.txt`.
@@ -56,10 +60,10 @@ Run Sₙ's tests from `modules/s_n_explorer_web` with `../../.venv/Scripts/pytho
 
 Set `MATH_UTILS_TEST_PORT=9100` when default ports are occupied. Use a fresh `--basetemp` path if the host's default pytest temporary directory is inaccessible. Run suites separately to avoid their module-name collisions.
 
-`python -B tests/check_sources.py` compiles Python in memory and verifies all 173 protected files against the pre-rebuild baseline. Browser loading and control checks verify the new JavaScript syntax and behavior without a JavaScript command-line runtime. Exact executed commands, results, limitations, and browser observations are in [VALIDATION.md](VALIDATION.md).
+`python -B tests/check_sources.py` compiles Python in memory and compares protected files against a historical baseline. That baseline currently needs reconciliation for intentional Sₙ changes and pre-existing missing documents. Browser loading and control checks verify JavaScript syntax and behavior without a JavaScript command-line runtime. Exact executed commands, results, limitations, and browser observations are in [VALIDATION.md](VALIDATION.md).
 
 ## Review and release status
 
-The source backup is retained in `backups/four-explorer-rebuild/`. Do not delete it or create a release archive before browser approval. The seven retired pages and replaced old correlation page were already deleted in the incoming working tree. The replacement correlation source was untracked; its bytes were captured before migration.
+The source backup is retained in `backups/four-explorer-rebuild/`. The seven retired pages and replaced old correlation page were already deleted in the incoming working tree. The replacement correlation source was untracked; its bytes were captured before migration.
 
-The old `module-checksums.json`, ZIP/checksum, `release-verification.json`, and historical validation artifacts predate this rebuild. They are not evidence for it. The old archive builder still uses the historical manifest; reconcile release manifests and packaging only after browser approval. No new archive was produced.
+The old `module-checksums.json`, ZIP/checksum, `release-verification.json`, and historical validation artifacts predate this rebuild. They are not evidence for the composition merge. The old archive builder still uses the historical manifest. See [VALIDATION.md](VALIDATION.md) for the current archive and unresolved validation failures.
